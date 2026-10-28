@@ -531,6 +531,17 @@
 .sv-card .d{font-size:14.5px;opacity:.9;max-width:62ch;margin-top:4px}
 .sv-card a{background:#D4890A;color:#fff;text-decoration:none;font-weight:600;border-radius:999px;padding:10px 18px;white-space:nowrap}
 </style>
+<style>
+.comp{margin:0 0 36px}
+.comp-h{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:18px;margin-bottom:12px}
+.comp-grid{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px}
+@media (max-width:980px){.comp-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.comp-grid{grid-template-columns:minmax(0,1fr)}}
+.comp-c{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.22);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:6px;font-size:14px}
+.comp-c span{opacity:.85}
+.comp-c.us{background:#D4890A;border-color:#D4890A;color:#fff}
+.comp-c.us span{opacity:1}
+</style>
 </head>
 <body>
 <div id="rf-app"></div>
@@ -580,7 +591,7 @@
             <div class="v good" id="epcAfterLabel">B</div>
           </div>
           <div class="epc-stat">
-            <div class="k">Neto tras la obra</div>
+            <div class="k">Neto tras la obra (est.)</div>
             <div class="v good">+44 €/mes</div>
           </div>
         </div>
@@ -601,7 +612,7 @@
     <p style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--indigo);margin-top:14px;">14 documentos · 3 programas de ayudas · licencias de 4 a 8 semanas · 3 presupuestos de obra, por cada comunidad.</p>
       </div>
       <div>
-        <div class="stat-line"><span class="num mono">70%</span><span class="label">de la vivienda española se gestiona como comunidad de propietarios, no individualmente<sup>1</sup></span></div>
+        <div class="stat-line"><span class="num mono">65%</span><span class="label">de la población española vive en pisos, en edificios que deciden sus obras en la junta de la comunidad de propietarios<sup>1</sup></span></div>
         <div class="stat-line"><span class="num mono">55%</span><span class="label">del coste de nuestro caso de referencia en Usera lo cubriría el Plan Rehabilita Madrid con las condiciones de la convocatoria de 2026, sin depender de otras ayudas<sup>2</sup></span></div>
       <p class="stat-sources"><sup>1</sup> Viviendas plurifamiliares en propiedad horizontal; España lidera la UE en población en pisos (~65%, Eurostat/INE). <sup>2</sup> Convocatoria 2026 del Plan Rehabilita Madrid (BOAM n.º 10.138, 2 de junio de 2026), zona ZETU: eficiencia energética 60%, conservación 50%, accesibilidad 75%.</p>
       </div>
@@ -660,7 +671,7 @@
         <div class="step-pill pill-ai">3 presupuestos comparables</div>
       </div>
         <div class="shot"><div class="shot-bar"><i></i><i></i><i></i><span class="shot-url">app.retrofin.es · demo</span></div><div class="shot-hd"><div class="shot-hd-top"><span class="shot-hd-logo">🏢 RetroFin AI</span><span class="shot-hd-sub">Marcelo Usera 51 · Madrid</span></div><div class="shot-pills"><span class="shot-pill">📋 Datos</span><span class="shot-pill">🏛 Arquitecto</span><span class="shot-pill on">📨 Presupuestos</span><span class="shot-pill">🗳 Votación</span><span class="shot-pill">📤 Ejecución</span></div></div><!-- Para usar una captura real: sustituir el contenido de .shot-body por <img src="captura-paso-N.png" style="width:100%;display:block"> -->
-<div class="shot-body"><div class="sh-card"><table class="sh-table"><tr><th>Constructora</th><th>Precio</th><th>Especificación</th></tr><tr><td>Empresa Vidal</td><td>89.500 €</td><td>✗ doble acrist.</td></tr><tr><td class="hl">EcoRehab Madrid</td><td class="hl">93.900 €</td><td class="hl">✓ completa · 10&#8202;a</td></tr><tr><td>RehabiPro</td><td>98.200 €</td><td>✓ 15–18 sem</td></tr></table><div class="sh-note">Elegida: EcoRehab (negociada) · gestión de subvención incluida</div></div></div><div class="shot-caption">Ilustrativo: así se ve en el producto</div></div>
+<div class="shot-body"><div class="sh-card"><table class="sh-table"><tr><th>Constructora</th><th>Precio</th><th>Especificación</th></tr><tr><td>Empresa Vidal</td><td>89.500 €</td><td>✗ doble acrist.</td></tr><tr><td class="hl">EcoRehab Madrid</td><td class="hl">93.900 €</td><td class="hl">✓ completa · 10&#8202;a</td></tr><tr><td>RehabiPro</td><td>98.200 €</td><td>✓ 15–18 sem</td></tr></table><div class="sh-note">Elegida: EcoRehab (negociada) · gestión de subvención incluida · el proyecto final, con los tres bloques de obra y las mediciones del arquitecto, suma 99.400 €</div></div></div><div class="shot-caption">Ilustrativo: así se ve en el producto</div></div>
       </div>
 <div class="car-slide">
         <div class="step reveal">
@@ -703,18 +714,18 @@
   <div class="wrap">
     <div class="kicker">Los números</div>
     <h2 class="section-title">Un edificio real, calculado con la convocatoria de 2026.</h2>
-    <p class="section-sub">Edificio de 24 viviendas en Usera, Madrid: 1972, certificado energético E, zona ZETU. Cifras ilustrativas.</p>
+    <p class="section-sub">Edificio de referencia de 24 viviendas en Usera, Madrid: 1972, certificado energético E, calefacción central de gas, zona ZETU. Sin relación contractual con RetroFin: modelado con datos públicos (Catastro y convocatoria de 2026). Cifras ilustrativas.</p>
     <div class="ledger">
       <div class="ledger-row"><span class="desc">Coste total de la rehabilitación</span><span class="amt">99.400 €</span></div>
       <div class="ledger-row"><span class="desc">Cubierto por subvenciones (Plan Rehabilita Madrid)</span><span class="amt">54.990 €</span></div>
-      <div class="ledger-row"><span class="desc">Aportación única de la comunidad</span><span class="amt">9.200 €</span></div>
+      <div class="ledger-row"><span class="desc">Aportación única de la comunidad<span class="ledger-sub">unos 383 € por vivienda, de media</span></span><span class="amt">9.200 €</span></div>
       <div class="ledger-row total"><span class="desc">Préstamo verde de la comunidad (15 años)</span><span class="amt">35.210 €</span></div>
       <div class="ledger-phase">Al terminar la obra (desde el mes 9)</div>
       <div class="ledger-row"><span class="desc">Cuota mensual por vivienda<span class="ledger-sub">su parte del préstamo de la comunidad, pagada a través de la cuota de comunidad</span></span><span class="amt">−11 €/mes</span></div>
       <div class="ledger-row positive"><span class="desc">Ahorro energético estimado<span class="ledger-sub">reducción estimada de la factura energética de su hogar tras la rehabilitación</span></span><span class="amt">+55 €/mes</span></div>
       <div class="ledger-row total positive"><span class="desc">Resultado neto por hogar, una vez finalizadas las obras<span class="ledger-sub">lo que cambia en su presupuesto mensual: ahorro menos cuota</span></span><span class="amt">+44 €/mes</span></div>
       <div class="ledger-phase">Después, con el ahorro verificado</div>
-      <div class="ledger-row positive"><span class="desc">El ahorro verificado amortiza la deuda<span class="ledger-sub">la venta de los certificados de ahorro energético (CAE) generados por la obra se destina a amortizar anticipadamente el préstamo de la comunidad</span></span><span class="amt">≈23.000 € brutos</span></div>
+      <div class="ledger-row positive"><span class="desc">El ahorro verificado amortiza la deuda<span class="ledger-sub">la venta de los certificados de ahorro energético (CAE) generados por la obra se destina a amortizar anticipadamente el préstamo de la comunidad</span></span><span class="amt">≈14.000–19.000 € brutos</span></div>
       <div class="ledger-note">Durante la obra, el préstamo se dispone por tramos y cubre el desfase hasta el cobro de las ayudas, que se pagan tras certificar la obra. La cuota empieza al terminarla, cuando también llega el ahorro energético. Después, la venta de los CAE amortiza parte del préstamo; en un caso documentado de un edificio de 40 viviendas se cobró entre 6 y 9 meses después del inicio de las obras. El sistema CAE está en vigor desde 2023 (Real Decreto 36/2023).</div>
     </div>
   </div>
@@ -728,14 +739,14 @@
     <div class="impact-grid">
       <div class="impact-tile"><div class="n">24</div><div class="l">hogares en un barrio de rehabilitación preferente (zona ZETU)</div></div>
       <div class="impact-tile"><div class="n">+44 €/mes</div><div class="l">netos por hogar al terminar la obra, ahorro menos cuota</div></div>
-      <div class="impact-tile"><div class="n">≈177 MWh</div><div class="l">de energía final ahorrada al año, según la ficha CAE de la envolvente <sup>1</sup></div></div>
-      <div class="impact-tile"><div class="n">≈32 t CO₂</div><div class="l">evitadas al año, con calefacción de gas <sup>2</sup></div></div>
+      <div class="impact-tile"><div class="n">110–150 MWh</div><div class="l">de energía final ahorrada al año, con la reducción de demanda estimada del 50% <sup>1</sup></div></div>
+      <div class="impact-tile"><div class="n">20–27 t CO₂</div><div class="l">evitadas al año, al sustituir consumo de gas <sup>2</sup></div></div>
     </div>
     <div class="impact-scale">
-      <div class="impact-box"><b>15–20 edificios</b> en Usera con la candidatura LIFE presentada en septiembre de 2026: unos <b>360–480 hogares</b> y del orden de <b>500–650 t de CO₂</b> evitadas al año.</div>
+      <div class="impact-box"><b>15–20 edificios</b> en Usera con la candidatura LIFE presentada en septiembre de 2026: unos <b>360–480 hogares</b> y del orden de <b>300–550 t de CO₂</b> evitadas al año, si se concede.</div>
       <div class="impact-box"><b>9,1 millones</b> de viviendas principales en España, el <b>49%</b>, están en edificios construidos hasta 1980, cuando apenas empezaba a aplicarse la primera norma de aislamiento térmico (NBE-CT-79) <sup>3</sup>.</div>
     </div>
-    <p class="impact-note"><sup>1</sup> Ficha RES010 v1.2 (MITECO, junio de 2026), con transmitancias estimadas antes y después. <sup>2</sup> Factor de emisión del gas natural: 0,182 kg CO₂/kWh (MITECO, Factores de emisión 2025). <sup>3</sup> INE, Censo de Población y Viviendas 2021: viviendas principales según año de construcción del edificio.</p>
+    <p class="impact-note"><sup>1</sup> Estimación para un consumo de calefacción de 120–160 kWh/m² al año antes de la obra; el ahorro se certifica con la ficha CAE RES010 v1.2 de MITECO y el certificado energético final. <sup>2</sup> Factor de emisión del gas natural: 0,182 kg CO₂/kWh (MITECO, Factores de emisión 2025). <sup>3</sup> INE, Censo de Población y Viviendas 2021: viviendas principales según año de construcción del edificio.</p>
   </div>
 </section>
 
@@ -744,8 +755,8 @@
     <div class="kicker">Nuestra inspiración</div>
     <div class="inspo">
       <div>
-        <div class="inspo-quote">"Las oficinas de información deberían estar en los barrios, no en el colegio de arquitectos."</div>
-        <p style="font-size: 14px; color: var(--ink-soft);">Manuela Navarro, vecina de Orcasitas (Usera, Madrid)</p>
+        <div class="inspo-quote">Las oficinas de información deberían estar en los barrios, no en el colegio de arquitectos.</div>
+        <p style="font-size: 14px; color: var(--ink-soft);">Idea defendida por Manuela Navarro, vecina de Orcasitas (Usera, Madrid), según elDiario.es (diciembre de 2022)</p>
       </div>
       <div>
         <p style="color: var(--ink-soft); font-size: 15.5px; margin-bottom: 14px;">RetroFin AI nació pensando en historias como la de Manuela. Desde 2014, lideró la rehabilitación energética de su propio barrio, Orcasitas, edificio a edificio — convenciendo a vecinos escépticos, muchos de ellos mayores, de que merecía la pena votar sí.</p>
@@ -813,6 +824,16 @@
     <div class="kicker">Por qué ahora</div>
     <h2 class="section-title">Las piezas ya existen. Falta unirlas en un expediente.</h2>
     <p class="section-sub">La convocatoria 2026 del Plan Rehabilita Madrid destinó 50 millones de euros a la rehabilitación de edificios, con ayudas de hasta el 60% para eficiencia energética (y hasta el 75% para accesibilidad) en las zonas más vulnerables. Las entidades financieras tienen compromisos de préstamo verde: en 2026, el Grupo BEI y el ICO invirtieron en una titulización de UCI, que se comprometió a originar nuevos préstamos sostenibles para hogares y comunidades. Y desde 2023 el ahorro energético verificado puede venderse como CAE. RetroFin reúne las tres piezas en un expediente que la comunidad puede votar y la entidad puede evaluar. Nuestros honorarios son fijos e independientes del coste de la obra: no ganamos más si la reforma sale más cara.</p>
+    <div class="comp">
+      <div class="comp-h">Hoy, cada pieza la hace alguien distinto</div>
+      <div class="comp-grid">
+        <div class="comp-c"><b>Administrador de fincas</b><span>Convoca la junta y gestiona la comunidad; no prepara la financiación.</span></div>
+        <div class="comp-c"><b>Gestoras de ayudas y empresas de servicios</b><span>Tramitan subvenciones, a menudo ligadas a ejecutar su propia obra.</span></div>
+        <div class="comp-c"><b>Bancos</b><span>Prestan a la comunidad, pero no preparan la obra ni reúnen las ayudas.</span></div>
+        <div class="comp-c"><b>Oficinas públicas de rehabilitación</b><span>Informan y orientan; no estructuran la operación por vivienda.</span></div>
+        <div class="comp-c us"><b>RetroFin</b><span>Une obras validadas, ayudas, préstamo y CAE en un solo expediente, con el coste por vivienda listo para la junta y honorarios fijos.</span></div>
+      </div>
+    </div>
     <div class="mech-flow">
       <div class="mech-box reveal"><div class="mech-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l7-7 3.5 3.5L12 11H5z"/><path d="M4 15h16l1 6H3l1-6z"/><path d="M12 11v4"/></svg></div><b>La comunidad</b>vota rehabilitar el edificio</div>
       <div class="mech-arrow">→</div>
@@ -900,8 +921,8 @@
     <h2 class="section-title">Un equipo pequeño, con las tres piezas que este problema necesita.</h2>
     <p class="section-sub">Estructuración financiera, política climática urbana e ingeniería de producto — bajo un mismo techo.</p>
     <div class="team-story">
-      <p>RetroFin nació de una frustración compartida: el dinero para rehabilitar existe (subvenciones, préstamos verdes, ahorro energético), pero pocos edificios consiguen usarlo. Construimos el primer prototipo para demostrar que un agente de IA podía cerrar esa distancia, y en AI Tinkerers Barcelona 2026 quedó en tercer puesto y ganó un NVIDIA H100 Incubation Prize. En septiembre de 2026 presentamos, junto a GEA21 y Samso EDS, una candidatura al programa europeo LIFE Clean Energy Transition para llevar el modelo a entre 15 y 20 edificios de Usera.</p>
-      <p>Pero la inspiración viene de más cerca que la tecnología. Viene de Manuela Navarro, que desde 2014 acompañó a su propio barrio, Orcasitas (Usera), en una rehabilitación real, bloque a bloque: asambleas que pasaron de menos de 10 vecinos a más de 200, y facturas que bajaron a menos de la mitad. Nuestro trabajo es convertir lo que su barrio logró con años de esfuerzo en algo que cualquier comunidad pueda empezar.</p>
+      <p>RetroFin nació de una frustración compartida: el dinero para rehabilitar existe (subvenciones, préstamos verdes, ahorro energético), pero pocos edificios consiguen usarlo. Construimos el primer prototipo para demostrar que un agente de IA podía cerrar esa distancia, y en AI Tinkerers Barcelona 2026 quedó en tercer puesto y ganó un NVIDIA H100 Incubation Prize. En septiembre de 2026 presentamos, junto a GEA21 y Samso EDS, una candidatura al programa europeo LIFE Clean Energy Transition para llevar el modelo a entre 15 y 20 edificios de Usera. RetroFin constituirá su sociedad con el primer cliente; hasta entonces opera a través de Alejandra Baigún como autónoma.</p>
+      <p>Pero la inspiración viene de más cerca que la tecnología. Viene de Manuela Navarro, que desde 2014 acompañó a su propio barrio, Orcasitas (Usera), en una rehabilitación real, bloque a bloque: asambleas que pasaron de menos de 10 vecinos a más de 200, y facturas de calefacción que bajaron alrededor de un 80%. Nuestro trabajo es convertir lo que su barrio logró con años de esfuerzo en algo que cualquier comunidad pueda empezar.</p>
     </div>
     <div class="prize-strip">
       <div class="prize-item">
@@ -1059,7 +1080,7 @@
             <div class="v good" id="epcAfterLabel">B</div>
           </div>
           <div class="epc-stat">
-            <div class="k">Net after works</div>
+            <div class="k">Net after works (est.)</div>
             <div class="v good">+€44/mo</div>
           </div>
         </div>
@@ -1080,7 +1101,7 @@
     <p style="font-family:'IBM Plex Mono',monospace;font-size:12.5px;color:var(--indigo);margin-top:14px;">14 documents · 3 subsidy programmes · 4–8 week permits · 3 builder quotes — per community.</p>
       </div>
       <div>
-        <div class="stat-line"><span class="num mono">70%</span><span class="label">of Spanish housing is managed as a comunidad de propietarios, not individually<sup>1</sup></span></div>
+        <div class="stat-line"><span class="num mono">65%</span><span class="label">of people in Spain live in flats, in buildings whose works are decided at the homeowner community’s assembly<sup>1</sup></span></div>
         <div class="stat-line"><span class="num mono">55%</span><span class="label">of the cost of our reference case in Usera would be covered by Plan Rehabilita Madrid on the terms of its 2026 call, without relying on other subsidies<sup>2</sup></span></div>
       <p class="stat-sources"><sup>1</sup> Multi-unit homes under horizontal property; Spain leads the EU in flat-dwelling (~65%, Eurostat/INE). <sup>2</sup> Plan Rehabilita Madrid 2026 call (BOAM no. 10,138, 2 June 2026), ZETU zone: energy efficiency 60%, conservation 50%, accessibility 75%.</p>
       </div>
@@ -1139,7 +1160,7 @@
         <div class="step-pill pill-ai">3 comparable quotes</div>
       </div>
         <div class="shot"><div class="shot-bar"><i></i><i></i><i></i><span class="shot-url">app.retrofin.es · demo</span></div><div class="shot-hd"><div class="shot-hd-top"><span class="shot-hd-logo">🏢 RetroFin AI</span><span class="shot-hd-sub">Marcelo Usera 51 · Madrid</span></div><div class="shot-pills"><span class="shot-pill">📋 Data</span><span class="shot-pill">🏛 Architect</span><span class="shot-pill on">📨 Quotes</span><span class="shot-pill">🗳 Vote</span><span class="shot-pill">📤 Execution</span></div></div><!-- Para usar una captura real: sustituir el contenido de .shot-body por <img src="captura-paso-N.png" style="width:100%;display:block"> -->
-<div class="shot-body"><div class="sh-card"><table class="sh-table"><tr><th>Builder</th><th>Price</th><th>Specification</th></tr><tr><td>Empresa Vidal</td><td>€89,500</td><td>✗ double glazing</td></tr><tr><td class="hl">EcoRehab Madrid</td><td class="hl">€93,900</td><td class="hl">✓ full · 10-yr</td></tr><tr><td>RehabiPro</td><td>€98,200</td><td>✓ 15–18 wk</td></tr></table><div class="sh-note">Chosen: EcoRehab (negotiated) · subsidy filing included</div></div></div><div class="shot-caption">Illustrative: how it looks in the product</div></div>
+<div class="shot-body"><div class="sh-card"><table class="sh-table"><tr><th>Builder</th><th>Price</th><th>Specification</th></tr><tr><td>Empresa Vidal</td><td>€89,500</td><td>✗ double glazing</td></tr><tr><td class="hl">EcoRehab Madrid</td><td class="hl">€93,900</td><td class="hl">✓ full · 10-yr</td></tr><tr><td>RehabiPro</td><td>€98,200</td><td>✓ 15–18 wk</td></tr></table><div class="sh-note">Chosen: EcoRehab (negotiated) · subsidy filing included · the final project, with all three works blocks and the architect’s measurements, totals €99,400</div></div></div><div class="shot-caption">Illustrative: how it looks in the product</div></div>
       </div>
 <div class="car-slide">
         <div class="step reveal">
@@ -1182,18 +1203,18 @@
   <div class="wrap">
     <div class="kicker">The numbers</div>
     <h2 class="section-title">A real building, calculated on the 2026 call.</h2>
-    <p class="section-sub">A 24-home building in Usera, Madrid: built 1972, energy rating E, ZETU zone. Illustrative figures.</p>
+    <p class="section-sub">A 24-home reference building in Usera, Madrid: built 1972, energy rating E, central gas heating, ZETU zone. No contractual relationship with RetroFin: modelled from public data (Cadastre and the 2026 call). Illustrative figures.</p>
     <div class="ledger">
       <div class="ledger-row"><span class="desc">Total cost of the retrofit</span><span class="amt">€99,400</span></div>
       <div class="ledger-row"><span class="desc">Covered by subsidies (Plan Rehabilita Madrid)</span><span class="amt">€54,990</span></div>
-      <div class="ledger-row"><span class="desc">One-off community contribution</span><span class="amt">€9,200</span></div>
+      <div class="ledger-row"><span class="desc">One-off community contribution<span class="ledger-sub">about €383 per home on average</span></span><span class="amt">€9,200</span></div>
       <div class="ledger-row total"><span class="desc">Community green loan (15 years)</span><span class="amt">€35,210</span></div>
       <div class="ledger-phase">When the works finish (from month 9)</div>
       <div class="ledger-row"><span class="desc">Monthly instalment per household<span class="ledger-sub">your share of the community loan, paid through the regular community fee</span></span><span class="amt">−€11/mo</span></div>
       <div class="ledger-row positive"><span class="desc">Estimated energy savings<span class="ledger-sub">estimated drop in your household's energy bills after the retrofit</span></span><span class="amt">+€55/mo</span></div>
       <div class="ledger-row total positive"><span class="desc">Net result per household, once works are complete<span class="ledger-sub">what changes in your monthly budget: savings minus instalment</span></span><span class="amt">+€44/mo</span></div>
       <div class="ledger-phase">Then, with verified savings</div>
-      <div class="ledger-row positive"><span class="desc">Verified savings pay down the debt<span class="ledger-sub">proceeds from selling the energy-savings certificates (CAE) generated by the works prepay the community's loan</span></span><span class="amt">≈€23,000 gross</span></div>
+      <div class="ledger-row positive"><span class="desc">Verified savings pay down the debt<span class="ledger-sub">proceeds from selling the energy-savings certificates (CAE) generated by the works prepay the community's loan</span></span><span class="amt">≈€14,000–19,000 gross</span></div>
       <div class="ledger-note">During the works, the loan is drawn in tranches and bridges the gap until the subsidies are paid, after the works are certified. The instalment starts when the works finish, which is also when the energy savings begin. Afterwards, the sale of the CAE prepays part of the loan; in a documented case of a 40-unit building the proceeds were paid 6 to 9 months after works began. Spain's CAE system has been in force since 2023 (Royal Decree 36/2023).</div>
     </div>
   </div>
@@ -1207,14 +1228,14 @@
     <div class="impact-grid">
       <div class="impact-tile"><div class="n">24</div><div class="l">homes in a priority regeneration area (ZETU zone)</div></div>
       <div class="impact-tile"><div class="n">+€44/mo</div><div class="l">net per household once works finish, savings minus instalment</div></div>
-      <div class="impact-tile"><div class="n">≈177 MWh</div><div class="l">of final energy saved per year, per the envelope CAE sheet <sup>1</sup></div></div>
-      <div class="impact-tile"><div class="n">≈32 t CO₂</div><div class="l">avoided per year, with gas heating <sup>2</sup></div></div>
+      <div class="impact-tile"><div class="n">110–150 MWh</div><div class="l">of final energy saved per year, at the estimated 50% demand cut <sup>1</sup></div></div>
+      <div class="impact-tile"><div class="n">20–27 t CO₂</div><div class="l">avoided per year, from gas no longer burned <sup>2</sup></div></div>
     </div>
     <div class="impact-scale">
-      <div class="impact-box"><b>15–20 buildings</b> in Usera under the LIFE bid submitted in September 2026: some <b>360–480 households</b> and around <b>500–650 t of CO₂</b> avoided per year.</div>
+      <div class="impact-box"><b>15–20 buildings</b> in Usera under the LIFE bid submitted in September 2026: some <b>360–480 households</b> and around <b>300–550 t of CO₂</b> avoided per year, if awarded.</div>
       <div class="impact-box"><b>9.1 million</b> main homes in Spain, <b>49%</b> of the total, are in buildings built up to 1980, when Spain’s first thermal-insulation standard (NBE-CT-79) was only starting to apply <sup>3</sup>.</div>
     </div>
-    <p class="impact-note"><sup>1</sup> Sheet RES010 v1.2 (MITECO, June 2026), with estimated before and after transmittances. <sup>2</sup> Natural gas emission factor: 0.182 kg CO₂/kWh (MITECO, emission factors 2025). <sup>3</sup> INE, 2021 Population and Housing Census: main homes by year the building was built.</p>
+    <p class="impact-note"><sup>1</sup> Estimate for heating use of 120–160 kWh/m² a year before the works; savings are certified with MITECO’s CAE sheet RES010 v1.2 and the final energy certificate. <sup>2</sup> Natural gas emission factor: 0.182 kg CO₂/kWh (MITECO, emission factors 2025). <sup>3</sup> INE, 2021 Population and Housing Census: main homes by year the building was built.</p>
   </div>
 </section>
 
@@ -1223,8 +1244,8 @@
     <div class="kicker">Our inspiration</div>
     <div class="inspo">
       <div>
-        <div class="inspo-quote">"Information offices should be in the neighbourhoods, not at the architects' association."</div>
-        <p style="font-size: 14px; color: var(--ink-soft);">Manuela Navarro, resident of Orcasitas (Usera, Madrid)</p>
+        <div class="inspo-quote">Information offices should be in the neighbourhoods, not at the architects' association.</div>
+        <p style="font-size: 14px; color: var(--ink-soft);">An idea championed by Manuela Navarro, resident of Orcasitas (Usera, Madrid), as reported by elDiario.es (December 2022)</p>
       </div>
       <div>
         <p style="color: var(--ink-soft); font-size: 15.5px; margin-bottom: 14px;">RetroFin AI was built with stories like Manuela's in mind. Since 2014, she has led the energy retrofit of her own neighbourhood, Orcasitas, building by building — convincing sceptical neighbours, many of them older residents, that voting yes was worth it.</p>
@@ -1292,6 +1313,16 @@
     <div class="kicker">Why now</div>
     <h2 class="section-title">The pieces already exist. What is missing is one file that joins them.</h2>
     <p class="section-sub">The 2026 Plan Rehabilita Madrid call allocated €50 million to building retrofits, covering up to 60% of energy-efficiency works (and up to 75% of accessibility works) in the most vulnerable areas. Lenders have green-lending commitments: in 2026 the EIB Group and ICO invested in a UCI securitisation, and UCI committed to originate new sustainable loans to households and homeowner communities. And since 2023 verified energy savings can be sold as CAE certificates. RetroFin brings the three together in one file the community can vote on and the lender can assess. Our fees are fixed and independent of the cost of the works: we do not earn more if the renovation costs more.</p>
+    <div class="comp">
+      <div class="comp-h">Today, each piece is done by someone different</div>
+      <div class="comp-grid">
+        <div class="comp-c"><b>Property managers</b><span>Call the assembly and run the community; they do not prepare the financing.</span></div>
+        <div class="comp-c"><b>Subsidy agents and service companies</b><span>File subsidies, often tied to carrying out their own works.</span></div>
+        <div class="comp-c"><b>Banks</b><span>Lend to the community, but do not prepare the works or combine the subsidies.</span></div>
+        <div class="comp-c"><b>Public retrofit offices</b><span>Inform and advise; they do not structure the transaction per household.</span></div>
+        <div class="comp-c us"><b>RetroFin</b><span>Brings validated works, subsidies, the loan and CAE into one file, with the cost per household ready for the assembly and fixed fees.</span></div>
+      </div>
+    </div>
     <div class="mech-flow">
       <div class="mech-box reveal"><div class="mech-icon"><svg viewBox="0 0 24 24" fill="none" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 11l7-7 3.5 3.5L12 11H5z"/><path d="M4 15h16l1 6H3l1-6z"/><path d="M12 11v4"/></svg></div><b>The community</b>votes to retrofit the building</div>
       <div class="mech-arrow">→</div>
@@ -1379,8 +1410,8 @@
     <h2 class="section-title">A small team, with the three pieces this problem needs.</h2>
     <p class="section-sub">Financial structuring, urban climate policy, and product engineering — under one roof.</p>
     <div class="team-story">
-      <p>RetroFin was born from a shared frustration: the money to retrofit exists (subsidies, green loans, energy savings), yet few buildings manage to use it. We built the first prototype to prove an AI agent could close that gap, and at AI Tinkerers Barcelona 2026 it took third place and won an NVIDIA H100 Incubation Prize. In September 2026, together with GEA21 and Samso EDS, we submitted a bid to the European LIFE Clean Energy Transition programme to take the model to 15 to 20 buildings in Usera.</p>
-      <p>But the inspiration comes from somewhere closer than the technology. It comes from Manuela Navarro, who from 2014 guided her own neighbourhood, Orcasitas (Usera), through a real block-by-block retrofit: assemblies that grew from fewer than 10 neighbours to over 200, and bills that dropped by more than half. Our job is to turn what her neighbourhood achieved through years of effort into something any community can start.</p>
+      <p>RetroFin was born from a shared frustration: the money to retrofit exists (subsidies, green loans, energy savings), yet few buildings manage to use it. We built the first prototype to prove an AI agent could close that gap, and at AI Tinkerers Barcelona 2026 it took third place and won an NVIDIA H100 Incubation Prize. In September 2026, together with GEA21 and Samso EDS, we submitted a bid to the European LIFE Clean Energy Transition programme to take the model to 15 to 20 buildings in Usera. RetroFin will incorporate with its first client; until then it operates through Alejandra Baigún as a self-employed professional.</p>
+      <p>But the inspiration comes from somewhere closer than the technology. It comes from Manuela Navarro, who from 2014 guided her own neighbourhood, Orcasitas (Usera), through a real block-by-block retrofit: assemblies that grew from fewer than 10 neighbours to over 200, and heating bills that fell by around 80%. Our job is to turn what her neighbourhood achieved through years of effort into something any community can start.</p>
     </div>
     <div class="prize-strip">
       <div class="prize-item">
