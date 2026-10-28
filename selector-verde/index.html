@@ -1,0 +1,685 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Selector Verde · RetroFin AI</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<style>
+/* Layout: two-column tool, works data on the left, bank file on the right; one column on mobile. Matches retrofin.es (deep green + gold). */
+:root{
+  --bg:#E9F4EF; --surface:#FFFFFF; --surface-2:#F0FAF6; --line:#C8E8DC; --fg:#0D1F1A; --muted:#51625A;
+  --deep:#0A4A3A; --accent:#1A7A5E; --accent-soft:#DDF1E8; --gold:#D4890A; --gold-soft:#FEF3E2;
+  --warn:#9A5B00; --warn-soft:#FBEFD9; --bad:#A3302A; --bad-soft:#F8E1DF; --good:#16794F; --good-soft:#DCF1E5;
+  --font-head:"Space Grotesk", system-ui, sans-serif;
+  --font-ui:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --font-data:"IBM Plex Mono", ui-monospace, Menlo, monospace;
+  --r:12px;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --bg:#0E1613; --surface:#15201B; --surface-2:#1B2822; --line:#2B3B34; --fg:#E4ECE7; --muted:#9AABA2;
+  --deep:#7CD3AE; --accent:#5CC79B; --accent-soft:#183329; --gold:#F0B257; --gold-soft:#33270F;
+  --warn:#F0B257; --warn-soft:#33270F; --bad:#F08A82; --bad-soft:#3A1C1A; --good:#6FD3A5; --good-soft:#173328; color-scheme:dark}}
+:root[data-theme="dark"]{
+  --bg:#0E1613; --surface:#15201B; --surface-2:#1B2822; --line:#2B3B34; --fg:#E4ECE7; --muted:#9AABA2;
+  --deep:#7CD3AE; --accent:#5CC79B; --accent-soft:#183329; --gold:#F0B257; --gold-soft:#33270F;
+  --warn:#F0B257; --warn-soft:#33270F; --bad:#F08A82; --bad-soft:#3A1C1A; --good:#6FD3A5; --good-soft:#173328; color-scheme:dark}
+*{box-sizing:border-box}
+[hidden]{display:none!important}
+body{margin:0; background:var(--bg); color:var(--fg); font-family:var(--font-ui); font-size:15px; line-height:1.5}
+.topbar{background:#0A4A3A; color:#fff; padding:12px 16px}
+.topbar-in{max-width:1180px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+.logo{font-family:var(--font-head); font-weight:700; font-size:19px; color:#fff; text-decoration:none}
+.logo b{color:#2DB87A; font-weight:700}
+.logo small{font-size:11px; opacity:.75; margin-left:4px; font-weight:500}
+.top-actions{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
+.lang{display:inline-flex; border:1px solid rgba(255,255,255,.45); border-radius:999px; overflow:hidden}
+.lang button{font:600 12px var(--font-ui); background:transparent; color:#fff; border:0; padding:5px 12px; cursor:pointer}
+.lang button[aria-pressed="true"]{background:#fff; color:#0A4A3A}
+.btn{font:600 13.5px var(--font-ui); border-radius:999px; padding:8px 16px; cursor:pointer; border:1px solid transparent; display:inline-flex; align-items:center; gap:8px}
+.btn-gold{background:#D4890A; color:#fff}
+.btn-gold:hover{background:#B87508}
+.wrap{max-width:1180px; margin:0 auto; padding:24px 16px 48px; display:flex; flex-direction:column; gap:20px}
+header.hero{display:flex; flex-direction:column; gap:6px}
+.eyebrow{font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700}
+h1{font-family:var(--font-head); font-size:clamp(26px,3.4vw,36px); line-height:1.1; margin:0; text-wrap:balance; color:var(--deep)}
+.lede{margin:0; color:var(--muted); max-width:72ch}
+.notice{background:var(--gold-soft); border:1px solid var(--line); border-left:4px solid var(--gold); border-radius:var(--r); padding:10px 14px; font-size:13.5px}
+.notice b{color:var(--warn)}
+.grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:20px; align-items:start}
+@media (max-width:920px){.grid{grid-template-columns:minmax(0,1fr)}}
+.col{display:flex; flex-direction:column; gap:16px; min-width:0}
+.panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:18px; display:flex; flex-direction:column; gap:14px; min-width:0}
+.panel h2{font-family:var(--font-head); font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:var(--deep); margin:0; font-weight:700}
+.fields{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px}
+@media (max-width:480px){.fields{grid-template-columns:minmax(0,1fr)}}
+.field{display:flex; flex-direction:column; gap:4px; min-width:0}
+.field.full{grid-column:1/-1}
+label{font-size:12.5px; color:var(--muted); font-weight:500}
+input,select{font:inherit; font-size:14px; color:var(--fg); background:var(--surface-2); border:1px solid var(--line); border-radius:8px; padding:8px 10px; width:100%; min-width:0}
+input[type=checkbox]{width:auto; accent-color:var(--accent)}
+input[type=number]{font-family:var(--font-data); font-variant-numeric:tabular-nums}
+input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
+.hint{font-size:12px; color:var(--muted)}
+.tag{display:inline-block; font-size:10.5px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:1px 7px; border-radius:999px; vertical-align:middle; white-space:nowrap}
+.tag.prov{background:var(--warn-soft); color:var(--warn); border:1px solid var(--warn)}
+.tag.real{background:var(--accent-soft); color:var(--accent); border:1px solid var(--accent)}
+.tag.est{background:var(--surface-2); color:var(--muted); border:1px solid var(--line)}
+.seg{display:grid; grid-template-columns:1fr 1fr; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:4px; gap:4px}
+.seg button{font:inherit; font-size:14px; border:0; border-radius:9px; padding:10px; background:transparent; color:var(--muted); cursor:pointer; font-weight:500}
+.seg button[aria-pressed="true"]{background:#0A4A3A; color:#fff; font-weight:600}
+.measure{border:1px solid var(--line); border-radius:10px; overflow:hidden}
+.measure.on{border-color:var(--accent)}
+.m-head{display:flex; gap:10px; align-items:center; padding:10px 12px; background:var(--surface-2); cursor:pointer; font-size:14px; font-weight:500}
+.measure.on .m-head{background:var(--accent-soft)}
+.m-head .code{font-family:var(--font-data); font-size:12.5px; color:var(--muted); margin-left:auto; white-space:nowrap}
+.m-body{padding:12px; display:flex; flex-direction:column; gap:12px; border-top:1px solid var(--line)}
+.checks{display:flex; flex-direction:column; gap:8px}
+.chk{display:flex; gap:8px; align-items:flex-start; font-size:13.5px; border:1px solid var(--line); border-radius:8px; padding:8px 10px; background:var(--surface-2)}
+.chk input{margin-top:3px}
+.chk .num{margin-left:auto}
+.dnsh{display:flex; flex-direction:column; gap:8px}
+.dnsh-row{display:grid; grid-template-columns:minmax(0,1fr) 150px; gap:10px; align-items:center; font-size:13.5px}
+@media (max-width:480px){.dnsh-row{grid-template-columns:minmax(0,1fr)}}
+/* Bank file */
+.cert{background:var(--surface); border:2px solid var(--accent); border-radius:14px; overflow:hidden; min-width:0; box-shadow:0 6px 20px rgba(10,74,58,.10)}
+.cert-head{padding:16px 20px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:flex-start; background:linear-gradient(135deg,#0A4A3A,#1A7A5E); color:#fff}
+.cert-head .eyebrow{color:#BFE9D6}
+.cert-head h2{margin:2px 0 0; font-family:var(--font-head); font-size:20px}
+.cert-ref{font-family:var(--font-data); font-size:12px; text-align:right; opacity:.9}
+.verdict{margin:16px 20px 0; border-radius:10px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start; border:1px solid}
+.verdict .big{font-size:16.5px; font-weight:700}
+.verdict .sub{font-size:13px}
+.verdict.ok{background:var(--good-soft); border-color:var(--good)} .verdict.ok .big{color:var(--good)}
+.verdict.no{background:var(--bad-soft); border-color:var(--bad)} .verdict.no .big{color:var(--bad)}
+.verdict.tbd{background:var(--warn-soft); border-color:var(--warn)} .verdict.tbd .big{color:var(--warn)}
+.dot{width:14px; height:14px; border-radius:50%; flex:none; margin-top:4px}
+.verdict.ok .dot{background:var(--good)} .verdict.no .dot{background:var(--bad)} .verdict.tbd .dot{background:var(--warn)}
+.steps{margin:12px 20px 0; display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:8px}
+@media (max-width:480px){.steps{grid-template-columns:minmax(0,1fr)}}
+.step{border:1px solid var(--line); border-radius:8px; padding:8px 10px; display:flex; flex-direction:column; gap:4px; font-size:12.5px; min-width:0}
+.step .k{color:var(--muted)}
+dl.rows{margin:0; padding:8px 20px 4px; display:flex; flex-direction:column}
+.r{display:grid; grid-template-columns:minmax(0,180px) minmax(0,1fr); gap:12px; padding:11px 0; border-bottom:1px solid var(--line)}
+.r:last-child{border-bottom:0}
+@media (max-width:480px){.r{grid-template-columns:minmax(0,1fr); gap:2px}}
+.r dt{font-size:12.5px; color:var(--muted); font-weight:500}
+.r dd{margin:0; font-size:14px; min-width:0}
+.num{font-family:var(--font-data); font-variant-numeric:tabular-nums}
+.big-num{font-family:var(--font-data); font-size:19px; font-weight:600; color:var(--deep)}
+.formula{font-family:var(--font-data); font-size:12px; color:var(--muted); background:var(--surface-2); border-radius:6px; padding:8px 10px; margin-top:6px; overflow-x:auto; white-space:nowrap}
+.state{display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; padding:1px 9px; border-radius:999px; white-space:nowrap}
+.state.ok{background:var(--good-soft); color:var(--good)} .state.no{background:var(--bad-soft); color:var(--bad)} .state.tbd{background:var(--warn-soft); color:var(--warn)} .state.na{background:var(--surface-2); color:var(--muted)}
+.lines{list-style:none; margin:4px 0 0; padding:0; display:flex; flex-direction:column; gap:6px; font-size:13.5px}
+.lines li{display:flex; gap:8px; justify-content:space-between; align-items:flex-start}
+.docs{list-style:none; margin:4px 0 0; padding:0; display:flex; flex-direction:column; gap:4px; font-size:13.5px}
+.docs li{display:flex; gap:8px} .docs li::before{content:"□"; color:var(--muted)}
+.alert{font-size:13px; border-left:3px solid var(--warn); padding:4px 10px; background:var(--warn-soft); border-radius:0 6px 6px 0; margin-top:6px}
+.alert.bad{border-color:var(--bad); background:var(--bad-soft)}
+.junta{border-top:1px solid var(--line); padding:16px 20px 20px; display:flex; flex-direction:column; gap:12px}
+.junta h3{margin:0; font-family:var(--font-head); font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:var(--deep)}
+.tiles{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px}
+@media (max-width:480px){.tiles{grid-template-columns:minmax(0,1fr)}}
+.tile{background:var(--surface-2); border-radius:8px; padding:10px 12px; display:flex; flex-direction:column; gap:2px; min-width:0}
+.tile .k{font-size:12px; color:var(--muted)}
+.tile .v{font-family:var(--font-data); font-size:18px; font-variant-numeric:tabular-nums; color:var(--deep); font-weight:600}
+.junta ul{margin:0; padding-left:18px; font-size:12.5px; color:var(--muted); display:flex; flex-direction:column; gap:3px}
+.foot{font-size:12px; color:var(--muted); padding:14px 20px 18px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:6px}
+.foot a{color:var(--accent)}
+.disclaimer{font-weight:600; color:var(--fg)}
+.print-only{display:none}
+@media print{
+  @page{size:A4; margin:14mm 12mm}
+  html{-webkit-print-color-adjust:exact; print-color-adjust:exact}
+  :root{--bg:#fff; --surface:#fff; --surface-2:#F3F8F5; --line:#D5E6DD; --fg:#0D1F1A; --muted:#51625A; --deep:#0A4A3A; --accent:#1A7A5E}
+  body{background:#fff; font-size:12px}
+  .topbar,header.hero,.notice,.col.inputs,.no-print{display:none!important}
+  .wrap{padding:0; max-width:none}
+  .grid{display:block}
+  .cert{border:1px solid #1A7A5E; box-shadow:none; break-inside:auto}
+  .r{break-inside:avoid}
+  .print-only{display:block}
+  .formula{white-space:normal}
+}
+</style>
+</head>
+<body>
+<div class="topbar">
+  <div class="topbar-in">
+    <a class="logo" href="https://retrofin.es">Retro<b>Fin</b><small>AI</small></a>
+    <div class="top-actions">
+      <button class="btn btn-gold" id="b-print" type="button" data-i="print">Descargar expediente (PDF)</button>
+      <div class="lang" role="group" aria-label="Idioma / Language">
+        <button type="button" id="l-es" aria-pressed="true">ES</button><button type="button" id="l-en" aria-pressed="false">EN</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow" data-i="eyebrow">RetroFin AI · prototipo</div>
+    <h1 data-i="title">Selector Verde de Rehabilitación</h1>
+    <p class="lede" data-i="lede">Prepara la evidencia para que el banco evalúe si el préstamo de una obra en una comunidad de propietarios puede considerarse verde, y estima los CAE de la actuación.</p>
+  </header>
+
+  <div class="notice" role="note" data-i-html="notice"></div>
+
+  <div class="grid">
+    <div class="col inputs">
+      <section class="panel" aria-labelledby="h-com">
+        <h2 id="h-com" data-i="h_com">Comunidad</h2>
+        <div class="fields">
+          <div class="field full"><label for="c-case" data-i="case">Caso</label>
+            <select id="c-case"><option value="usera" data-i="case_usera">Calle de Marcelo Usera 51, Madrid (caso de la demo)</option><option value="free" data-i="case_free">Comunidad propia (datos libres)</option></select></div>
+          <div class="field full"><label for="c-name" data-i="name">Comunidad</label><input id="c-name"></div>
+          <div class="field"><label for="c-zone" data-i="zone">Zona climática (CTE)</label>
+            <select id="c-zone"><option>A3</option><option>B3</option><option>C2</option><option>D3</option><option>E1</option></select>
+            <span class="hint" data-i="zone_h">Madrid capital: D3</span></div>
+          <div class="field"><label for="c-viv" data-i="viv">Viviendas</label><input id="c-viv" type="number" min="1"></div>
+          <div class="field"><label for="c-s" data-i="surf">Superficie útil (m²)</label><input id="c-s" type="number" min="1"></div>
+          <div class="field"><label for="c-aid" data-i="aid">Ayudas públicas para esta obra</label>
+            <select id="c-aid"><option value="none" data-i="aid_none">Ninguna</option><option value="other" data-i="aid_other">Sí, no financiadas por el FNEE</option><option value="fnee" data-i="aid_fnee">Sí, financiadas por el FNEE</option></select></div>
+          <div class="field full"><label for="c-cost" data-i="cost">Presupuesto de las medidas de eficiencia (€)</label><input id="c-cost" type="number" min="0" step="100"><span class="hint" id="c-cost-h"></span></div>
+        </div>
+      </section>
+
+      <div class="seg" role="group" aria-label="Vía">
+        <button type="button" id="b-rapida" aria-pressed="true" data-i="route_m">Por medidas</button>
+        <button type="button" id="b-edif" aria-pressed="false" data-i="route_b">Edificio completo</button>
+      </div>
+
+      <section class="panel" id="p-rapida" aria-labelledby="h-rap">
+        <h2 id="h-rap" data-i="h_meas">Medidas</h2>
+        <span class="hint" data-i="meas_h">Marque las medidas de la obra. Cada una se calcula con su ficha del catálogo CAE de MITECO.</span>
+        <div id="measures" class="checks"></div>
+      </section>
+
+      <section class="panel" id="p-edif" hidden aria-labelledby="h-edi">
+        <h2 id="h-edi" data-i="h_build">Rehabilitación integral</h2>
+        <div class="checks" role="group">
+          <label class="chk"><input type="checkbox" id="e-env"> <span data-i="e_env">Envolvente: fachada y cubierta</span></label>
+          <label class="chk"><input type="checkbox" id="e-win"> <span data-i="e_win">Ventanas</span></label>
+          <label class="chk"><input type="checkbox" id="e-bdc"> <span data-i="e_bdc">Instalación térmica (p. ej. bomba de calor)</span></label>
+          <label class="chk"><input type="checkbox" id="e-major"> <span data-i="e_major">La obra es una rehabilitación importante según el CTE</span></label>
+        </div>
+        <div class="fields">
+          <div class="field"><label for="e-tb" data-i="e_tb">Energía primaria total antes (kWh/m²·año)</label><input id="e-tb" type="number" min="0"><span class="hint" data-i="e_tb_h">Criterio de la taxonomía</span></div>
+          <div class="field"><label for="e-ta" data-i="e_ta">Energía primaria total después (kWh/m²·año)</label><input id="e-ta" type="number" min="0"></div>
+          <div class="field"><label for="e-nb" data-i="e_nb">Energía primaria no renovable antes (kWh/m²·año)</label><input id="e-nb" type="number" min="0"><span class="hint" data-i="e_nb_h">Criterio de ayudas</span></div>
+          <div class="field"><label for="e-na" data-i="e_na">Energía primaria no renovable después (kWh/m²·año)</label><input id="e-na" type="number" min="0"></div>
+          <div class="field"><label for="e-dem" data-i="e_dem">Reducción de demanda de calefacción y refrigeración (%)</label><input id="e-dem" type="number" min="0" max="100"></div>
+          <div class="field"><label for="e-cert" data-i="e_cert">Certificado después</label><select id="e-cert"><option value="proj" data-i="proj">Proyectado</option><option value="reg" data-i="reg">Registrado tras la obra</option></select></div>
+          <div class="field"><label for="e-efb" data-i="e_efb">Energía final antes (kWh/año)</label><input id="e-efb" type="number" min="0"><span class="hint" data-i="e_efb_h">Para CAE con RES080</span></div>
+          <div class="field"><label for="e-efa" data-i="e_efa">Energía final después (kWh/año)</label><input id="e-efa" type="number" min="0"></div>
+        </div>
+      </section>
+
+      <section class="panel" aria-labelledby="h-dnsh">
+        <h2 id="h-dnsh" data-i="h_dnsh">No causar daño significativo (DNSH)</h2>
+        <div class="dnsh" id="dnsh"></div>
+        <span class="hint" data-i="dnsh_h">Resumen basado en documentación de la Comisión y guías sectoriales; el texto del acto delegado no se ha contrastado todavía.</span>
+      </section>
+
+      <section class="panel" aria-labelledby="h-fin">
+        <h2 id="h-fin" data-i="h_fin">Valor de los CAE</h2>
+        <div class="fields">
+          <div class="field"><label for="f-price"><span data-i="f_price">Precio de referencia (€/MWh)</span> <span class="tag prov" data-i="prov">provisional</span></label><input id="f-price" type="number" min="0" step="5" value="125"><span class="hint" data-i="f_price_h">Rango indicativo 115–140 €/MWh; no hay índice oficial</span></div>
+          <div class="field"><label for="f-net"><span data-i="f_net">Parte neta para la comunidad (%)</span> <span class="tag prov" data-i="prov">provisional</span></label><input id="f-net" type="number" min="0" max="100" step="1" value="85"><span class="hint" data-i="f_net_h">Tras comisiones del sujeto delegado</span></div>
+        </div>
+        <span class="hint" data-i="fnee_h">Equivalencia financiera FNEE 2026: 198,62 €/MWh (Orden TED/133/2026). Es lo que paga el sujeto obligado al Fondo, no el precio que recibe el propietario.</span>
+      </section>
+    </div>
+
+    <div class="col">
+      <article class="cert" aria-labelledby="cert-t">
+        <div class="cert-head">
+          <div><div class="eyebrow" data-i="for_bank">Para el banco</div><h2 id="cert-t" data-i="cert_t">Expediente de cribado verde (preliminar)</h2><div class="print-only" id="cert-com" style="margin-top:4px;font-size:13px"></div></div>
+          <div class="cert-ref"><div id="cert-ref"></div><div id="cert-date"></div></div>
+        </div>
+        <div class="verdict tbd" id="verdict" aria-live="polite"><span class="dot"></span><div><div class="big" id="v-big"></div><div class="sub" id="v-sub"></div></div></div>
+        <div class="steps">
+          <div class="step"><span class="k" data-i="s1">1. Criterio técnico</span><span id="s1"></span></div>
+          <div class="step"><span class="k" data-i="s2">2. DNSH</span><span id="s2"></span></div>
+          <div class="step"><span class="k" data-i="s3">3. Validación del banco</span><span id="s3"></span></div>
+        </div>
+        <dl class="rows" id="rows"></dl>
+        <div class="junta">
+          <h3 data-i="junta">Vista para la junta</h3>
+          <div class="tiles">
+            <div class="tile"><span class="k" data-i="t_cost">Coste medio por vivienda</span><span class="v" id="t-cost"></span></div>
+            <div class="tile"><span class="k" data-i="t_cae">Ingreso CAE por vivienda (pago único, neto)</span><span class="v" id="t-cae"></span></div>
+            <div class="tile"><span class="k" data-i="t_kwh">Ahorro de energía final por vivienda y año</span><span class="v" id="t-kwh"></span></div>
+          </div>
+          <ul id="junta-notes"></ul>
+        </div>
+        <div class="foot">
+          <span class="disclaimer" data-i="disclaimer">Este documento no constituye una certificación. La elegibilidad la determina la entidad financiadora con sus propios criterios.</span>
+          <span id="sources"></span>
+        </div>
+      </article>
+    </div>
+  </div>
+</div>
+
+<script>
+/* Measures from MITECO's residential CAE catalogue (read 22 Oct 2026; Resolución 3 jun 2026, BOE-A-2026-12283). */
+(function(){
+const BASE = 'https://www.miteco.gob.es/content/dam/miteco/es/energia/files-1/Eficiencia/CAE/catalogo-vigente/fichas-autocompletables/residencial/';
+/* Anexo G (thousands of h·K/yr), shared by RES010, RES020 and RES070. Peninsular zones used by the tool. */
+const G = {A3:25, B3:32, C2:45, D3:61, E1:74};
+const ok = (c, yes, no) => c ? {state:'ok', text:yes} : {state:'tbd', text:no};
+const es = c => c.lang==='es';
+const chk = (c, flag, label) => ({label, ...(flag ? {state:'ok', text: es(c)?'Acreditado':'Provided'} : {state:'tbd', text: es(c)?'Pendiente':'Pending'})});
+const DOCS_ENV = {es:['Formulario de la ficha (hoja de cálculo y PDF), firmado','Declaración responsable sobre ayudas públicas','Facturas','Reportaje fotográfico antes y después','Certificado del director de obra con superficies, K o U antes y después y valores de las variables','Certificado energético final registrado'],
+                  en:['Sheet form (spreadsheet and PDF), signed','Signed statement on public aid','Invoices','Photo report before and after','Works director’s certificate with areas, K or U before and after and the variable values','Final energy certificate, registered']};
+
+window.SV_MEASURES = [
+{ id:'env', code:'RES010', src: BASE+'RES010%20v1.2.pdf',
+  name:{es:'Envolvente térmica, más del 25% de la superficie', en:'Thermal envelope, over 25% of its area'},
+  fields:[
+    {id:'ki', label:{es:'K global de la envolvente antes (W/m²K)',en:'Global envelope K before (W/m²K)'}, step:'0.01', def:1.6, hint:{es:'Según CTE DB HE1',en:'Per CTE DB HE1'}},
+    {id:'kf', label:{es:'K global de la envolvente después (W/m²K)',en:'Global envelope K after (W/m²K)'}, step:'0.01', def:0.6},
+    {id:'s', label:{es:'Superficie de la envolvente (m²)',en:'Envelope area (m²)'}, def:2000, hint:{es:'En contacto con el terreno y el aire exterior; sin medianeras',en:'In contact with ground and outside air; excluding party walls'}},
+    {id:'share', label:{es:'Parte de la envolvente renovada (%)',en:'Share of the envelope renovated (%)'}, def:60},
+    {id:'cte', type:'check', label:{es:'Los nuevos elementos cumplen los valores límite del CTE DB HE1',en:'New elements meet the CTE DB HE1 limit values'}},
+    {id:'attic', type:'check', label:{es:'La obra no es solo o principalmente en desvanes no habitables',en:'The works are not only or mainly in non-habitable attics'}}],
+  note:{es:'Las ventanas forman parte de la K global: si se incluyen aquí, no se suman con RES070.',en:'Windows are part of the global K: if included here, do not add RES070.'},
+  presets:{usera:{on:true, ki:1.70, kf:0.55, s:2530, share:88, cte:false, attic:true}, free:{on:true}},
+  calc(vals, c){
+    const g = G[c.zone], ae = Math.max(0,(vals.ki - vals.kf)) * vals.s * g;
+    return { ae, formula:`AE = (Ki − Kf) · S · G = (${c.f2(vals.ki)} − ${c.f2(vals.kf)}) · ${c.f0(vals.s)} · ${g}`,
+      tech:[ {label: es(c)?`Superficie renovada ${c.f0(vals.share)}%, más del 25%`:`Renovated area ${c.f0(vals.share)}%, over 25%`, ...(vals.share>25 ? {state:'ok',text:es(c)?'Cumple':'Meets'} : {state:'no',text:es(c)?'Usar RES020':'Use RES020'})},
+             chk(c, vals.cte, es(c)?'Valores límite del CTE (taxonomía 7.3)':'CTE limit values (taxonomy 7.3)'),
+             chk(c, vals.attic, es(c)?'No es una obra principalmente de desván':'Not mainly attic works') ],
+      docs: DOCS_ENV[c.lang] };
+  }},
+{ id:'opq', code:'RES020', src: BASE+'RES020%20V1.2.pdf',
+  name:{es:'Parte opaca de la envolvente, 25% o menos',en:'Opaque envelope, 25% or less'},
+  fields:[
+    {id:'s1', label:{es:'Fachada: superficie (m²)',en:'Facade: area (m²)'}, def:0},
+    {id:'u1i', label:{es:'Fachada: U antes (W/m²K)',en:'Facade: U before (W/m²K)'}, step:'0.01', def:1.4},
+    {id:'u1f', label:{es:'Fachada: U después (W/m²K)',en:'Facade: U after (W/m²K)'}, step:'0.01', def:0.35},
+    {id:'s2', label:{es:'Cubierta: superficie (m²)',en:'Roof: area (m²)'}, def:0},
+    {id:'u2i', label:{es:'Cubierta: U antes (W/m²K)',en:'Roof: U before (W/m²K)'}, step:'0.01', def:1.2},
+    {id:'u2f', label:{es:'Cubierta: U después (W/m²K)',en:'Roof: U after (W/m²K)'}, step:'0.01', def:0.3},
+    {id:'share', label:{es:'Parte de la envolvente renovada (%)',en:'Share of the envelope renovated (%)'}, def:20},
+    {id:'rea', type:'check', label:{es:'La empresa está inscrita en el REA',en:'The firm is registered in the REA'}}],
+  calc(vals, c){
+    const g = G[c.zone], a1 = Math.max(0,vals.u1i-vals.u1f)*vals.s1*g, a2 = Math.max(0,vals.u2i-vals.u2f)*vals.s2*g;
+    return { ae:a1+a2, formula:`AE = Σ (Ui − Uf) · S · G = ${c.f0(a1)} + ${c.f0(a2)} (G = ${g})`,
+      tech:[ {label: es(c)?`Superficie renovada ${c.f0(vals.share)}%, 25% o menos`:`Renovated area ${c.f0(vals.share)}%, 25% or less`, ...(vals.share<=25 ? {state:'ok',text:es(c)?'Cumple':'Meets'} : {state:'no',text:es(c)?'Usar RES010':'Use RES010'})},
+             chk(c, vals.rea, es(c)?'Empresa inscrita en el REA':'Firm registered in the REA') ],
+      docs: DOCS_ENV[c.lang] };
+  }},
+{ id:'attic', code:'RES022', src: BASE+'RES022%20V1.0.pdf',
+  name:{es:'Desván o buhardilla no habitable',en:'Non-habitable attic or loft'},
+  fields:[
+    {id:'s', label:{es:'Superficie en planta del forjado aislado (m²)',en:'Floor-plan area of the insulated slab (m²)'}, def:300},
+    {id:'year', type:'select', label:{es:'Año de construcción',en:'Year built'}, def:'old', options:[{v:'old',t:'≤ 1978'},{v:'mid',t:'1979–2006'},{v:'new',t:'≥ 2007'}]},
+    {id:'cef', label:{es:'Energía final de calefacción antes (kWh/año)',en:'Heating final energy before (kWh/yr)'}, def:150000, hint:{es:'Anexo II del certificado energético previo',en:'Annex II of the pre-works certificate'}},
+    {id:'thick', type:'check', label:{es:'El espesor cumple e = Rt · λd (Rt 3,8 / 4,0 / 4,7 en zonas C / D / E)',en:'Thickness meets e = Rt · λd (Rt 3.8 / 4.0 / 4.7 in zones C / D / E)'}}],
+  calc(vals, c){
+    const z = c.zone[0], T = {C:{old:70,mid:60,new:60}, D:{old:125,mid:100,new:100}, E:{old:150,mid:130,new:100}};
+    if(!T[z]) return { ae:0, tech:[{label: es(c)?'Solo zonas de invierno C, D y E':'Winter zones C, D and E only', state:'no', text: es(c)?'No aplica':'Not applicable'}] };
+    const vauz = T[z][vals.year], aes = vals.s*vauz, cap = 0.5*vals.cef, ae = Math.min(aes, cap);
+    return { ae, formula:`AE = mín(S · VAUZ, 0,5 · CEFcal) = mín(${c.f0(vals.s)} · ${vauz}, ${c.f0(cap)})`,
+      tech:[ chk(c, vals.thick, es(c)?'Espesor mínimo del aislamiento':'Minimum insulation thickness') ],
+      docs: DOCS_ENV[c.lang].slice(0,4).concat(es(c)?['Certificado del director de obra con marcado CE, DdP y fichas técnicas de los materiales','Certificado REA con CSV','Certificado energético previo registrado']:['Works director’s certificate with CE marking, DoP and data sheets of the materials','REA certificate with CSV','Pre-works energy certificate, registered']) };
+  }},
+{ id:'win', code:'RES070', src: BASE+'Ficha%20RES070.pdf',
+  name:{es:'Ventanas',en:'Windows'},
+  fields:[
+    {id:'s', label:{es:'Superficie de huecos (m²)',en:'Window opening area (m²)'}, def:250},
+    {id:'ui', label:{es:'U de la ventana antes (W/m²K)',en:'Window U before (W/m²K)'}, step:'0.1', def:5.7},
+    {id:'uf', label:{es:'U de la ventana después (W/m²K)',en:'Window U after (W/m²K)'}, step:'0.1', def:1.2},
+    {id:'fp', label:{es:'Factor de ponderación FP',en:'Weighting factor FP'}, step:'0.01', def:1, hint:{es:'La ficha no publica un valor; 1 por defecto',en:'The sheet publishes no value; 1 by default'}},
+    {id:'air', type:'check', label:{es:'Permeabilidad al aire clase 3 o mejor (≤ 9 m³/h·m² a 100 Pa en zonas C, D y E)',en:'Air permeability class 3 or better (≤ 9 m³/h·m² at 100 Pa in zones C, D and E)'}},
+    {id:'ce', type:'check', label:{es:'Marcado CE y DdP; marcos metálicos con rotura de puente térmico ≥ 16 mm',en:'CE marking and DoP; metal frames with thermal break ≥ 16 mm'}}],
+  calc(vals, c){
+    const g = G[c.zone], ae = vals.fp * Math.max(0,vals.ui-vals.uf) * vals.s * g;
+    return { ae, formula:`AE = FP · Σ (Uhi − Uhf) · S · G = ${c.f2(vals.fp)} · (${c.f1(vals.ui)} − ${c.f1(vals.uf)}) · ${c.f0(vals.s)} · ${g}`,
+      tech:[ chk(c, vals.air, es(c)?'Permeabilidad al aire':'Air permeability'), chk(c, vals.ce, es(c)?'Marcado CE, DdP y rotura de puente térmico':'CE marking, DoP and thermal break'),
+             {label: es(c)?'Factor FP sin valor publicado':'FP factor has no published value', state:'tbd', text: es(c)?'Confirmar':'Confirm'} ],
+      docs: DOCS_ENV[c.lang].concat(es(c)?['Declaración de prestaciones y marcado CE de las ventanas']:['Declaration of performance and CE marking of the windows']) };
+  }},
+{ id:'sol', code:'RES030', src: BASE+'Ficha%20RES030.pdf',
+  name:{es:'Solar térmica (ACS o calefacción)',en:'Solar thermal (hot water or heating)'},
+  fields:[
+    {id:'en', label:{es:'Energía solar térmica nueva (kWh/año)',en:'New solar thermal energy (kWh/yr)'}, def:30000, hint:{es:'Calculada con la Guía Técnica de Energía Solar Térmica IDAE/ASIT (2020)',en:'Calculated with the IDAE/ASIT Solar Thermal Technical Guide (2020)'}},
+    {id:'eo', label:{es:'Energía solar térmica anterior (kWh/año)',en:'Previous solar thermal energy (kWh/yr)'}, def:0, hint:{es:'0 si es una instalación nueva',en:'0 for a new system'}},
+    {id:'law', type:'check', label:{es:'Sin obligación legal de instalarla (edificio anterior a 2006 o ampliación por encima de lo exigido)',en:'No legal obligation to install it (building before 2006 or beyond what is required)'}},
+    {id:'mon', type:'check', label:{es:'Sistema de monitorización de la energía producida y protección contra sobrecalentamiento',en:'Monitoring of the energy produced and overheating protection'}}],
+  calc(vals, c){
+    const ae = Math.max(0, vals.en - vals.eo);
+    return { ae, formula:`AE = EST nueva − EST anterior = ${c.f0(vals.en)} − ${c.f0(vals.eo)}`,
+      tech:[ chk(c, vals.law, es(c)?'Sin obligación legal previa':'No prior legal obligation'), chk(c, vals.mon, es(c)?'Monitorización y protección':'Monitoring and protection') ],
+      docs: es(c)?['Ficha cumplimentada y firmada','Declaración responsable sobre ayudas públicas','Facturas','Fotos antes y después','Certificado del instalador con los valores de EST','Registro de puesta en servicio (RITE)']:['Completed and signed sheet','Signed statement on public aid','Invoices','Photos before and after','Installer’s certificate with the solar yield values','Start-up registration (RITE)'] };
+  }},
+{ id:'vmc', code:'RES220', src: BASE+'RES220%20v1.1.pdf',
+  name:{es:'Ventilación mecánica con recuperación de calor',en:'Mechanical ventilation with heat recovery'},
+  fields:[
+    {id:'s', label:{es:'Superficie habitable calefactada (m²)',en:'Heated habitable area (m²)'}, def:1500},
+    {id:'heat', type:'select', label:{es:'Sistema de calefacción',en:'Heating system'}, def:'0.75', options:[{v:'0.75',t:{es:'Combustión (η 0,75)',en:'Combustion (η 0.75)'}},{v:'2.5',t:{es:'Bomba de calor (η 2,50)',en:'Heat pump (η 2.50)'}}]},
+    {id:'ctrl', type:'select', label:{es:'Control',en:'Control'}, def:'0.85', options:[{v:'1',t:{es:'Manual (1)',en:'Manual (1)'}},{v:'0.95',t:{es:'Temporizador (0,95)',en:'Timer (0.95)'}},{v:'0.85',t:{es:'Demanda central (0,85)',en:'Central demand (0.85)'}},{v:'0.65',t:{es:'Demanda local (0,65)',en:'Local demand (0.65)'}}]},
+    {id:'misc', type:'select', label:{es:'Distribución',en:'Distribution'}, def:'1.1', options:[{v:'1.1',t:{es:'Con conductos (1,1)',en:'Ducted (1.1)'}},{v:'1.21',t:{es:'Sin conductos (1,21)',en:'Ductless (1.21)'}}]},
+    {id:'etan', label:{es:'Eficiencia del recuperador nuevo (0–1)',en:'New heat-recovery efficiency (0–1)'}, step:'0.01', def:0.85},
+    {id:'etae', label:{es:'Eficiencia del recuperador existente (0–1)',en:'Existing heat-recovery efficiency (0–1)'}, step:'0.01', def:0, hint:{es:'0 si no había',en:'0 if none'}},
+    {id:'eln', label:{es:'Consumo eléctrico del sistema nuevo (kWh/año)',en:'Electricity use of the new system (kWh/yr)'}, def:3000},
+    {id:'ele', label:{es:'Consumo eléctrico del sistema existente (kWh/año)',en:'Electricity use of the existing system (kWh/yr)'}, def:0, hint:{es:'0 si no había recuperación',en:'0 if there was no recovery'}}],
+  note:{es:'Solo se calcula el ahorro en calefacción. Los valores de horas y salto térmico por zona vienen del anexo de la versión 1.0 y son provisionales; la parte de refrigeración no se incluye.',en:'Only heating savings are calculated. Hours and temperature-difference values by zone come from the version 1.0 annex and are provisional; the cooling part is not included.'},
+  calc(vals, c){
+    const Z = {A3:[2228,4.7], B3:[2736,5.6], C2:[3186,7.4], D3:[3503,10], E1:[5335,10.3]}, [th, dT] = Z[c.zone];
+    const eta = parseFloat(vals.heat), ctrl = parseFloat(vals.ctrl), misc = parseFloat(vals.misc), qref = 2.2, qnet = 1.3, ca = 0.000334;
+    const aec = th*dT*(1/eta)*ca*(qref - qnet*ctrl*misc*(1-(vals.etan-vals.etae)))*vals.s - (ctrl*vals.eln - vals.ele);
+    return { ae: Math.max(0, aec), formula:`AEC = th · ΔTh · (1/ηh) · caire · [qref − qnet · CTRL · MISC · (1 − (ηtn − ηte))] · S − (CTRL · Celecn − Celece); th ${c.f0(th)}, ΔTh ${c.f1(dT)}`,
+      tech:[ {label: es(c)?'Valores del anexo para viviendas (v1.0)':'Annex values for housing (v1.0)', state:'tbd', text: es(c)?'Provisional':'Provisional'},
+             {label: es(c)?'Se sustituye la unidad de ventilación':'The ventilation unit is replaced', state:'tbd', text: es(c)?'Confirmar':'Confirm'} ],
+      docs: es(c)?['Ficha cumplimentada y firmada','Declaración responsable sobre ayudas públicas','Facturas','Fotos antes y después']:['Completed and signed sheet','Signed statement on public aid','Invoices','Photos before and after'] };
+  }},
+{ id:'hp', code:'RES060', src: BASE+'Ficha%20RES060.pdf',
+  name:{es:'Caldera de combustión → bomba de calor eléctrica',en:'Combustion boiler → electric heat pump'},
+  fields:[
+    {id:'dcal', label:{es:'Demanda de calefacción antes (kWh/m²·año)',en:'Heating demand before (kWh/m²·yr)'}, def:95, hint:{es:'Del certificado energético previo',en:'From the pre-works certificate'}},
+    {id:'dacs', label:{es:'Demanda de ACS antes (kWh/año)',en:'Hot-water demand before (kWh/yr)'}, def:60000},
+    {id:'scop', label:{es:'SCOP calefacción',en:'Heating SCOP'}, step:'0.1', def:3.2, hint:{es:'Según anexos III–IV de RES060',en:'Per annexes III–IV of RES060'}},
+    {id:'scopw', label:{es:'SCOP ACS',en:'Hot-water SCOP'}, step:'0.1', def:2.8},
+    {id:'eta', label:{es:'Rendimiento de la caldera actual (sobre PCS)',en:'Current boiler efficiency (on GCV)'}, step:'0.01', def:0.92, hint:{es:'0,92 es el valor por defecto de la ficha',en:'0.92 is the sheet’s default'}},
+    {id:'backup', type:'select', label:{es:'Caldera existente',en:'Existing boiler'}, def:'remove', options:[{v:'remove',t:{es:'Se retira',en:'Removed'}},{v:'backup',t:{es:'Se mantiene como respaldo',en:'Kept as backup'}},{v:'parallel',t:{es:'Funciona en paralelo (hibridación)',en:'Runs in parallel (hybrid)'}}]},
+    {id:'gwp', type:'select', label:{es:'Refrigerante',en:'Refrigerant'}, def:'675', options:[{v:'3',t:'R290 (PCA 3)'},{v:'675',t:'R32 (PCA 675)'},{v:'2088',t:'R410A (PCA 2.088)'}]},
+    {id:'res', type:'check', label:{es:'La ficha del fabricante acredita que cuenta como renovable',en:'The manufacturer’s data show it counts as renewable'}},
+    {id:'eco', type:'check', label:{es:'Cumple los requisitos de ecodiseño',en:'Meets ecodesign requirements'}}],
+  calc(vals, c){
+    const eta = vals.eta > 0 ? vals.eta : 0.92;
+    const ae = vals.backup==='parallel' ? 0 : Math.max(0,(vals.dcal*c.S)*(1/eta - 1/vals.scop) + vals.dacs*(1/eta - 1/vals.scopw));
+    const g = parseFloat(vals.gwp);
+    const tech = [ chk(c, vals.res, es(c)?'Cuenta como renovable (taxonomía 7.6)':'Counts as renewable (taxonomy 7.6)'), chk(c, vals.eco, es(c)?'Ecodiseño':'Ecodesign'),
+      {label: es(c)?`Refrigerante PCA ${c.f0(g)} frente a 675`:`Refrigerant GWP ${c.f0(g)} vs 675`, ...(g<=675 ? {state:'ok',text:es(c)?'Dentro':'Within'} : {state:'no',text:es(c)?'Por encima':'Above'})} ];
+    if(vals.backup==='parallel') tech.push({label: es(c)?'En paralelo corresponde la hibridación (RES090–RES099)':'In parallel, hybridisation applies (RES090–RES099)', state:'no', text: es(c)?'Otra ficha':'Other sheet'});
+    return { ae, formula:`AE = (${c.f0(vals.dcal)} × ${c.f0(c.S)}) × (1/${c.f2(eta)} − 1/${c.f1(vals.scop)}) + ${c.f0(vals.dacs)} × (1/${c.f2(eta)} − 1/${c.f1(vals.scopw)})`, tech,
+      html: g>=150 ? `<div class="alert">${es(c)?'Reglamento (UE) 2024/573: desde 2027 no pueden comercializarse nuevos monobloc ni split aire-agua ≤ 12 kW con PCA ≥ 150.':'Regulation (EU) 2024/573: from 2027 new monobloc and split air-to-water ≤ 12 kW units with GWP ≥ 150 cannot be sold.'}</div>` : '',
+      docs: es(c)?['CEE previo registrado, con la misma herramienta que el final','Ficha cumplimentada y firmada','Declaración responsable sobre ayudas públicas','Facturas con marca, modelo y número de serie','Fotos antes y después','Certificado del instalador','Registro de puesta en servicio','Certificado energético final registrado']:['Pre-works certificate, same tool as the final one','Completed and signed sheet','Signed statement on public aid','Invoices with make, model and serial number','Photos before and after','Installer’s certificate','Start-up registration','Final energy certificate, registered'] };
+  }}
+];
+})();
+</script>
+<script>
+(function(){
+const $ = id => document.getElementById(id);
+let lang = 'es', mode = 'rapida';
+
+/* ---------- Text ---------- */
+const I = {
+es:{
+  print:'Descargar expediente (PDF)', eyebrow:'RetroFin AI · prototipo', title:'Selector Verde de Rehabilitación',
+  lede:'Prepara la evidencia para que el banco evalúe si el préstamo de una obra en una comunidad de propietarios puede considerarse verde, y estima los CAE de la actuación.',
+  notice:'<b>Prototipo.</b> El caso Usera 51 es el de la demo de RetroFin: los datos energéticos marcados como <span class="tag est">estimación</span> son supuestos hasta tener el certificado energético del arquitecto. <span class="tag real">ficha oficial</span> indica fórmulas y requisitos tomados del catálogo CAE de MITECO; <span class="tag prov">provisional</span>, cifras sin fuente oficial.',
+  h_com:'Comunidad', case:'Caso', case_usera:'Calle de Marcelo Usera 51, Madrid (caso de la demo)', case_free:'Comunidad propia (datos libres)',
+  name:'Comunidad', zone:'Zona climática (CTE)', zone_h:'Madrid capital: D3', viv:'Viviendas', surf:'Superficie útil (m²)',
+  aid:'Ayudas públicas para esta obra', aid_none:'Ninguna', aid_other:'Sí, no financiadas por el FNEE', aid_fnee:'Sí, financiadas por el FNEE',
+  cost:'Presupuesto de las medidas de eficiencia (€)', cost_h_usera:'Usera 51: bloque de eficiencia 76.300 € de una obra total de 99.400 €',
+  route_m:'Por medidas', route_b:'Edificio completo', h_meas:'Medidas',
+  meas_h:'Marque las medidas de la obra. Cada una se calcula con su ficha del catálogo CAE de MITECO.',
+  h_build:'Rehabilitación integral', e_env:'Envolvente: fachada y cubierta', e_win:'Ventanas', e_bdc:'Instalación térmica (p. ej. bomba de calor)', e_major:'La obra es una rehabilitación importante según el CTE',
+  e_tb:'Energía primaria total antes (kWh/m²·año)', e_tb_h:'Criterio de la taxonomía', e_ta:'Energía primaria total después (kWh/m²·año)',
+  e_nb:'Energía primaria no renovable antes (kWh/m²·año)', e_nb_h:'Criterio de ayudas', e_na:'Energía primaria no renovable después (kWh/m²·año)',
+  e_dem:'Reducción de demanda de calefacción y refrigeración (%)', e_cert:'Certificado después', proj:'Proyectado', reg:'Registrado tras la obra',
+  e_efb:'Energía final antes (kWh/año)', e_efb_h:'Para CAE con RES080', e_efa:'Energía final después (kWh/año)',
+  h_dnsh:'No causar daño significativo (DNSH)', dnsh_h:'Resumen basado en documentación de la Comisión y guías sectoriales; el texto del acto delegado no se ha contrastado todavía.',
+  d_clim:'Evaluación de riesgos climáticos y medidas de adaptación', d_waste:'≥70% de residuos de construcción y demolición preparados para reutilización o reciclaje', d_subs:'Sustancias peligrosas y calidad del aire interior en materiales', d_asb:'Estudio de amianto si se añade aislamiento',
+  pend:'Pendiente', ok_given:'Aportado', na:'No aplica',
+  h_fin:'Valor de los CAE', f_price:'Precio de referencia (€/MWh)', prov:'provisional', f_price_h:'Rango indicativo 115–140 €/MWh; no hay índice oficial',
+  f_net:'Parte neta para la comunidad (%)', f_net_h:'Tras comisiones del sujeto delegado',
+  fnee_h:'Equivalencia financiera FNEE 2026: 198,62 €/MWh (Orden TED/133/2026). Es lo que paga el sujeto obligado al Fondo, no el precio que recibe el propietario.',
+  for_bank:'Para el banco', cert_t:'Expediente de cribado verde (preliminar)', s1:'1. Criterio técnico', s2:'2. DNSH', s3:'3. Validación del banco',
+  junta:'Vista para la junta', t_cost:'Coste medio por vivienda', t_cae:'Ingreso CAE por vivienda (pago único, neto)', t_kwh:'Ahorro de energía final por vivienda y año',
+  disclaimer:'Este documento no constituye una certificación. La elegibilidad la determina la entidad financiadora con sus propios criterios.',
+  est:'estimación', official:'ficha oficial', example:'ejemplo',
+  r_measures:'Medidas', r_card:'Ficha CAE', r_tech:'Criterio técnico', r_aid:'Criterio de ayudas', r_ae:'Ahorro de energía final', r_cae:'CAE estimados', r_bank:'Encaje bancario', r_docs:'Documentación',
+  none_sel:'Ninguna seleccionada', complete:'Completo', pendings:'pendientes', meets:'Cumple', fails:'No cumple', insufficient:'Datos insuficientes',
+  v_ok:'Cumple el criterio técnico de contribución sustancial', v_no:'No cumple el criterio técnico', v_tbd:'Datos insuficientes para el criterio técnico',
+  v_pending_tail:' Pendiente de DNSH y de la validación del banco.', projected_tail:' Basado en certificado proyectado.',
+  to_confirm:'A confirmar', to_compute:'por calcular', per_year:'kWh/año',
+  cae_unit:'(1 CAE = 1 kWh de ahorro anual de energía final)', gross:'Valor bruto', net_c:'neto para la comunidad', price_prov:'precio provisional',
+  bank1:'Criterios de UCI para su compromiso de originación verde con BEI e ICO', bank2:'Tratamiento en el ratio de activos verdes: no hay criterio publicado sobre si una comunidad cuenta como hogar o como empresa no obligada', bank3:'Importe atribuible a medidas elegibles',
+  aid_fnee_alert:'La obra recibe ayudas financiadas por el FNEE: no puede solicitar CAE (art. 14.8, Orden TED/815/2023).',
+  aid_other_alert:'Con ayudas públicas, el convenio CAE debe justificar el efecto incentivador del propio CAE (art. 13, RD 36/2023). Conviene firmarlo antes de iniciar la obra.',
+  notes:['Costes e ingresos se reparten según los coeficientes de participación; la cifra media es orientativa.','Los CAE certifican el ahorro de un año y se cobran una vez, tras la verificación, normalmente meses después de la obra.','Un CAE es válido tres años desde el fin de la obra y como máximo hasta el 31 de diciembre de 2030.','Fiscalidad: la venta de CAE por un particular tributa como ganancia patrimonial (DGT V0478-26); en una comunidad se atribuye a los propietarios por coeficiente, por analogía con V1554-20. A confirmar con asesor fiscal.','El ahorro está en energía final estimada con la ficha, no en euros de factura.'],
+  sources:'Fuentes', generated:'Generado el'
+},
+en:{
+  print:'Download bank file (PDF)', eyebrow:'RetroFin AI · prototype', title:'Green Retrofit Selector',
+  lede:'Prepares the evidence a bank needs to judge whether a loan for works in a homeowners’ association (comunidad de propietarios) can count as green, and estimates the energy-savings certificates (CAE) the works would earn.',
+  notice:'<b>Prototype.</b> The Usera 51 case is the one in the RetroFin demo: energy data marked <span class="tag est">estimate</span> are assumptions until the architect’s energy certificate is issued. <span class="tag real">official sheet</span> marks formulas and rules taken from MITECO’s CAE catalogue; <span class="tag prov">provisional</span> marks figures with no official source.',
+  h_com:'Homeowners’ association', case:'Case', case_usera:'Calle de Marcelo Usera 51, Madrid (demo case)', case_free:'Your own building (free input)',
+  name:'Association', zone:'Climate zone (CTE)', zone_h:'Madrid city: D3', viv:'Homes', surf:'Useful floor area (m²)',
+  aid:'Public grants for these works', aid_none:'None', aid_other:'Yes, not funded by the FNEE', aid_fnee:'Yes, funded by the FNEE',
+  cost:'Budget of the efficiency measures (€)', cost_h_usera:'Usera 51: efficiency block €76,300 out of €99,400 total works',
+  route_m:'By measure', route_b:'Whole building', h_meas:'Measures',
+  meas_h:'Tick the measures in the works. Each is calculated with its sheet from MITECO’s CAE catalogue.',
+  h_build:'Whole-building retrofit', e_env:'Envelope: facade and roof', e_win:'Windows', e_bdc:'Heating installation (e.g. heat pump)', e_major:'The works are a major renovation under the CTE',
+  e_tb:'Total primary energy before (kWh/m²·yr)', e_tb_h:'Taxonomy criterion', e_ta:'Total primary energy after (kWh/m²·yr)',
+  e_nb:'Non-renewable primary energy before (kWh/m²·yr)', e_nb_h:'Grant criterion', e_na:'Non-renewable primary energy after (kWh/m²·yr)',
+  e_dem:'Heating and cooling demand reduction (%)', e_cert:'Certificate after', proj:'Projected', reg:'Registered after the works',
+  e_efb:'Final energy before (kWh/yr)', e_efb_h:'For CAE under RES080', e_efa:'Final energy after (kWh/yr)',
+  h_dnsh:'Do no significant harm (DNSH)', dnsh_h:'Summary based on Commission documents and sector guides; the delegated act text has not been checked yet.',
+  d_clim:'Climate risk assessment and adaptation measures', d_waste:'≥70% of construction and demolition waste prepared for reuse or recycling', d_subs:'Hazardous substances and indoor air quality of materials', d_asb:'Asbestos survey if insulation is added',
+  pend:'Pending', ok_given:'Provided', na:'Not applicable',
+  h_fin:'Value of the CAE', f_price:'Reference price (€/MWh)', prov:'provisional', f_price_h:'Indicative range €115–140/MWh; no official index',
+  f_net:'Net share for the association (%)', f_net_h:'After the delegated party’s fees',
+  fnee_h:'2026 FNEE financial equivalence: €198.62/MWh (Orden TED/133/2026). That is what obligated parties pay into the Fund, not the price an owner receives.',
+  for_bank:'For the bank', cert_t:'Green screening file (preliminary)', s1:'1. Technical criterion', s2:'2. DNSH', s3:'3. Bank validation',
+  junta:'View for the owners’ meeting', t_cost:'Average cost per home', t_cae:'CAE income per home (one-off, net)', t_kwh:'Final-energy savings per home per year',
+  disclaimer:'This document is not a certification. Eligibility is decided by the lender under its own criteria.',
+  est:'estimate', official:'official sheet', example:'example',
+  r_measures:'Measures', r_card:'CAE sheet', r_tech:'Technical criterion', r_aid:'Grant criterion', r_ae:'Final-energy savings', r_cae:'Estimated CAE', r_bank:'Bank fit', r_docs:'Documents',
+  none_sel:'None selected', complete:'Complete', pendings:'pending', meets:'Meets', fails:'Does not meet', insufficient:'Insufficient data',
+  v_ok:'Meets the technical substantial-contribution criterion', v_no:'Does not meet the technical criterion', v_tbd:'Insufficient data for the technical criterion',
+  v_pending_tail:' DNSH and bank validation still pending.', projected_tail:' Based on a projected certificate.',
+  to_confirm:'To confirm', to_compute:'to compute', per_year:'kWh/yr',
+  cae_unit:'(1 CAE = 1 kWh of annual final-energy savings)', gross:'Gross value', net_c:'net for the association', price_prov:'provisional price',
+  bank1:'UCI’s criteria for its green-origination commitment to the EIB and ICO', bank2:'Treatment in the green asset ratio: no published criterion on whether an association counts as a household or a non-obligated company', bank3:'Amount attributable to eligible measures',
+  aid_fnee_alert:'The works receive grants funded by the FNEE: they cannot claim CAE (art. 14.8, Orden TED/815/2023).',
+  aid_other_alert:'With public grants, the CAE agreement must justify the incentive effect of the CAE itself (art. 13, RD 36/2023). Best signed before works start.',
+  notes:['Costs and income are shared by ownership coefficients; the average is indicative.','CAE certify one year of savings and are paid once, after verification, usually months after the works.','A CAE is valid for three years from the end of the works and at most until 31 December 2030.','Tax: a private seller of CAE pays tax as a capital gain (DGT V0478-26); in an association it is attributed to owners by coefficient, by analogy with V1554-20. Confirm with a tax adviser.','Savings are final energy estimated with the sheet, not euros on the bill.'],
+  sources:'Sources', generated:'Generated on'
+}};
+const t = k => (I[lang][k] ?? I.es[k] ?? k);
+
+/* ---------- Cases ---------- */
+const CASES = {
+  usera:{ name:'C. P. Calle de Marcelo Usera 51, Madrid (Usera, ZETU)', zone:'D3', viv:24, s:1840, aid:'other', cost:76300,
+    edif:{env:true, win:true, bdc:false, major:false, tb:210, ta:130, nb:195, na:115, dem:50, cert:'proj', efb:290000, efa:120000},
+    est:true },
+  free:{ name:'', zone:'D3', viv:20, s:1500, aid:'none', cost:150000,
+    edif:{env:true, win:true, bdc:true, major:false, tb:210, ta:135, nb:180, na:95, dem:40, cert:'proj', efb:300000, efa:140000},
+    est:false }
+};
+
+/* ---------- Measures (each driven by its official sheet) ---------- */
+/* Each measure: id, code, name{es,en}, fields[], calc(vals, ctx) -> {ae, html, tech:[{label, state}], docs[]} */
+const MEASURES = window.SV_MEASURES || [];
+
+/* ---------- Helpers ---------- */
+const loc = () => lang==='es' ? 'es-ES' : 'en-GB';
+const f0 = x => new Intl.NumberFormat(loc(),{maximumFractionDigits:0}).format(x);
+const f1 = x => new Intl.NumberFormat(loc(),{maximumFractionDigits:1,minimumFractionDigits:1}).format(x);
+const f2 = x => new Intl.NumberFormat(loc(),{maximumFractionDigits:3,minimumFractionDigits:2}).format(x);
+const eur = x => new Intl.NumberFormat(loc(),{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(x);
+const v = id => { const el=$(id); if(!el) return 0; const n = parseFloat(String(el.value).replace(',','.')); return isFinite(n) ? n : 0; };
+const st = (k, txt) => `<span class="state ${k}">${txt}</span>`;
+const row = (dt, dd) => `<div class="r"><dt>${dt}</dt><dd>${dd}</dd></div>`;
+const L = o => typeof o==='string' ? o : (o[lang] ?? o.es);
+const estTag = () => CASES[$('c-case').value].est ? ` <span class="tag est">${t('est')}</span>` : '';
+
+/* ---------- Build measure UI ---------- */
+function buildMeasures(){
+  const box = $('measures'); const keep = {};
+  box.querySelectorAll('input,select').forEach(el => keep[el.id] = el.type==='checkbox' ? el.checked : el.value);
+  box.innerHTML = MEASURES.map(m => `
+    <div class="measure" id="m-${m.id}">
+      <label class="m-head"><input type="checkbox" id="on-${m.id}"> <span>${L(m.name)}</span><span class="code">${m.code}</span></label>
+      <div class="m-body" hidden>
+        <div class="fields">${m.fields.filter(f=>f.type!=='check').map(f => `
+          <div class="field${f.full?' full':''}"><label for="${m.id}-${f.id}">${L(f.label)}</label>
+          ${f.type==='select' ? `<select id="${m.id}-${f.id}">${f.options.map(o=>`<option value="${o.v}">${L(o.t)}</option>`).join('')}</select>`
+            : `<input id="${m.id}-${f.id}" type="number" ${f.step?`step="${f.step}"`:''} min="0">`}
+          ${f.hint ? `<span class="hint">${L(f.hint)}</span>` : ''}</div>`).join('')}
+        </div>
+        ${m.fields.some(f=>f.type==='check') ? `<div class="checks">${m.fields.filter(f=>f.type==='check').map(f=>`<label class="chk"><input type="checkbox" id="${m.id}-${f.id}"> ${L(f.label)}</label>`).join('')}</div>` : ''}
+        ${m.note ? `<span class="hint">${L(m.note)}</span>` : ''}
+      </div>
+    </div>`).join('');
+  Object.entries(keep).forEach(([id,val]) => { const el=$(id); if(el){ if(el.type==='checkbox') el.checked=val; else el.value=val; } });
+  MEASURES.forEach(m => { const on=$('on-'+m.id); const sync=()=>{ $('m-'+m.id).classList.toggle('on', on.checked); $('m-'+m.id).querySelector('.m-body').hidden=!on.checked; }; on.addEventListener('change', sync); sync(); });
+  wire(box);
+}
+
+function buildDnsh(){
+  const keep = {}; $('dnsh').querySelectorAll('select').forEach(s=>keep[s.id]=s.value);
+  $('dnsh').innerHTML = ['d_clim','d_waste','d_subs','d_asb'].map(k => `<div class="dnsh-row"><label for="${k}">${t(k)}</label><select id="${k}"><option value="pend">${t('pend')}</option><option value="ok">${t('ok_given')}</option><option value="na">${t('na')}</option></select></div>`).join('');
+  Object.entries(keep).forEach(([id,val])=>{ $(id).value=val; });
+  wire($('dnsh'));
+}
+
+/* ---------- Load a case ---------- */
+function loadCase(key){
+  const c = CASES[key];
+  $('c-name').value = c.name; $('c-zone').value = c.zone; $('c-viv').value = c.viv; $('c-s').value = c.s; $('c-aid').value = c.aid; $('c-cost').value = c.cost;
+  const e = c.edif;
+  ['env','win','bdc','major'].forEach(k => $('e-'+k).checked = e[k]);
+  ['tb','ta','nb','na','dem','efb','efa'].forEach(k => $('e-'+k).value = e[k]); $('e-cert').value = e.cert;
+  MEASURES.forEach(m => {
+    const p = (m.presets && m.presets[key]) || {};
+    $('on-'+m.id).checked = !!p.on; $('on-'+m.id).dispatchEvent(new Event('change'));
+    m.fields.forEach(f => { const el=$(m.id+'-'+f.id); if(!el) return; const val = (f.id in p) ? p[f.id] : f.def; if(el.type==='checkbox') el.checked=!!val; else el.value = (val ?? ''); });
+  });
+  if(key==='usera'){ $('d-asb') && ($('d-asb').value='pend'); }
+  render();
+}
+
+/* ---------- Render ---------- */
+function aidBlock(){
+  const a = $('c-aid').value;
+  if(a==='fnee') return {ok:false, html:`<div class="alert bad">${t('aid_fnee_alert')}</div>`};
+  if(a==='other') return {ok:true, html:`<div class="alert">${t('aid_other_alert')}</div>`};
+  return {ok:true, html:''};
+}
+
+function render(){
+  const viv = Math.max(1, v('c-viv')), S = v('c-s'), price = v('f-price'), net = Math.min(100, Math.max(0, v('f-net')))/100, cost = v('c-cost');
+  const zone = $('c-zone').value, aid = aidBlock();
+  const dn = ['d_clim','d_waste','d_subs','d_asb'].map(id => $(id) ? $(id).value : 'pend');
+  const dnDone = dn.every(x => x!=='pend');
+  let html = '', sc = 'tbd', sub = '', cae = null, aeAll = null, docs = [], srcs = [];
+
+  if(mode==='rapida'){
+    const on = MEASURES.filter(m => $('on-'+m.id) && $('on-'+m.id).checked);
+    let total = 0, states = [];
+    html += row(t('r_measures'), on.length ? on.map(m => `${L(m.name)} <span class="num">${m.code}</span>`).join('<br>') : t('none_sel'));
+    on.forEach(m => {
+      const vals = {}; m.fields.forEach(f => { const el=$(m.id+'-'+f.id); vals[f.id] = !el ? null : el.type==='checkbox' ? el.checked : (f.type==='select' ? el.value : v(m.id+'-'+f.id)); });
+      const r = m.calc(vals, {S, viv, zone, lang, f0, f1, f2, st, t, L});
+      total += Math.max(0, r.ae || 0); states.push(...(r.tech||[]).map(x=>x.state));
+      html += row(`${L(m.name)}<br><span class="num">${m.code}</span> <span class="tag real">${t('official')}</span>`,
+        (r.tech && r.tech.length ? `<ul class="lines">${r.tech.map(x=>`<li><span>${x.label}</span>${st(x.state, x.text)}</li>`).join('')}</ul>` : '')
+        + `<div style="margin-top:6px"><span class="big-num">${f0(r.ae||0)}</span> <span class="num">${t('per_year')}</span>${estTag()}</div>`
+        + (r.formula ? `<div class="formula">${r.formula}</div>` : '') + (r.html||''));
+      docs.push(...(r.docs||[])); if(m.src) srcs.push(`<a href="${m.src}" target="_blank" rel="noopener">${m.code}</a>`);
+    });
+    if(on.length){
+      sc = states.includes('no') ? 'no' : states.includes('tbd') ? 'tbd' : 'ok';
+      sub = sc==='ok' ? (lang==='es'?'Las medidas seleccionadas cumplen los requisitos técnicos de sus fichas.':'The selected measures meet the technical requirements of their sheets.')
+          : sc==='no' ? (lang==='es'?'Al menos una medida no cumple un requisito técnico (ver detalle).':'At least one measure fails a technical requirement (see detail).')
+          : (lang==='es'?'Faltan datos o acreditaciones de alguna medida (ver detalle).':'Some measures still lack data or evidence (see detail).');
+      aeAll = total; cae = aid.ok ? total : 0;
+      html += row(t('r_ae'), `<span class="big-num">${f0(total)}</span> <span class="num">${t('per_year')}</span>${estTag()}<span class="hint" style="display:block">${lang==='es'?'Suma de las fichas; no combinar dos fichas sobre la misma superficie.':'Sum of the sheets; never claim two sheets on the same surface.'}</span>`);
+    } else { sc='tbd'; sub = lang==='es'?'Seleccione al menos una medida.':'Select at least one measure.'; }
+  } else {
+    const env=$('e-env').checked, win=$('e-win').checked, bdc=$('e-bdc').checked, major=$('e-major').checked;
+    const tb=v('e-tb'), ta=v('e-ta'), nb=v('e-nb'), na=v('e-na'), dem=v('e-dem'), efb=v('e-efb'), efa=v('e-efa');
+    const redT = tb>0 ? (tb-ta)/tb : 0, redN = nb>0 ? (nb-na)/nb : 0;
+    const z = zone[0], demReq = (z==='D'||z==='E') ? 35 : z==='C' ? 25 : 0;
+    const tax = major || redT >= 0.30, projected = $('e-cert').value==='proj';
+    sc = tax ? 'ok' : 'no';
+    sub = tax ? (major ? (lang==='es'?'Rehabilitación importante según la normativa nacional.':'Major renovation under national rules.')
+                       : (lang==='es'?`Reducción de energía primaria total del ${f0(redT*100)}%, por encima del 30%.`:`Total primary energy cut of ${f0(redT*100)}%, above 30%.`)) + (projected ? t('projected_tail') : '')
+              : (lang==='es'?`Reducción de energía primaria total del ${f0(redT*100)}%: no alcanza el 30%.`:`Total primary energy cut of ${f0(redT*100)}%: below 30%.`);
+    const res080 = env && bdc;
+    const meds = [env && t('e_env'), win && t('e_win'), bdc && t('e_bdc')].filter(Boolean);
+    html += row(t('r_measures'), meds.length ? meds.join(' · ') : t('none_sel'));
+    html += row(t('r_card'), res080
+      ? `<span class="num">RES080</span> ${lang==='es'?'rehabilitación profunda':'deep renovation'} <span class="tag real">${t('official')}</span><br><span class="hint">${lang==='es'?'Envolvente más instalación térmica. No se acumula con las fichas individuales sobre la misma actuación.':'Envelope plus a heating installation. Not cumulative with the single-measure sheets for the same works.'}</span>`
+      : `${lang==='es'?'Fichas por medida':'Single-measure sheets'}<br><span class="hint">${lang==='es'?'RES080 exige actuar a la vez sobre la envolvente y al menos una instalación térmica. Sin instalación térmica, use la vía «Por medidas».':'RES080 requires works on the envelope and at least one heating installation together. Without a heating installation, use the “By measure” route.'}</span>`);
+    html += row(t('r_tech'), `<ul class="lines">
+      <li><span>${lang==='es'?'Taxonomía 7.2: energía primaria total':'Taxonomy 7.2: total primary energy'} ${f0(tb)} → ${f0(ta)} kWh/m² (−${f0(redT*100)}%), ${lang==='es'?'mínimo 30%':'minimum 30%'}${estTag()}</span>${redT>=0.30 ? st('ok',t('meets')) : st('no',t('fails'))}</li>
+      <li><span>${lang==='es'?'Alternativa: rehabilitación importante según el CTE':'Alternative: major renovation under the CTE'}</span>${major ? st('ok',lang==='es'?'Sí':'Yes') : st('na',lang==='es'?'No indicada':'Not stated')}</li>
+      <li><span>${t('e_cert')}</span>${projected ? st('tbd',t('proj')) : st('ok',t('reg'))}</li></ul>
+      <span class="hint">${lang==='es'?'La reducción debe validarse con certificados antes y después hechos con la misma herramienta; las mejoras por renovables no cuentan para el 30%.':'The cut must be shown with before and after certificates made with the same tool; renewable gains do not count towards the 30%.'}</span>`);
+    html += row(t('r_aid'), `<ul class="lines">
+      <li><span>${lang==='es'?'Energía primaria no renovable':'Non-renewable primary energy'} −${f0(redN*100)}%, ${lang==='es'?'mínimo 30%':'minimum 30%'}</span>${redN>=0.30 ? st('ok',t('meets')) : st('no',t('fails'))}</li>
+      ${demReq ? `<li><span>${lang==='es'?'Demanda de calefacción y refrigeración':'Heating and cooling demand'} −${f0(dem)}%, ${lang==='es'?'mínimo':'minimum'} ${demReq}% (${lang==='es'?'zona':'zone'} ${z})</span>${dem>=demReq ? st('ok',t('meets')) : st('no',t('fails'))}</li>` : ''}</ul>
+      <span class="hint">${lang==='es'?'Referencia del programa de rehabilitación de edificios y de la Línea Verde del Plan Rehabilita Madrid (−35% de demanda); se muestra aparte de la taxonomía.':'Reference of the building-renovation programme and the Plan Rehabilita Madrid green line (−35% demand); shown separately from the taxonomy.'}</span>`);
+    const ae = res080 ? Math.max(0, efb - efa) : null;
+    cae = res080 ? (aid.ok ? ae : 0) : null; aeAll = ae;
+    if(res080) html += row(t('r_ae'), `<span class="big-num">${f0(ae)}</span> <span class="num">${t('per_year')}</span>${estTag()}<div class="formula">AE = EFi − EFf = ${f0(efb)} − ${f0(efa)}</div>`);
+    docs = lang==='es'
+      ? ['Certificado energético antes, registrado','Certificado energético después, con la misma herramienta y versión','Proyecto o memoria técnica de la obra','Facturas de la obra','Documentación DNSH (residuos, riesgos climáticos, materiales)']
+      : ['Energy certificate before, registered','Energy certificate after, same tool and version','Project or technical report of the works','Invoices for the works','DNSH evidence (waste, climate risks, materials)'];
+    srcs.push('<a href="https://www.miteco.gob.es/content/dam/miteco/es/energia/files-1/Eficiencia/CAE/cat%C3%A1logo-vigente/fichas-autocompletables/residencial/Ficha%20RES080.pdf" target="_blank" rel="noopener">RES080</a>');
+  }
+
+  html += row(t('r_cae'), (cae===null ? `${lang==='es'?'Se calculan por medida con cada ficha':'Calculated per measure with each sheet'} ${st('tbd', lang==='es'?'Vía «Por medidas»':'“By measure” route')}` :
+    `<span class="big-num">${f0(cae)}</span> CAE <span class="hint">${t('cae_unit')}</span><br>${t('gross')} ≈ <span class="num">${eur(cae/1000*price)}</span> · ${t('net_c')} ≈ <span class="num">${eur(cae/1000*price*net)}</span> <span class="tag prov">${t('price_prov')}</span>`) + aid.html);
+  html += row(t('r_bank'), `<ul class="lines"><li><span>${t('bank1')}</span>${st('tbd',t('to_confirm'))}</li><li><span>${t('bank2')}</span>${st('tbd',t('to_confirm'))}</li><li><span>${t('bank3')}</span><span class="num">${eur(cost)}</span></li></ul>`);
+  if(docs.length) html += row(t('r_docs'), '<ul class="docs">' + [...new Set(docs)].map(d=>`<li>${d}</li>`).join('') + '</ul>');
+  $('rows').innerHTML = html;
+
+  $('s1').innerHTML = sc==='ok' ? st('ok',t('meets')) : sc==='no' ? st('no',t('fails')) : st('tbd',t('insufficient'));
+  $('s2').innerHTML = dnDone ? st('ok',t('complete')) : st('tbd', dn.filter(x=>x==='pend').length + ' ' + t('pendings'));
+  $('s3').innerHTML = st('tbd', t('pend'));
+  $('verdict').className = 'verdict ' + sc;
+  $('v-big').textContent = sc==='ok' ? t('v_ok') : sc==='no' ? t('v_no') : t('v_tbd');
+  $('v-sub').textContent = sub + (sc==='ok' ? t('v_pending_tail') : '');
+  const key = $('c-case').value;
+  $('cert-ref').textContent = (key==='usera' ? 'SV-USERA51-' : 'SV-') + (mode==='rapida' ? 'M' : 'E') + ' · ' + t('example');
+  $('cert-date').textContent = new Date().toLocaleDateString(loc(),{day:'numeric',month:'long',year:'numeric'});
+  $('cert-com').textContent = $('c-name').value + ' · ' + f0(viv) + (lang==='es'?' viviendas · ':' homes · ') + f0(S) + ' m² · ' + (lang==='es'?'zona ':'zone ') + zone;
+
+  $('t-cost').textContent = eur(cost/viv);
+  if(cae===null){ $('t-cae').textContent = t('to_compute'); $('t-kwh').textContent = t('to_compute'); }
+  else { $('t-cae').textContent = eur(cae/1000*price*net/viv); $('t-kwh').textContent = f0(aeAll/viv) + ' kWh'; }
+  $('junta-notes').innerHTML = I[lang].notes.map(n=>`<li>${n}</li>`).join('');
+  $('sources').innerHTML = t('sources') + ': ' + [...new Set(srcs)].join(' · ') + (srcs.length?' · ':'')
+    + '<a href="https://www.boe.es/eli/es/rd/2023/01/24/36/con" target="_blank" rel="noopener">RD 36/2023</a> · <a href="https://www.boe.es/boe/dias/2026/02/27/pdfs/BOE-A-2026-4522.pdf" target="_blank" rel="noopener">Orden TED/133/2026</a> · <a href="https://www.miteco.gob.es/es/energia/eficiencia/cae/preguntas-frecuentes.html" target="_blank" rel="noopener">MITECO CAE FAQ</a>';
+  $('c-cost-h').textContent = key==='usera' ? t('cost_h_usera') : '';
+}
+
+/* ---------- Language ---------- */
+function setLang(l){
+  lang = l; document.documentElement.lang = l;
+  $('l-es').setAttribute('aria-pressed', l==='es'); $('l-en').setAttribute('aria-pressed', l==='en');
+  document.querySelectorAll('[data-i]').forEach(el => el.textContent = t(el.dataset.i));
+  document.querySelectorAll('[data-i-html]').forEach(el => el.innerHTML = t(el.dataset.iHtml));
+  document.title = t('title') + ' · RetroFin AI';
+  buildMeasures(); buildDnsh(); render();
+}
+
+function setMode(m){ mode=m; $('b-rapida').setAttribute('aria-pressed', m==='rapida'); $('b-edif').setAttribute('aria-pressed', m==='edif'); $('p-rapida').hidden = m!=='rapida'; $('p-edif').hidden = m!=='edif'; render(); }
+function wire(root){ root.querySelectorAll('input,select').forEach(el=>{ if(el.dataset.w) return; el.dataset.w=1; el.addEventListener('input',render); el.addEventListener('change',render); }); }
+
+$('b-rapida').addEventListener('click',()=>setMode('rapida'));
+$('b-edif').addEventListener('click',()=>setMode('edif'));
+$('l-es').addEventListener('click',()=>setLang('es'));
+$('l-en').addEventListener('click',()=>setLang('en'));
+$('b-print').addEventListener('click',()=>window.print());
+$('c-case').addEventListener('change',()=>loadCase($('c-case').value));
+wire(document.querySelector('.inputs'));
+try { const q = new URLSearchParams(location.search).get('lang'); if(q==='en') lang='en'; } catch(e){}
+setLang(lang); loadCase('usera');
+})();
+</script>
+</body>
+</html>

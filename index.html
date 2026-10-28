@@ -501,6 +501,36 @@
   .legal-sec p { font-size: 12.5px; line-height: 1.65; color: var(--ink-soft); margin: 10px 0; max-width: 760px; }
   .legal-sec a { color: inherit; text-decoration: underline; }
 </style>
+
+<style>
+/* Added: impact, traction and asks blocks */
+.impact-grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;margin-top:28px}
+@media (max-width:860px){.impact-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:480px){.impact-grid{grid-template-columns:minmax(0,1fr)}}
+.impact-tile{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:18px}
+.impact-tile .n{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:30px;color:var(--indigo-deep);line-height:1.1}
+.impact-tile .l{font-size:14px;color:var(--ink-soft);margin-top:6px}
+.impact-scale{margin-top:22px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:14px}
+@media (max-width:760px){.impact-scale{grid-template-columns:minmax(0,1fr)}}
+.impact-box{border-left:4px solid var(--magenta);background:var(--paper-dim);border-radius:0 12px 12px 0;padding:14px 18px;font-size:15px}
+.impact-box b{color:var(--indigo-deep)}
+.impact-note{font-size:12.5px;color:var(--ink-soft);margin-top:14px}
+.status-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(0,1fr);gap:28px;margin-top:28px;align-items:start}
+@media (max-width:860px){.status-grid{grid-template-columns:minmax(0,1fr)}}
+.timeline{list-style:none;margin:0;padding:0;border-left:2px solid var(--line)}
+.timeline li{position:relative;padding:0 0 18px 20px}
+.timeline li::before{content:"";position:absolute;left:-7px;top:5px;width:12px;height:12px;border-radius:50%;background:var(--indigo);border:2px solid var(--paper)}
+.timeline li.now::before{background:var(--magenta)}
+.timeline .when{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--indigo);font-weight:600;text-transform:uppercase;letter-spacing:.04em}
+.timeline .what{font-size:15px;margin-top:2px}
+.seek{background:var(--paper);border:1px solid var(--line);border-radius:14px;padding:20px}
+.seek h3{font-family:'Space Grotesk',sans-serif;margin:0 0 10px;font-size:19px;color:var(--indigo-deep)}
+.seek ul{margin:0;padding-left:18px;display:flex;flex-direction:column;gap:8px;font-size:15px}
+.sv-card{margin-top:22px;display:flex;gap:18px;align-items:center;justify-content:space-between;flex-wrap:wrap;background:linear-gradient(135deg,#0A4A3A,#1A7A5E);color:#fff;border-radius:14px;padding:18px 22px}
+.sv-card .t{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:19px}
+.sv-card .d{font-size:14.5px;opacity:.9;max-width:62ch;margin-top:4px}
+.sv-card a{background:#D4890A;color:#fff;text-decoration:none;font-weight:600;border-radius:999px;padding:10px 18px;white-space:nowrap}
+</style>
 </head>
 <body>
 <div id="rf-app"></div>
@@ -546,8 +576,8 @@
             <div class="v" style="color:#B84A1E;">E</div>
           </div>
           <div class="epc-stat">
-            <div class="k">Después</div>
-            <div class="v good" id="epcAfterLabel">—</div>
+            <div class="k">Objetivo</div>
+            <div class="v good" id="epcAfterLabel">B</div>
           </div>
           <div class="epc-stat">
             <div class="k">Neto tras la obra</div>
@@ -687,6 +717,29 @@
       <div class="ledger-row positive"><span class="desc">El ahorro verificado amortiza la deuda<span class="ledger-sub">la venta de los certificados de ahorro energético (CAE) generados por la obra se destina a amortizar anticipadamente el préstamo de la comunidad</span></span><span class="amt">≈23.000 € brutos</span></div>
       <div class="ledger-note">Durante la obra, el préstamo se dispone por tramos y cubre el desfase hasta el cobro de las ayudas, que se pagan tras certificar la obra. La cuota empieza al terminarla, cuando también llega el ahorro energético. Después, la venta de los CAE amortiza parte del préstamo; en un caso documentado de un edificio de 40 viviendas se cobró entre 6 y 9 meses después del inicio de las obras. El sistema CAE está en vigor desde 2023 (Real Decreto 36/2023).</div>
     </div>
+  </div>
+</section>
+
+<section id="impacto">
+  <div class="wrap">
+    <div class="kicker">Impacto</div>
+    <h2 class="section-title">Lo que cambia en un edificio, y a escala.</h2>
+    <p class="section-sub">Caso de referencia: Calle de Marcelo Usera 51 (Usera, Madrid), con las medidas del bloque de eficiencia. Estimaciones hasta tener el certificado energético del arquitecto.</p>
+    <div class="impact-grid">
+      <div class="impact-tile"><div class="n">24</div><div class="l">hogares en un barrio de rehabilitación preferente (zona ZETU)</div></div>
+      <div class="impact-tile"><div class="n">+44 €/mes</div><div class="l">netos por hogar al terminar la obra, ahorro menos cuota</div></div>
+      <div class="impact-tile"><div class="n">≈177 MWh</div><div class="l">de energía final ahorrada al año, según la ficha CAE de la envolvente <sup>1</sup></div></div>
+      <div class="impact-tile"><div class="n">≈32 t CO₂</div><div class="l">evitadas al año, con calefacción de gas <sup>2</sup></div></div>
+    </div>
+    <div class="impact-scale">
+      <div class="impact-box"><b>15–20 edificios</b> en Usera con la candidatura LIFE presentada en septiembre de 2026: unos <b>360–480 hogares</b> y del orden de <b>500–650 t de CO₂</b> evitadas al año.</div>
+      <div class="impact-box"><b>9,1 millones</b> de viviendas principales en España, el <b>49%</b>, están en edificios construidos hasta 1980, cuando apenas empezaba a aplicarse la primera norma de aislamiento térmico (NBE-CT-79) <sup>3</sup>.</div>
+    </div>
+    <div class="sv-card">
+      <div><div class="t">Selector Verde: el cribado verde para el banco</div><div class="d">Comprueba si la obra encaja como préstamo verde (Taxonomía UE, requisitos DNSH) y calcula los CAE con las fichas oficiales del catálogo de MITECO. Genera el expediente en PDF.</div></div>
+      <a href="selector-verde/">Probar el Selector Verde</a>
+    </div>
+    <p class="impact-note"><sup>1</sup> Ficha RES010 v1.2 (MITECO, junio de 2026), con transmitancias estimadas antes y después. <sup>2</sup> Factor de emisión del gas natural: 0,182 kg CO₂/kWh (MITECO, Factores de emisión 2025). <sup>3</sup> INE, Censo de Población y Viviendas 2021: viviendas principales según año de construcción del edificio.</p>
   </div>
 </section>
 
@@ -890,6 +943,31 @@
   </div>
 </section>
 
+<section id="estado">
+  <div class="wrap">
+    <div class="kicker">Dónde estamos</div>
+    <h2 class="section-title">Del prototipo al primer piloto.</h2>
+    <div class="status-grid">
+      <ol class="timeline">
+        <li><div class="when">2026</div><div class="what">Prototipo: 3.º puesto y NVIDIA H100 Incubation Prize en AI Tinkerers Barcelona.</div></li>
+        <li><div class="when">Julio–octubre 2026</div><div class="what">Demo con un edificio real (Usera 51) y Selector Verde con las fichas CAE oficiales.</div></li>
+        <li><div class="when">Septiembre 2026</div><div class="what">Candidatura al programa LIFE Clean Energy Transition con GEA21 y Samso EDS, para 15–20 edificios de Usera. Resolución prevista en 2027.</div></li>
+        <li><div class="when">Octubre 2026</div><div class="what">Miembros de EU Peers, la red europea de ventanillas únicas de rehabilitación.</div></li>
+        <li class="now"><div class="when">Ahora</div><div class="what">Conversaciones con socios del sector de la rehabilitación para un primer piloto con comunidades reales.</div></li>
+      </ol>
+      <div class="seek">
+        <h3>Qué buscamos</h3>
+        <ul>
+          <li>Comunidades de propietarios para los primeros pilotos, en Usera y el resto de Madrid.</li>
+          <li>Una entidad financiera para el préstamo verde de las comunidades.</li>
+          <li>Arquitectos, aparejadores y constructoras para la red técnica.</li>
+          <li>Financiación no dilutiva y pre-semilla para 2027.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="contacto" class="contact-cta">
   <div class="wrap">
     <div class="kicker">Alianzas</div>
@@ -918,7 +996,7 @@
     <details>
       <summary>Aviso legal</summary>
       <p>En cumplimiento de la Ley 34/2002, de servicios de la sociedad de la información y de comercio electrónico (LSSI-CE), se informa de los datos identificativos del titular de este sitio web:</p>
-      <p><b>Titular:</b> [RAZÓN SOCIAL] · <b>NIF:</b> [NIF/CIF] · <b>Domicilio:</b> [DIRECCIÓN COMPLETA], Madrid, España · <b>Correo:</b> hello@retrofin.es<br><b>Datos registrales:</b> [Registro Mercantil de Madrid, tomo/folio/hoja — si procede]</p>
+      <p><b>Titular:</b> RetroFin AI, Madrid (España) · <b>Correo:</b> hello@retrofin.es</p>
       <p><b>Objeto.</b> Este sitio tiene finalidad informativa sobre los servicios de RetroFin AI en materia de estructuración financiera para la rehabilitación energética de comunidades de propietarios. Las cifras y simulaciones mostradas, incluidas las de la demo, son ilustrativas y se basan en un caso de referencia; no constituyen una oferta vinculante, ni asesoramiento financiero, jurídico o técnico.</p>
       <p><b>Propiedad intelectual.</b> Los contenidos, marcas, textos e ilustraciones originales de este sitio pertenecen a su titular, salvo los materiales de terceros identificados con su fuente y licencia correspondiente. Queda prohibida su reproducción sin autorización.</p>
       <p><b>Responsabilidad.</b> El titular no se responsabiliza del uso que se haga de la información publicada ni del contenido de los sitios externos enlazados.</p>
@@ -926,7 +1004,7 @@
     </details>
     <details>
       <summary>Política de privacidad</summary>
-      <p><b>Responsable del tratamiento.</b> [RAZÓN SOCIAL], NIF [NIF/CIF], con domicilio en [DIRECCIÓN COMPLETA], Madrid. Contacto: hello@retrofin.es</p>
+      <p><b>Responsable del tratamiento.</b> RetroFin AI, Madrid. Contacto: hello@retrofin.es</p>
       <p><b>Qué datos tratamos y con qué finalidad.</b> Solo tratamos los datos que nos facilita voluntariamente al escribirnos por correo electrónico: nombre, dirección de correo, teléfono, organización y los datos del edificio que decida incluir (dirección, año de construcción, número de viviendas, estado del ITE/IEE o del certificado energético). La finalidad es responder a su consulta, elaborar el prediagnóstico solicitado y mantener el contacto sobre esa solicitud.</p>
       <p><b>Base jurídica.</b> Su consentimiento al enviarnos la comunicación y, en su caso, la aplicación de medidas precontractuales a petición suya (art. 6.1.a y 6.1.b del RGPD).</p>
       <p><b>Conservación.</b> Conservamos los datos mientras dure la relación y, después, durante los plazos legalmente exigibles. Si nos pide que los eliminemos, lo haremos salvo obligación legal de conservarlos.</p>
@@ -981,8 +1059,8 @@
             <div class="v" style="color:#B84A1E;">E</div>
           </div>
           <div class="epc-stat">
-            <div class="k">After</div>
-            <div class="v good" id="epcAfterLabel">—</div>
+            <div class="k">Target</div>
+            <div class="v good" id="epcAfterLabel">B</div>
           </div>
           <div class="epc-stat">
             <div class="k">Net after works</div>
@@ -1122,6 +1200,29 @@
       <div class="ledger-row positive"><span class="desc">Verified savings pay down the debt<span class="ledger-sub">proceeds from selling the energy-savings certificates (CAE) generated by the works prepay the community's loan</span></span><span class="amt">≈€23,000 gross</span></div>
       <div class="ledger-note">During the works, the loan is drawn in tranches and bridges the gap until the subsidies are paid, after the works are certified. The instalment starts when the works finish, which is also when the energy savings begin. Afterwards, the sale of the CAE prepays part of the loan; in a documented case of a 40-unit building the proceeds were paid 6 to 9 months after works began. Spain's CAE system has been in force since 2023 (Royal Decree 36/2023).</div>
     </div>
+  </div>
+</section>
+
+<section id="impacto">
+  <div class="wrap">
+    <div class="kicker">Impact</div>
+    <h2 class="section-title">What changes in one building, and at scale.</h2>
+    <p class="section-sub">Reference case: Calle de Marcelo Usera 51 (Usera, Madrid), with the measures of the efficiency block. Estimates until the architect’s energy certificate is issued.</p>
+    <div class="impact-grid">
+      <div class="impact-tile"><div class="n">24</div><div class="l">homes in a priority regeneration area (ZETU zone)</div></div>
+      <div class="impact-tile"><div class="n">+€44/mo</div><div class="l">net per household once works finish, savings minus instalment</div></div>
+      <div class="impact-tile"><div class="n">≈177 MWh</div><div class="l">of final energy saved per year, per the envelope CAE sheet <sup>1</sup></div></div>
+      <div class="impact-tile"><div class="n">≈32 t CO₂</div><div class="l">avoided per year, with gas heating <sup>2</sup></div></div>
+    </div>
+    <div class="impact-scale">
+      <div class="impact-box"><b>15–20 buildings</b> in Usera under the LIFE bid submitted in September 2026: some <b>360–480 households</b> and around <b>500–650 t of CO₂</b> avoided per year.</div>
+      <div class="impact-box"><b>9.1 million</b> main homes in Spain, <b>49%</b> of the total, are in buildings built up to 1980, when Spain’s first thermal-insulation standard (NBE-CT-79) was only starting to apply <sup>3</sup>.</div>
+    </div>
+    <div class="sv-card">
+      <div><div class="t">Green Selector: green screening for the lender</div><div class="d">Checks whether the works qualify for a green loan (EU Taxonomy, DNSH requirements) and calculates the CAE with the official sheets of MITECO’s catalogue. Produces the file as a PDF.</div></div>
+      <a href="selector-verde/?lang=en">Try the Green Selector</a>
+    </div>
+    <p class="impact-note"><sup>1</sup> Sheet RES010 v1.2 (MITECO, June 2026), with estimated before and after transmittances. <sup>2</sup> Natural gas emission factor: 0.182 kg CO₂/kWh (MITECO, emission factors 2025). <sup>3</sup> INE, 2021 Population and Housing Census: main homes by year the building was built.</p>
   </div>
 </section>
 
@@ -1325,6 +1426,31 @@
   </div>
 </section>
 
+<section id="estado">
+  <div class="wrap">
+    <div class="kicker">Where we are</div>
+    <h2 class="section-title">From prototype to first pilot.</h2>
+    <div class="status-grid">
+      <ol class="timeline">
+        <li><div class="when">2026</div><div class="what">Prototype: 3rd place and NVIDIA H100 Incubation Prize at AI Tinkerers Barcelona.</div></li>
+        <li><div class="when">July–October 2026</div><div class="what">Demo with a real building (Usera 51) and the Green Selector, built on the official CAE sheets.</div></li>
+        <li><div class="when">September 2026</div><div class="what">Bid to the LIFE Clean Energy Transition programme with GEA21 and Samso EDS, for 15–20 buildings in Usera. Decision expected in 2027.</div></li>
+        <li><div class="when">October 2026</div><div class="what">Members of EU Peers, the European network of retrofit one-stop shops.</div></li>
+        <li class="now"><div class="when">Now</div><div class="what">Talks with retrofit-sector partners for a first pilot with real homeowner communities.</div></li>
+      </ol>
+      <div class="seek">
+        <h3>What we are looking for</h3>
+        <ul>
+          <li>Homeowner communities for the first pilots, in Usera and across Madrid.</li>
+          <li>A lender for the communities’ green loans.</li>
+          <li>Architects, building surveyors and builders for the technical network.</li>
+          <li>Non-dilutive and pre-seed funding for 2027.</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="contacto" class="contact-cta">
   <div class="wrap">
     <div class="kicker">Partnerships</div>
@@ -1353,7 +1479,7 @@
     <details>
       <summary>Legal notice</summary>
       <p>In accordance with Spanish Law 34/2002 on information society services and electronic commerce (LSSI-CE), the details of the owner of this website are as follows:</p>
-      <p><b>Owner:</b> [LEGAL NAME] · <b>Tax ID:</b> [NIF/CIF] · <b>Address:</b> [FULL ADDRESS], Madrid, Spain · <b>Email:</b> hello@retrofin.es<br><b>Registry details:</b> [Madrid Commercial Registry, volume/folio/sheet — if applicable]</p>
+      <p><b>Owner:</b> RetroFin AI, Madrid (Spain) · <b>Email:</b> hello@retrofin.es</p>
       <p><b>Purpose.</b> This site provides information about RetroFin AI's services in financial structuring for the energy retrofit of Spanish homeowner communities. All figures and simulations shown, including those in the demo, are illustrative and based on a reference case; they do not constitute a binding offer, nor financial, legal or technical advice.</p>
       <p><b>Intellectual property.</b> The original content, trademarks, texts and illustrations on this site belong to its owner, except for third-party materials identified with their source and licence. Reproduction without authorisation is prohibited.</p>
       <p><b>Liability.</b> The owner accepts no liability for the use made of the information published, nor for the content of external linked sites.</p>
@@ -1361,7 +1487,7 @@
     </details>
     <details>
       <summary>Privacy policy</summary>
-      <p><b>Data controller.</b> [LEGAL NAME], Tax ID [NIF/CIF], registered at [FULL ADDRESS], Madrid. Contact: hello@retrofin.es</p>
+      <p><b>Data controller.</b> RetroFin AI, Madrid. Contact: hello@retrofin.es</p>
       <p><b>What data we process and why.</b> We only process the data you provide voluntarily when you email us: name, email address, phone number, organisation, and any building details you choose to include (address, year built, number of homes, status of the ITE/IEE report or energy certificate). We use it to answer your enquiry, prepare the pre-assessment you requested, and stay in touch about that request.</p>
       <p><b>Legal basis.</b> Your consent in sending us the communication and, where applicable, pre-contractual measures taken at your request (Art. 6.1.a and 6.1.b GDPR).</p>
       <p><b>Retention.</b> We keep your data for as long as the relationship lasts and thereafter for any legally required periods. If you ask us to delete it, we will, unless we are legally required to retain it.</p>
@@ -1420,7 +1546,7 @@ window.__rfInit = function(){
     setState('B');
     afterLabel.textContent = 'B';
   }, 1600);
-  setTimeout(() => { setState('E'); afterLabel.textContent = '—'; }, 5200);
+  setTimeout(() => { setState('E'); afterLabel.textContent = 'B'; }, 5200);
   setInterval(() => {
     setState('E'); afterLabel.textContent = '—';
     setTimeout(() => { setState('B'); afterLabel.textContent = 'B'; }, 1600);
