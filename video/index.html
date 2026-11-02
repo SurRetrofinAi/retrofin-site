@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>RetroFin AI · Vídeo de la demo</title>
+<meta name="robots" content="noindex">
+<meta name="description" content="Vídeo de la demo de RetroFin AI: de la dirección del edificio a una propuesta de rehabilitación financiada que la junta puede votar.">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23166B52'/%3E%3Ctext x='50' y='72' font-size='62' font-weight='bold' font-family='sans-serif' fill='white' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  :root{--green:#1A7A5E;--deep:#0A4A3A;--gold:#D4890A;--dark:#072A20;--page:#E9F4EF;--dim:#E6F2EB;--ink:#0D1F1A;--soft:#51625A;--line:#C8E8DC;--white:#FFFFFF}
+  *{box-sizing:border-box;margin:0;padding:0}
+  body{font-family:'IBM Plex Sans',sans-serif;background:var(--page);color:var(--ink);line-height:1.6;min-height:100vh;display:flex;flex-direction:column}
+  .wrap{max-width:1040px;margin:0 auto;padding:0 max(20px,env(safe-area-inset-left,0px)) 0 max(20px,env(safe-area-inset-right,0px))}
+  nav{background:var(--white);border-bottom:1px solid var(--line);padding:16px 0}
+  nav .wrap{display:flex;align-items:center;justify-content:space-between;gap:16px}
+  .logo{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:20px;color:var(--ink);letter-spacing:-.02em;text-decoration:none}
+  .logo span{color:var(--gold)}
+  .nav-links{display:flex;align-items:center;gap:22px;font-size:14.5px}
+  .nav-links a{color:var(--soft);text-decoration:none}
+  .nav-links a:hover{color:var(--ink)}
+  .lang{font-family:'IBM Plex Mono',monospace;font-size:13px;color:var(--soft);background:none;border:0;cursor:pointer}
+  main{flex:1;padding:48px 0 64px}
+  .kicker{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+  h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(28px,4.4vw,42px);line-height:1.12;letter-spacing:-.02em;max-width:22ch;text-wrap:balance}
+  .lede{font-size:17px;color:var(--soft);max-width:62ch;margin:14px 0 28px}
+  .player{position:relative;width:100%;aspect-ratio:16/9;background:var(--dark);border-radius:14px;overflow:hidden;box-shadow:0 18px 40px -24px rgba(7,42,32,.55)}
+  .player video,.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--dark)}
+  .soon{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#CFE7DC;text-align:center;padding:24px}
+  .soon .play{width:72px;height:72px;border-radius:50%;border:2px solid rgba(207,231,220,.5);display:flex;align-items:center;justify-content:center}
+  .soon .play:after{content:"";border-left:20px solid #CFE7DC;border-top:12px solid transparent;border-bottom:12px solid transparent;margin-left:6px}
+  .soon b{font-family:'Space Grotesk',sans-serif;font-size:20px;color:var(--white)}
+  .steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:28px}
+  .step{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-width:0}
+  .step .n{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gold)}
+  .step b{display:block;font-family:'Space Grotesk',sans-serif;font-size:15px;margin:2px 0}
+  .step p{font-size:13px;color:var(--soft)}
+  .cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+  .btn{display:inline-block;padding:12px 22px;border-radius:7px;font-weight:600;font-size:15px;text-decoration:none}
+  .btn-primary{background:var(--ink);color:var(--white)}
+  .btn-primary:hover{background:var(--green)}
+  .btn-ghost{border:1px solid var(--soft);color:var(--ink)}
+  .btn-ghost:hover{border-color:var(--ink);background:var(--dim)}
+  .btn:focus-visible,.lang:focus-visible,a:focus-visible{outline:3px solid var(--gold);outline-offset:2px}
+  footer{background:var(--dark);color:#C9C1DE;padding:28px 0}
+  footer .fine{font-size:12.5px;color:#7C8B83}
+  footer a{color:#CFE7DC}
+  html:not([lang="en"]) [data-en]{display:none!important}
+  html[lang="en"] [data-es]{display:none!important}
+  @media (max-width:820px){.steps{grid-template-columns:1fr 1fr}.nav-links a{display:none}}
+  @media (max-width:480px){.steps{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<nav>
+  <div class="wrap">
+    <a class="logo" href="/">Retro<span>Fin</span> AI</a>
+    <div class="nav-links">
+      <a href="/" data-es>Inicio</a><a href="/#en" data-en>Home</a>
+      <a href="/demo/" data-es>Probar la demo</a><a href="/demo/" data-en>Try the demo</a>
+      <button type="button" class="lang" id="lang">EN</button>
+    </div>
+  </div>
+</nav>
+
+<main>
+  <div class="wrap">
+    <div class="kicker" data-es>Demo en vídeo</div><div class="kicker" data-en>Demo video</div>
+    <h1 data-es>De la dirección del edificio a una obra que la junta puede votar</h1>
+    <h1 data-en>From a building’s address to works the assembly can vote on</h1>
+    <p class="lede" data-es>Un recorrido por RetroFin con un edificio de referencia en Usera (Madrid): ayudas, préstamo y certificados de ahorro energético (CAE) en una sola propuesta, con la cuota mensual por vivienda.</p>
+    <p class="lede" data-en>A walk-through of RetroFin with a reference building in Usera, Madrid: subsidies, a loan and energy-savings certificates (CAE) in a single proposal, with the monthly cost per home.</p>
+
+    <div class="player" id="player">
+      <div class="soon" id="soon">
+        <div class="play" aria-hidden="true"></div>
+        <b data-es>Vídeo próximamente</b><b data-en>Video coming soon</b>
+        <span data-es>Mientras tanto, puedes probar la demo interactiva.</span>
+        <span data-en>In the meantime, you can try the interactive demo.</span>
+      </div>
+    </div>
+
+    <div class="steps">
+      <div class="step"><span class="n">1 · IA</span><b data-es>Datos del edificio</b><b data-en>Building data</b><p data-es>Catastro, certificado energético y ayudas de la zona.</p><p data-en>Land registry, energy certificate and local subsidies.</p></div>
+      <div class="step"><span class="n">2</span><b data-es>Visita técnica</b><b data-en>Site visit</b><p data-es>Un técnico valida el paquete de obra.</p><p data-en>A technician validates the works package.</p></div>
+      <div class="step"><span class="n">3</span><b data-es>Tres presupuestos</b><b data-en>Three quotes</b><p data-es>Comparables, sobre el mismo proyecto.</p><p data-en>Comparable, on the same project.</p></div>
+      <div class="step"><span class="n">4</span><b data-es>Una votación</b><b data-en>One vote</b><p data-es>Obra, constructora y préstamo, con la cuota por vivienda.</p><p data-en>Works, builder and loan, with the monthly cost per home.</p></div>
+      <div class="step"><span class="n">5 · IA</span><b data-es>Expedientes</b><b data-en>Filings</b><p data-es>Ayudas, banco y licencia.</p><p data-en>Subsidies, bank and permit.</p></div>
+    </div>
+
+    <div class="cta">
+      <a class="btn btn-primary" href="/demo/" data-es>Probar la demo interactiva</a>
+      <a class="btn btn-primary" href="/demo/" data-en>Try the interactive demo</a>
+      <a class="btn btn-ghost" href="mailto:hello@retrofin.es" data-es>Contacto: hello@retrofin.es</a>
+      <a class="btn btn-ghost" href="mailto:hello@retrofin.es" data-en>Contact: hello@retrofin.es</a>
+    </div>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    <p class="fine" data-es>© 2026 Alejandra Baigun y Ana Corrêa do Lago. Todos los derechos reservados. RetroFin™ es una marca de Alejandra Baigun y Ana Corrêa do Lago. · <a href="/#legal">Aviso legal y privacidad</a></p>
+    <p class="fine" data-en>© 2026 Alejandra Baigun and Ana Corrêa do Lago. All rights reserved. RetroFin™ is a trademark of Alejandra Baigun and Ana Corrêa do Lago. · <a href="/#legal">Legal notice and privacy</a></p>
+  </div>
+</footer>
+
+<script>
+/* ===== To publish the video, fill in ONE of these two lines =====
+   YOUTUBE_ID: the code of an unlisted YouTube video, e.g. "dQw4w9WgXcQ"
+   VIDEO_FILE: an MP4 uploaded next to this page, e.g. "demo.mp4" (GitHub web upload: max 25 MB) */
+const YOUTUBE_ID = "";
+const VIDEO_FILE = "";
+const POSTER = ""; /* optional cover image next to this page, e.g. "poster.jpg" */
+
+(function(){
+  const player = document.getElementById('player'), soon = document.getElementById('soon');
+  if (YOUTUBE_ID) {
+    const f = document.createElement('iframe');
+    f.src = 'https://www.youtube-nocookie.com/embed/' + encodeURIComponent(YOUTUBE_ID) + '?rel=0';
+    f.title = 'RetroFin AI demo';
+    f.allow = 'accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture';
+    f.allowFullscreen = true;
+    soon.remove(); player.appendChild(f);
+  } else if (VIDEO_FILE) {
+    const v = document.createElement('video');
+    v.controls = true; v.preload = 'metadata'; v.playsInline = true;
+    if (POSTER) v.poster = POSTER;
+    v.src = VIDEO_FILE;
+    v.addEventListener('loadedmetadata', () => soon.remove());
+    v.addEventListener('error', () => v.remove());
+    player.insertBefore(v, soon);
+  }
+  const btn = document.getElementById('lang');
+  const set = l => { document.documentElement.lang = l; btn.textContent = l === 'es' ? 'EN' : 'ES'; document.title = l === 'es' ? 'RetroFin AI · Vídeo de la demo' : 'RetroFin AI · Demo video'; };
+  btn.addEventListener('click', () => { const l = document.documentElement.lang === 'es' ? 'en' : 'es'; set(l); try { history.replaceState(null, '', l === 'en' ? '#en' : location.pathname); } catch(e){} });
+  if (location.hash === '#en') set('en');
+})();
+</script>
+</body>
+</html>
