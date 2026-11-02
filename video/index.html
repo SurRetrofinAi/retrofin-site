@@ -1,9 +1,9 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>RetroFin AI · Vídeo de la demo</title>
+<title>RetroFin AI · Demo video</title>
 <meta name="robots" content="noindex">
 <meta name="description" content="Vídeo de la demo de RetroFin AI: de la dirección del edificio a una propuesta de rehabilitación financiada que la junta puede votar.">
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Crect width='100' height='100' rx='20' fill='%23166B52'/%3E%3Ctext x='50' y='72' font-size='62' font-weight='bold' font-family='sans-serif' fill='white' text-anchor='middle'%3ER%3C/text%3E%3C/svg%3E">
@@ -47,8 +47,8 @@
   footer{background:var(--dark);color:#C9C1DE;padding:28px 0}
   footer .fine{font-size:12.5px;color:#7C8B83}
   footer a{color:#CFE7DC}
-  html:not([lang="en"]) [data-en]{display:none!important}
-  html[lang="en"] [data-es]{display:none!important}
+  html[lang="es"] [data-en]{display:none!important}
+  html:not([lang="es"]) [data-es]{display:none!important}
   @media (max-width:820px){.steps{grid-template-columns:1fr 1fr}.nav-links a{display:none}}
   @media (max-width:480px){.steps{grid-template-columns:1fr}}
 </style>
@@ -60,7 +60,7 @@
     <div class="nav-links">
       <a href="/" data-es>Inicio</a><a href="/#en" data-en>Home</a>
       <a href="/demo/" data-es>Probar la demo</a><a href="/demo/" data-en>Try the demo</a>
-      <button type="button" class="lang" id="lang">EN</button>
+      <button type="button" class="lang" id="lang">ES</button>
     </div>
   </div>
 </nav>
@@ -134,8 +134,8 @@ const POSTER = ""; /* optional cover image next to this page, e.g. "poster.jpg" 
   }
   const btn = document.getElementById('lang');
   const set = l => { document.documentElement.lang = l; btn.textContent = l === 'es' ? 'EN' : 'ES'; document.title = l === 'es' ? 'RetroFin AI · Vídeo de la demo' : 'RetroFin AI · Demo video'; };
-  btn.addEventListener('click', () => { const l = document.documentElement.lang === 'es' ? 'en' : 'es'; set(l); try { history.replaceState(null, '', l === 'en' ? '#en' : location.pathname); } catch(e){} });
-  if (location.hash === '#en') set('en');
+  btn.addEventListener('click', () => { const l = document.documentElement.lang === 'es' ? 'en' : 'es'; set(l); try { history.replaceState(null, '', l === 'es' ? '#es' : location.pathname); } catch(e){} });
+  if (location.hash === '#es') set('es');
 })();
 </script>
 </body>
