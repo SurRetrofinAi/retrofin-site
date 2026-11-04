@@ -26,12 +26,13 @@
   .kicker{font-family:'IBM Plex Mono',monospace;font-size:12.5px;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
   h1{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:clamp(28px,4.4vw,42px);line-height:1.12;letter-spacing:-.02em;max-width:22ch;text-wrap:balance}
   .lede{font-size:17px;color:var(--soft);max-width:62ch;margin:14px 0 28px}
-  .player{position:relative;width:100%;aspect-ratio:1280/636;background:var(--dark);border-radius:14px;overflow:hidden;box-shadow:0 18px 40px -24px rgba(7,42,32,.55)}
+  .player{position:relative;width:100%;aspect-ratio:16/9;background:var(--dark);border-radius:14px;overflow:hidden;box-shadow:0 18px 40px -24px rgba(7,42,32,.55)}
   .player video,.player iframe{position:absolute;inset:0;width:100%;height:100%;border:0;background:var(--dark)}
   .soon{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:14px;color:#CFE7DC;text-align:center;padding:24px}
   .soon .play{width:72px;height:72px;border-radius:50%;border:2px solid rgba(207,231,220,.5);display:flex;align-items:center;justify-content:center}
   .soon .play:after{content:"";border-left:20px solid #CFE7DC;border-top:12px solid transparent;border-bottom:12px solid transparent;margin-left:6px}
   .soon b{font-family:'Space Grotesk',sans-serif;font-size:20px;color:var(--white)}
+  .sub{font-family:'Space Grotesk',sans-serif;font-size:22px;margin:40px 0 14px}
   .steps{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:10px;margin-top:28px}
   .step{background:var(--white);border:1px solid var(--line);border-radius:10px;padding:12px 14px;min-width:0}
   .step .n{font-family:'IBM Plex Mono',monospace;font-size:12px;color:var(--gold)}
@@ -67,11 +68,11 @@
 
 <main>
   <div class="wrap">
-    <div class="kicker" data-es>Demo en vídeo</div><div class="kicker" data-en>Demo video</div>
+    <div class="kicker" data-es>RetroFin en 3 minutos</div><div class="kicker" data-en>RetroFin in 3 minutes</div>
     <h1 data-es>De la dirección del edificio a una obra que la junta puede votar</h1>
     <h1 data-en>From a building’s address to works the assembly can vote on</h1>
-    <p class="lede" data-es>Un recorrido sin sonido por RetroFin con un edificio de referencia en Usera (Madrid): ayudas, préstamo y certificados de ahorro energético (CAE) en una sola propuesta, con la cuota mensual por vivienda.</p>
-    <p class="lede" data-en>A silent walk-through of RetroFin with a reference building in Usera, Madrid: subsidies, a loan and energy-savings certificates (CAE) in a single proposal, with the monthly cost per home.</p>
+    <p class="lede" data-es>Ana Corrêa do Lago, cofundadora, presenta RetroFin (en inglés, con subtítulos). Debajo, un recorrido sin sonido por la demo con un edificio de referencia en Usera (Madrid): ayudas, préstamo y certificados de ahorro energético (CAE) en una sola propuesta, con la cuota mensual por vivienda.</p>
+    <p class="lede" data-en>Co-founder Ana Corrêa do Lago presents RetroFin (with subtitles). Below, a silent walk-through of the demo with a reference building in Usera, Madrid: subsidies, a loan and energy-savings certificates (CAE) in a single proposal, with the monthly cost per home.</p>
 
     <div class="player" id="player">
       <div class="soon" id="soon">
@@ -81,6 +82,9 @@
         <span data-en>In the meantime, you can try the interactive demo.</span>
       </div>
     </div>
+
+    <h2 class="sub" data-es>Recorrido por la demo (sin sonido)</h2><h2 class="sub" data-en>Demo walk-through (silent)</h2>
+    <div class="player" style="aspect-ratio:1280/636"><video controls preload="metadata" playsinline poster="poster.jpg" src="demo.mp4"></video></div>
 
     <div class="steps">
       <div class="step"><span class="n" data-es>1 · IA</span><span class="n" data-en>1 · AI</span><b data-es>Datos del edificio</b><b data-en>Building data</b><p data-es>Catastro, certificado energético y ayudas de la zona.</p><p data-en>Land registry, energy certificate and local subsidies.</p></div>
@@ -111,8 +115,8 @@
    YOUTUBE_ID: the code of an unlisted YouTube video, e.g. "dQw4w9WgXcQ"
    VIDEO_FILE: an MP4 uploaded next to this page, e.g. "demo.mp4" (GitHub web upload: max 25 MB) */
 const YOUTUBE_ID = "";
-const VIDEO_FILE = "demo.mp4";
-const POSTER = "poster.jpg"; /* optional cover image next to this page, e.g. "poster.jpg" */
+const VIDEO_FILE = "retrofin-3min.mp4";
+const POSTER = "retrofin-3min-poster.jpg"; /* optional cover image next to this page, e.g. "poster.jpg" */
 
 (function(){
   const player = document.getElementById('player'), soon = document.getElementById('soon');
@@ -128,6 +132,7 @@ const POSTER = "poster.jpg"; /* optional cover image next to this page, e.g. "po
     v.controls = true; v.preload = 'metadata'; v.playsInline = true;
     if (POSTER) v.poster = POSTER;
     v.src = VIDEO_FILE;
+    const tr = document.createElement('track'); tr.kind = 'subtitles'; tr.srclang = 'en'; tr.label = 'English'; tr.src = 'retrofin-3min.en.vtt'; v.appendChild(tr);
     v.addEventListener('loadedmetadata', () => soon.remove());
     v.addEventListener('error', () => v.remove());
     player.insertBefore(v, soon);
