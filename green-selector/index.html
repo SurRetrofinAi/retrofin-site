@@ -108,6 +108,15 @@ input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid 
 .annex dl.rows{padding:0}
 .amount{margin:12px 20px 0; display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap; border:1px solid var(--line); border-radius:10px; padding:10px 14px; background:var(--surface-2)}
 .amount .k{font-size:13px; color:var(--muted)}
+.gc{border-top:2px solid var(--line); padding:16px 20px 8px; display:flex; flex-direction:column; gap:10px}
+.gc h3{margin:0; font-family:var(--font-head); font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:var(--deep)}
+.gc-m{border:1px solid var(--line); border-radius:10px; overflow:hidden}
+.gc-m .gc-h{display:flex; justify-content:space-between; gap:8px; padding:8px 12px; background:var(--surface-2); font-weight:600; font-size:13.5px}
+.gc-m .gc-h .num{font-weight:500; color:var(--muted)}
+.gc-m table{width:100%; border-collapse:collapse; font-size:12.5px}
+.gc-m td{padding:6px 12px; border-top:1px solid var(--line); vertical-align:top}
+.gc-m td:first-child{color:var(--muted); width:58%}
+.gc-m td.todo{color:var(--warn)}
 details.panel summary{cursor:pointer; font-family:var(--font-head); font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:var(--deep); font-weight:700}
 @media (max-width:480px){.steps{grid-template-columns:minmax(0,1fr)}}
 @media print{.annex.off{display:none!important}}
@@ -264,6 +273,11 @@ dl.rows{margin:0; padding:8px 20px 4px; display:flex; flex-direction:column}
         </div>
         <div class="amount"><span class="k" data-i="amt">Importe del préstamo atribuible a medidas elegibles</span><span class="big-num" id="amt"></span></div>
         <dl class="rows" id="rows"></dl>
+        <div class="gc" id="gc">
+          <h3 data-i="gc_t">Datos para el Green Checker del BEI</h3>
+          <p class="hint" style="margin:0" data-i-html="gc_h"></p>
+          <div id="gc-list" style="display:flex;flex-direction:column;gap:10px"></div>
+        </div>
         <div class="annex" id="annex">
           <h3 data-i="annex_t">Anexo opcional: fuentes de devolución</h3>
           <p class="hint" data-i="annex_h">Fuera de la clasificación verde. Ayudas y certificados de ahorro energético (CAE) que reducen el importe a financiar o ayudan a devolverlo.</p>
@@ -445,7 +459,7 @@ es:{
   h_dnsh:'4. No causar daño significativo (DNSH)', dnsh_h:'Resumen basado en documentación de la Comisión y guías sectoriales; el texto del acto delegado no se ha contrastado todavía.',
   d_clim:'Evaluación de riesgos climáticos y medidas de adaptación', d_waste:'≥70% de residuos de construcción y demolición preparados para reutilización o reciclaje', d_subs:'Sustancias peligrosas y calidad del aire interior en materiales', d_asb:'Estudio de amianto si se añade aislamiento',
   pend:'Pendiente', ok_given:'Aportado', na:'No aplica',
-  h_fin:'Anexo opcional: fuentes de devolución', annex_in_h:'No cambian la clasificación verde. Al banco le sirven porque reducen el importe del préstamo o ayudan a devolverlo.', x_on:'Incluir el anexo en el expediente', annex_t:'Anexo opcional: fuentes de devolución', annex_h:'Fuera de la clasificación verde. Ayudas y certificados de ahorro energético (CAE) que reducen el importe a financiar o ayudan a devolverlo.', r_cae_val:'Valor de los CAE', r_perhome:'Por vivienda', quota_na:'Cuota mensual por vivienda: no la calcula esta herramienta', f_price:'Precio de referencia (€/MWh)', prov:'provisional', f_price_h:'Rango indicativo 115–140 €/MWh; no hay índice oficial',
+  h_fin:'Anexo opcional: fuentes de devolución', annex_in_h:'No cambian la clasificación verde. Al banco le sirven porque reducen el importe del préstamo o ayudan a devolverlo.', x_on:'Incluir el anexo en el expediente', annex_t:'Anexo opcional: fuentes de devolución', gc_t:'Datos para el Green Checker del BEI', gc_h:'Si el préstamo se financia con una línea verde del BEI, el banco puede evaluarlo en el <a href="https://greenchecker.eib-group.org/eib-green" target="_blank" rel="noopener">Green Checker del Grupo BEI</a> (Assess green investments, una evaluación por comunidad). Estas son sus medidas y preguntas, con los datos de este expediente; lo marcado en naranja se completa allí. Preguntas leídas el 6 de noviembre de 2026.', gc_todo:'completar en el Green Checker', gc_none:'Seleccione medidas para ver su equivalencia.', gc_split:'repartir el presupuesto entre medidas', annex_h:'Fuera de la clasificación verde. Ayudas y certificados de ahorro energético (CAE) que reducen el importe a financiar o ayudan a devolverlo.', r_cae_val:'Valor de los CAE', r_perhome:'Por vivienda', quota_na:'Cuota mensual por vivienda: no la calcula esta herramienta', f_price:'Precio de referencia (€/MWh)', prov:'provisional', f_price_h:'Rango indicativo 115–140 €/MWh; no hay índice oficial',
   f_net:'Parte neta para la comunidad (%)', f_net_h:'Tras comisiones del sujeto delegado',
   fnee_h:'Equivalencia financiera FNEE 2026: 198,62 €/MWh (Orden TED/133/2026). Es lo que paga el sujeto obligado al Fondo, no el precio que recibe el propietario.',
   for_bank:'Para el banco', cert_t:'Expediente de cribado verde (preliminar)', s0:'2. Vía', s1:'3. Criterio técnico', s2:'4. DNSH', s4:'5. Expediente', s3:'6. Validación del banco', bank_side:'Lado del banco', ready:'Listo', prelim:'Preliminar', amt:'Importe del préstamo atribuible a medidas elegibles',
@@ -482,7 +496,7 @@ en:{
   h_dnsh:'4. Do no significant harm (DNSH)', dnsh_h:'Summary based on Commission documents and sector guides; the delegated act text has not been checked yet.',
   d_clim:'Climate risk assessment and adaptation measures', d_waste:'≥70% of construction and demolition waste prepared for reuse or recycling', d_subs:'Hazardous substances and indoor air quality of materials', d_asb:'Asbestos survey if insulation is added',
   pend:'Pending', ok_given:'Provided', na:'Not applicable',
-  h_fin:'Optional annex: repayment sources', annex_in_h:'They do not change the green classification. They matter to the bank because they reduce the amount to borrow or help repay it.', x_on:'Include the annex in the file', annex_t:'Optional annex: repayment sources', annex_h:'Outside the green classification. Grants and energy-savings certificates (CAE) that reduce the amount to finance or help repay it.', r_cae_val:'Value of the CAE', r_perhome:'Per home', quota_na:'Monthly instalment per home: not calculated by this tool', f_price:'Reference price (€/MWh)', prov:'provisional', f_price_h:'Indicative range €115–140/MWh; no official index',
+  h_fin:'Optional annex: repayment sources', annex_in_h:'They do not change the green classification. They matter to the bank because they reduce the amount to borrow or help repay it.', x_on:'Include the annex in the file', annex_t:'Optional annex: repayment sources', gc_t:'Data for the EIB Green Checker', gc_h:'If the loan is funded by an EIB green credit line, the bank can assess it in the <a href="https://greenchecker.eib-group.org/eib-green" target="_blank" rel="noopener">EIB Group Green Checker</a> (Assess green investments, one assessment per association). These are its measures and questions, filled with the data in this file; items in orange are completed there. Questions read on 6 November 2026.', gc_todo:'complete in the Green Checker', gc_none:'Select measures to see their equivalent.', gc_split:'split the budget across measures', annex_h:'Outside the green classification. Grants and energy-savings certificates (CAE) that reduce the amount to finance or help repay it.', r_cae_val:'Value of the CAE', r_perhome:'Per home', quota_na:'Monthly instalment per home: not calculated by this tool', f_price:'Reference price (€/MWh)', prov:'provisional', f_price_h:'Indicative range €115–140/MWh; no official index',
   f_net:'Net share for the association (%)', f_net_h:'After the delegated party’s fees',
   fnee_h:'2026 FNEE financial equivalence: €198.62/MWh (Orden TED/133/2026). That is what obligated parties pay into the Fund, not the price an owner receives.',
   for_bank:'For the bank', cert_t:'Green screening file (preliminary)', s0:'2. Route', s1:'3. Technical criterion', s2:'4. DNSH', s4:'5. File', s3:'6. Bank validation', bank_side:'Bank’s side', ready:'Ready', prelim:'Preliminary', amt:'Loan amount attributable to eligible measures',
@@ -583,11 +597,83 @@ function aidBlock(){
   return {ok:true, html:''};
 }
 
+/* ---------- EIB Green Checker equivalence (field labels as in the tool, English UI) ---------- */
+function gcMeasure(title, code, fields){
+  return `<div class="gc-m"><div class="gc-h"><span>${title}</span><span class="num">${code}</span></div><table>` +
+    fields.map(([k, val]) => `<tr><td>${k}</td>${val===null ? `<td class="todo">${t('gc_todo')}</td>` : `<td class="num">${val}</td>`}</tr>`).join('') + '</table></div>';
+}
+const yn = b => b ? 'Yes' : 'No';
+const REGION = () => $('c-zone').value==='D3' ? 'Spain – Comunidad de Madrid (if Madrid)' : 'Spain – ' + (lang==='es'?'región del edificio':'region of the building');
+function gcFor(m, vals, S, cost){
+  const cost_ = `${eur(cost)} (${t('gc_split')})`;
+  const epbd = ['What is the investment cost? (optional)', cost_];
+  switch(m.id){
+    case 'env': return gcMeasure('Wall insulation + Roof insulation', m.code, [
+      ['Do you confirm that the building component, when renovated, will meet the minimum requirements of the national implementation of the EPBD?', vals.cte ? 'Yes (CTE DB HE1)' : null],
+      ['In which region is the building located?', REGION()],
+      ['Do you know the U-values of the wall / roof before and after the insulation?', lang==='es'?'Sí, por elemento (este expediente usa la K global: pedir U de fachada y cubierta al arquitecto)':'Yes, per element (this file uses the global K: ask the architect for facade and roof U)'],
+      ['What is the area of the wall / roof surface that will be insulated? (m²)', `${f0(vals.s*vals.share/100)} ${lang==='es'?'en total; separar fachada y cubierta':'in total; split facade and roof'}`],
+      ['Is the space enclosed by the walls actively cooled?', null], epbd]);
+    case 'opq': return gcMeasure('Wall insulation', m.code, [
+      ['Do you confirm that the building component, when renovated, will meet the minimum requirements of the national implementation of the EPBD?', null],
+      ['In which region is the building located?', REGION()],
+      ['Do you know the U-values of the wall before and after the insulation that will be financed?', `Yes: ${f2(vals.u1i)} → ${f2(vals.u1f)} W/m²K`],
+      ['What is the area of the wall surface that will be insulated? (m²)', f0(vals.s1)],
+      ['Is the space enclosed by the walls actively cooled?', null], epbd])
+      + gcMeasure('Roof insulation', m.code, [
+      ['Do you know the U-values of the roof before and after the insulation?', `Yes: ${f2(vals.u2i)} → ${f2(vals.u2f)} W/m²K`],
+      ['What is the area of the roof surface that will be insulated? (m²)', f0(vals.s2)],
+      ['Is the space covered by the roof actively cooled?', null]]);
+    case 'attic': return gcMeasure('Roof insulation', m.code, [
+      ['Do you confirm that the building component, when renovated, will meet the minimum requirements of the national implementation of the EPBD?', vals.thick ? 'Yes' : null],
+      ['In which region is the building located?', REGION()],
+      ['Do you know the U-values of the roof before and after the insulation?', null],
+      ['When was the roof last renovated? If no renovation has occured, provide the year the building was constructed.', vals.year==='old' ? '≤ 1978' : vals.year==='mid' ? '1979–2006' : '≥ 2007'],
+      ['What is the area of the roof surface that will be insulated? (m²)', f0(vals.s)], epbd]);
+    case 'win': return gcMeasure('Window replacement', m.code, [
+      ['Do you confirm that the building component, when renovated, will meet the minimum requirements of the national implementation of the EPBD?', null],
+      ['Which type of window will be installed?', `${lang==='es'?'elegir según U':'choose from U'} = ${f1(vals.uf)} W/m²K`],
+      ['What is the the total area of the windows that will be replaced? (m²)', f0(vals.s)],
+      ['Is the space enclosed by the windows actively cooled?', null],
+      ['Which energy source is used for heating?', null],
+      ['Are the windows equipped with external sun protection devices?', null], epbd]);
+    case 'sol': return gcMeasure('Solar thermal systems', m.code, [
+      ['What kind of system will be installed?', 'On-site, integrated in the technical building system'],
+      ['What is the size of the solar thermal collectors? (m²)', null],
+      ['For what purpose will the solar thermal system be installed?', null],
+      ['Which type of solar thermal collector will be used?', null],
+      ['Which energy source is currently used for hot water generation (or space heating if relevant)?', null],
+      ['In which region will the system be installed?', REGION()], epbd]);
+    case 'vmc': return gcMeasure('Ventilation', m.code, [
+      ['What kind of ventilation system should be improved?', null], epbd,
+      [lang==='es'?'Nota':'Note', lang==='es'?'El Green Checker describe esta medida sobre todo para edificios no residenciales.':'The Green Checker describes this measure mainly for non-residential buildings.']]);
+    case 'hp': return gcMeasure('Electric heat pumps for space heating', m.code, [
+      ['Which energy source is used in the heating system that will be replaced?', 'Natural gas'],
+      ['What is the energy efficiency class of the new heat pump?', null],
+      ['Do you know the heat energy demand of the most recent year?', `Yes: ${f0(vals.dcal*S)} kWh/yr (${f0(vals.dcal)} kWh/m² × ${f0(S)} m²)`],
+      ['Which type of building is heated by the heat pump?', 'Multi-storey building'],
+      ['Will the heat pump also be the main source of hot water generation?', yn(vals.dacs>0)],
+      ['How large is the area heated by the heat pump? (m²)', f0(S)],
+      ['In which region is the building located?', REGION()], epbd]);
+  }
+  return '';
+}
+function gcBuilding(S, cost){
+  return gcMeasure('Renovation of existing buildings', lang==='es'?'Edificio completo':'Whole building', [
+    ['Is the specific primary energy demand of the building (in kWh/m²/year) known for before and after the refurbishment?', 'Yes'],
+    ['Specific primary energy demand (sum of renewable and non-renewable shares) before refurbishment (kWh/m²/year)', f0(v('e-tb'))],
+    ['Specific primary energy demand (sum of renewable and non-renewable shares) after refurbishment (kWh/m²/year)', f0(v('e-ta'))],
+    ['Floor area of the building (m²)', f0(S)],
+    ["Does the renovation comply with the requirements for 'major renovations' as set in the applicable national and regional building regulations?", $('e-major').checked ? 'Yes' : 'No'],
+    ['What is the investment cost? (optional)', eur(cost)]]);
+}
+
 function render(){
   const viv = Math.max(1, v('c-viv')), S = v('c-s'), price = v('f-price'), net = Math.min(100, Math.max(0, v('f-net')))/100, cost = v('c-cost');
   const zone = $('c-zone').value, aid = aidBlock();
   const dn = ['d_clim','d_waste','d_subs','d_asb'].map(id => $(id) ? $(id).value : 'pend');
   const dnDone = dn.every(x => x!=='pend');
+  let gc = '';
   let html = '', ax = '', sc = 'tbd', sub = '', cae = null, aeAll = null, docs = [], srcs = [];
 
   if(mode==='rapida'){
@@ -598,6 +684,7 @@ function render(){
       const vals = {}; m.fields.forEach(f => { const el=$(m.id+'-'+f.id); vals[f.id] = !el ? null : el.type==='checkbox' ? el.checked : (f.type==='select' ? el.value : v(m.id+'-'+f.id)); });
       const r = m.calc(vals, {S, viv, zone, lang, f0, f1, f2, st, t, L});
       total += Math.max(0, r.ae || 0); states.push(...(r.tech||[]).map(x=>x.state));
+      gc += gcFor(m, vals, S, cost);
       html += row(`${L(m.name)}<br><span class="num">${m.code}</span> <span class="tag real">${t('official')}</span>`,
         (r.tech && r.tech.length ? `<ul class="lines">${r.tech.map(x=>`<li><span>${x.label}</span>${st(x.state, x.text)}</li>`).join('')}</ul>` : '') + (r.html||''));
       ax += row(`${L(m.name)} <span class="num">${m.code}</span>`, `<span class="big-num">${f0(r.ae||0)}</span> <span class="num">${t('per_year')}</span>${estTag()}` + (r.formula ? `<div class="formula">${r.formula}</div>` : ''));
@@ -636,6 +723,7 @@ function render(){
       <li><span>${lang==='es'?'Energía primaria no renovable':'Non-renewable primary energy'} −${f0(redN*100)}%, ${lang==='es'?'mínimo 30%':'minimum 30%'}</span>${redN>=0.30 ? st('ok',t('meets')) : st('no',t('fails'))}</li>
       ${demReq ? `<li><span>${lang==='es'?'Demanda de calefacción y refrigeración':'Heating and cooling demand'} −${f0(dem)}%, ${lang==='es'?'mínimo':'minimum'} ${demReq}% (${lang==='es'?'zona':'zone'} ${z})</span>${dem>=demReq ? st('ok',t('meets')) : st('no',t('fails'))}</li>` : ''}</ul>
       <span class="hint">${lang==='es'?'Referencia del programa de rehabilitación de edificios y de la Línea Verde del Plan Rehabilita Madrid (−35% de demanda); se muestra aparte de la taxonomía.':'Reference of the building-renovation programme and the Plan Rehabilita Madrid green line (−35% demand); shown separately from the taxonomy.'}</span>`);
+    gc = gcBuilding(S, cost);
     const ae = res080 ? Math.max(0, efb - efa) : null;
     cae = res080 ? (aid.ok ? ae : 0) : null; aeAll = ae;
     if(res080) ax += row(t('r_ae'), `<span class="big-num">${f0(ae)}</span> <span class="num">${t('per_year')}</span>${estTag()}<div class="formula">AE = EFi − EFf = ${f0(efb)} − ${f0(efa)}</div>`);
@@ -653,6 +741,7 @@ function render(){
   if(docs.length) html += row(t('r_docs'), '<ul class="docs">' + [...new Set(docs)].map(d=>`<li>${d}</li>`).join('') + '</ul>');
   $('rows').innerHTML = html;
   $('annex-rows').innerHTML = ax;
+  $('gc-list').innerHTML = gc || `<span class="hint">${t('gc_none')}</span>`;
   const xon = $('x-on').checked; $('annex').classList.toggle('off', !xon); $('annex').hidden = !xon;
   $('amt').textContent = sc==='ok' ? eur(elig) : (sc==='no' ? eur(0) : t('to_confirm'));
 
