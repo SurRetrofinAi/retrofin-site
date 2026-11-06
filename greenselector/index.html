@@ -8,161 +8,161 @@
 <meta name="description" content="RetroFin AI Green Selector: a preliminary green-screening file for a bank lending to a homeowners’ association for energy-retrofit works.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800&family=Source+Serif+4:ital,opsz,wght@0,8..60,400;0,8..60,600;1,8..60,400&display=swap">
 <style>
-/* Layout: two-column tool, works data on the left, bank file on the right; one column on mobile. Matches retrofin.es (deep green + gold). */
+/* Palette from Madrid post-war housing blocks (Moratalaz, Orcasitas photos): terrazo, brick, ochre, courtyard green.
+   Overpass (road-sign heritage) for structure and figures; Source Serif 4 for running text. One column, hairlines, no cards. */
 :root{
-  --bg:#E9F4EF; --surface:#FFFFFF; --surface-2:#F0FAF6; --line:#C8E8DC; --fg:#0D1F1A; --muted:#51625A;
-  --deep:#0A4A3A; --accent:#1A7A5E; --accent-soft:#DDF1E8; --gold:#D4890A; --gold-soft:#FEF3E2;
-  --warn:#9A5B00; --warn-soft:#FBEFD9; --bad:#A3302A; --bad-soft:#F8E1DF; --good:#16794F; --good-soft:#DCF1E5;
-  --font-head:"Space Grotesk", system-ui, sans-serif;
-  --font-ui:"IBM Plex Sans", system-ui, -apple-system, "Segoe UI", sans-serif;
-  --font-data:"IBM Plex Mono", ui-monospace, Menlo, monospace;
-  --r:12px;
+  --bg:#EEE9DD; --paper:#F7F4EC; --ink:#2B2523; --ink-2:#4A423F; --brick:#93604E; --ochre:#A8823F; --green:#4E6B45; --grey:#898076;
+  --rule:rgba(137,128,118,.45); --rule-strong:#2B2523; --bad:#9A3B2C;
+  --sans:"Overpass", system-ui, sans-serif; --serif:"Source Serif 4", Georgia, serif;
 }
 @media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
-  --bg:#0E1613; --surface:#15201B; --surface-2:#1B2822; --line:#2B3B34; --fg:#E4ECE7; --muted:#9AABA2;
-  --deep:#7CD3AE; --accent:#5CC79B; --accent-soft:#183329; --gold:#F0B257; --gold-soft:#33270F;
-  --warn:#F0B257; --warn-soft:#33270F; --bad:#F08A82; --bad-soft:#3A1C1A; --good:#6FD3A5; --good-soft:#173328; color-scheme:dark}}
+  --bg:#1E1A18; --paper:#26211F; --ink:#EEE9DD; --ink-2:#CFC7BB; --brick:#C98D78; --ochre:#D1AB63; --green:#8DAE7F; --grey:#A59C91;
+  --rule:rgba(165,156,145,.35); --rule-strong:#EEE9DD; --bad:#E08A7A; color-scheme:dark}}
 :root[data-theme="dark"]{
-  --bg:#0E1613; --surface:#15201B; --surface-2:#1B2822; --line:#2B3B34; --fg:#E4ECE7; --muted:#9AABA2;
-  --deep:#7CD3AE; --accent:#5CC79B; --accent-soft:#183329; --gold:#F0B257; --gold-soft:#33270F;
-  --warn:#F0B257; --warn-soft:#33270F; --bad:#F08A82; --bad-soft:#3A1C1A; --good:#6FD3A5; --good-soft:#173328; color-scheme:dark}
+  --bg:#1E1A18; --paper:#26211F; --ink:#EEE9DD; --ink-2:#CFC7BB; --brick:#C98D78; --ochre:#D1AB63; --green:#8DAE7F; --grey:#A59C91;
+  --rule:rgba(165,156,145,.35); --rule-strong:#EEE9DD; --bad:#E08A7A; color-scheme:dark}
 *{box-sizing:border-box}
 [hidden]{display:none!important}
-body{margin:0; background:var(--bg); color:var(--fg); font-family:var(--font-ui); font-size:15px; line-height:1.5}
-.topbar{background:#0A4A3A; color:#fff; padding:12px 16px}
-.topbar-in{max-width:1180px; margin:0 auto; display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
-.logo{font-family:var(--font-head); font-weight:700; font-size:19px; color:#fff; text-decoration:none}
-.logo b{color:#2DB87A; font-weight:700}
-.logo small{font-size:11px; opacity:.75; margin-left:4px; font-weight:500}
-.top-actions{display:flex; gap:8px; align-items:center; flex-wrap:wrap}
-.lang{display:inline-flex; border:1px solid rgba(255,255,255,.45); border-radius:999px; overflow:hidden}
-.lang button{font:600 12px var(--font-ui); background:transparent; color:#fff; border:0; padding:5px 12px; cursor:pointer}
-.lang button[aria-pressed="true"]{background:#fff; color:#0A4A3A}
-.btn{font:600 13.5px var(--font-ui); border-radius:999px; padding:8px 16px; cursor:pointer; border:1px solid transparent; display:inline-flex; align-items:center; gap:8px}
-.btn-gold{background:#D4890A; color:#fff}
-.btn-gold:hover{background:#B87508}
-.wrap{max-width:1180px; margin:0 auto; padding:24px 16px 48px; display:flex; flex-direction:column; gap:20px}
-header.hero{display:flex; flex-direction:column; gap:6px}
-.eyebrow{font-size:12px; letter-spacing:.1em; text-transform:uppercase; color:var(--accent); font-weight:700}
-h1{font-family:var(--font-head); font-size:clamp(26px,3.4vw,36px); line-height:1.1; margin:0; text-wrap:balance; color:var(--deep)}
-.lede{margin:0; color:var(--muted); max-width:72ch}
-.notice{background:var(--gold-soft); border:1px solid var(--line); border-left:4px solid var(--gold); border-radius:var(--r); padding:10px 14px; font-size:13.5px}
-.notice b{color:var(--warn)}
-.grid{display:grid; grid-template-columns:minmax(0,1fr) minmax(0,1.1fr); gap:20px; align-items:start}
-@media (max-width:920px){.grid{grid-template-columns:minmax(0,1fr)}}
-.col{display:flex; flex-direction:column; gap:16px; min-width:0}
-.panel{background:var(--surface); border:1px solid var(--line); border-radius:var(--r); padding:18px; display:flex; flex-direction:column; gap:14px; min-width:0}
-.panel h2{font-family:var(--font-head); font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:var(--deep); margin:0; font-weight:700}
-.fields{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:12px}
-@media (max-width:480px){.fields{grid-template-columns:minmax(0,1fr)}}
+html{background:var(--bg)}
+body{margin:0; background:var(--bg); color:var(--ink); font-family:var(--serif); font-size:17px; line-height:1.5}
+a{color:var(--brick)}
+.topbar{border-bottom:2px solid var(--rule-strong); padding:14px 16px}
+.topbar-in{max-width:980px; margin:0 0 0 max(16px, calc((100vw - 980px)/2 - 120px)); display:flex; align-items:center; justify-content:space-between; gap:12px; flex-wrap:wrap}
+.logo{font:800 20px var(--sans); color:var(--ink); text-decoration:none; letter-spacing:-.01em}
+.logo b{color:var(--brick); font-weight:800}
+.logo small{font:600 12px var(--sans); color:var(--grey); margin-left:6px}
+.top-actions{display:flex; gap:14px; align-items:center; flex-wrap:wrap}
+.lang{display:inline-flex; gap:2px}
+.lang button{font:600 14px var(--sans); background:none; color:var(--grey); border:0; border-bottom:2px solid transparent; padding:4px 6px; cursor:pointer}
+.lang button[aria-pressed="true"]{color:var(--ink); border-bottom-color:var(--brick)}
+.btn{font:600 14px var(--sans); padding:8px 14px; cursor:pointer; border:1.5px solid var(--ink); background:none; color:var(--ink)}
+.btn:hover{background:var(--ink); color:var(--bg)}
+.wrap{max-width:980px; margin:0 0 0 max(16px, calc((100vw - 980px)/2 - 120px)); padding:36px 16px 72px; display:flex; flex-direction:column; gap:28px}
+header.hero{display:flex; flex-direction:column; gap:10px; max-width:760px}
+.eyebrow{font:600 14px var(--sans); color:var(--grey)}
+h1{font:800 clamp(30px,4.2vw,44px)/1.05 var(--sans); letter-spacing:-.015em; margin:0}
+.lede{margin:0; color:var(--ink-2); font-size:19px}
+.facts{font:600 14px var(--sans); color:var(--ink-2); margin:4px 0 0}
+.notice{font-size:15px; color:var(--ink-2); font-style:italic; max-width:760px}
+.notice b{font-style:normal; font-family:var(--sans)}
+.how{border-top:2px solid var(--rule-strong); padding-top:14px}
+.how h2{font:800 15px var(--sans); margin:0 0 12px; color:var(--ink)}
+.how ol{list-style:none; margin:0; padding:0; display:grid; grid-template-columns:repeat(6,minmax(0,1fr)); gap:0}
+.how li{padding:0 14px 0 0; margin-right:14px; border-right:1px solid var(--rule); font-size:14.5px; line-height:1.35; color:var(--ink-2)}
+.how li:last-child{border-right:0; margin-right:0}
+.how li b{display:block; font:800 30px/1 var(--sans); color:var(--brick); margin-bottom:6px}
+.how li:last-child b{color:var(--ochre)}
+.how li strong{display:block; font:800 15px/1.2 var(--sans); color:var(--ink); margin-bottom:4px}
+@media (max-width:820px){.how ol{grid-template-columns:repeat(2,minmax(0,1fr)); row-gap:16px}.how li:nth-child(2n){border-right:0}}
+@media (max-width:420px){.how ol{grid-template-columns:minmax(0,1fr)}.how li{border-right:0}}
+.status-line{border:0; border-top:2px solid var(--rule-strong); border-bottom:1px solid var(--rule); padding:12px 0; display:flex; flex-wrap:wrap; gap:6px 18px; align-items:baseline; font-family:var(--sans)}
+.status-line .lab{font-weight:600; font-size:13px; color:var(--grey)}
+.status-line .val{font-weight:800; font-size:17px}
+.status-line .miss{font-size:14px; color:var(--ink-2); flex-basis:100%}
+.grid{display:flex; flex-direction:column; gap:28px}
+.col{display:flex; flex-direction:column; gap:28px; min-width:0}
+.panel{border-top:1px solid var(--rule-strong); padding-top:14px; display:flex; flex-direction:column; gap:14px; min-width:0}
+.panel h2, .step-h{font:800 22px/1.15 var(--sans); margin:0; letter-spacing:-.005em}
+.fields{display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:14px 24px; max-width:760px}
+@media (max-width:560px){.fields{grid-template-columns:minmax(0,1fr)}}
 .field{display:flex; flex-direction:column; gap:4px; min-width:0}
 .field.full{grid-column:1/-1}
-label{font-size:12.5px; color:var(--muted); font-weight:500}
-input,select{font:inherit; font-size:14px; color:var(--fg); background:var(--surface-2); border:1px solid var(--line); border-radius:8px; padding:8px 10px; width:100%; min-width:0}
-input[type=checkbox]{width:auto; accent-color:var(--accent)}
-input[type=number]{font-family:var(--font-data); font-variant-numeric:tabular-nums}
-input:focus-visible,select:focus-visible,button:focus-visible{outline:2px solid var(--gold); outline-offset:2px}
-.hint{font-size:12px; color:var(--muted)}
-.tag{display:inline-block; font-size:10.5px; font-weight:600; letter-spacing:.04em; text-transform:uppercase; padding:1px 7px; border-radius:999px; vertical-align:middle; white-space:nowrap}
-.tag.prov{background:var(--warn-soft); color:var(--warn); border:1px solid var(--warn)}
-.tag.real{background:var(--accent-soft); color:var(--accent); border:1px solid var(--accent)}
-.tag.est{background:var(--surface-2); color:var(--muted); border:1px solid var(--line)}
-.seg{display:grid; grid-template-columns:1fr 1fr; background:var(--surface); border:1px solid var(--line); border-radius:12px; padding:4px; gap:4px}
-.seg button{font:inherit; font-size:14px; border:0; border-radius:9px; padding:10px; background:transparent; color:var(--muted); cursor:pointer; font-weight:500}
-.seg button[aria-pressed="true"]{background:#0A4A3A; color:#fff; font-weight:600}
-.measure{border:1px solid var(--line); border-radius:10px; overflow:hidden}
-.measure.on{border-color:var(--accent)}
-.m-head{display:flex; gap:10px; align-items:center; padding:10px 12px; background:var(--surface-2); cursor:pointer; font-size:14px; font-weight:500}
-.measure.on .m-head{background:var(--accent-soft)}
-.m-head .code{font-family:var(--font-data); font-size:12.5px; color:var(--muted); margin-left:auto; white-space:nowrap}
-.m-body{padding:12px; display:flex; flex-direction:column; gap:12px; border-top:1px solid var(--line)}
-.checks{display:flex; flex-direction:column; gap:8px}
-.chk{display:flex; gap:8px; align-items:flex-start; font-size:13.5px; border:1px solid var(--line); border-radius:8px; padding:8px 10px; background:var(--surface-2)}
-.chk input{margin-top:3px}
-.chk .num{margin-left:auto}
-.dnsh{display:flex; flex-direction:column; gap:8px}
-.dnsh-row{display:grid; grid-template-columns:minmax(0,1fr) 150px; gap:10px; align-items:center; font-size:13.5px}
+label{font:600 14px var(--sans); color:var(--ink-2)}
+input,select{font:400 16px var(--sans); color:var(--ink); background:var(--paper); border:0; border-bottom:1.5px solid var(--ink); border-radius:0; padding:7px 8px; width:100%; min-width:0}
+input[type=checkbox]{width:auto; accent-color:var(--brick)}
+input[type=number]{font-variant-numeric:tabular-nums}
+input:focus-visible,select:focus-visible,button:focus-visible,summary:focus-visible{outline:2px solid var(--ochre); outline-offset:2px}
+.hint{font-size:14px; color:var(--grey); font-style:italic}
+.tag{font:italic 400 13px var(--serif); color:var(--grey); white-space:nowrap}
+.tag::before{content:"("}.tag::after{content:")"}
+.tag.prov{color:var(--ochre)}
+.tag.real{color:var(--green)}
+.seg{display:flex; gap:24px; flex-wrap:wrap}
+.seg button{font:600 17px var(--sans); border:0; border-bottom:2px solid var(--rule); background:none; color:var(--grey); padding:6px 0; cursor:pointer}
+.seg button[aria-pressed="true"]{color:var(--ink); border-bottom-color:var(--brick)}
+.measure{border-bottom:1px solid var(--rule)}
+.m-head{display:flex; gap:10px; align-items:center; padding:10px 0; cursor:pointer; font:600 16px var(--sans); color:var(--ink)}
+.m-head .code{font:400 14px var(--sans); color:var(--grey); margin-left:auto; white-space:nowrap}
+.m-body{padding:4px 0 16px 26px; display:flex; flex-direction:column; gap:12px}
+.checks{display:flex; flex-direction:column; gap:2px}
+.chk{display:flex; gap:10px; align-items:flex-start; font:400 15.5px var(--serif); padding:6px 0; border-bottom:1px dotted var(--rule)}
+.chk input{margin-top:4px}
+.dnsh{display:flex; flex-direction:column}
+.dnsh-row{display:grid; grid-template-columns:minmax(0,1fr) 170px; gap:12px; align-items:center; font-size:15.5px; padding:6px 0; border-bottom:1px dotted var(--rule)}
+.dnsh-row label{font:400 15.5px var(--serif); color:var(--ink)}
 @media (max-width:480px){.dnsh-row{grid-template-columns:minmax(0,1fr)}}
-/* Bank file */
-.cert{background:var(--surface); border:2px solid var(--accent); border-radius:14px; overflow:hidden; min-width:0; box-shadow:0 6px 20px rgba(10,74,58,.10)}
-.cert-head{padding:16px 20px; display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:flex-start; background:linear-gradient(135deg,#0A4A3A,#1A7A5E); color:#fff}
-.cert-head .eyebrow{color:#BFE9D6}
-.cert-head h2{margin:2px 0 0; font-family:var(--font-head); font-size:20px}
-.cert-ref{font-family:var(--font-data); font-size:12px; text-align:right; opacity:.9}
-.verdict{margin:16px 20px 0; border-radius:10px; padding:14px 16px; display:flex; gap:12px; align-items:flex-start; border:1px solid}
-.verdict .big{font-size:16.5px; font-weight:700}
-.verdict .sub{font-size:13px}
-.verdict.ok{background:var(--good-soft); border-color:var(--good)} .verdict.ok .big{color:var(--good)}
-.verdict.no{background:var(--bad-soft); border-color:var(--bad)} .verdict.no .big{color:var(--bad)}
-.verdict.tbd{background:var(--warn-soft); border-color:var(--warn)} .verdict.tbd .big{color:var(--warn)}
-.dot{width:14px; height:14px; border-radius:50%; flex:none; margin-top:4px}
-.verdict.ok .dot{background:var(--good)} .verdict.no .dot{background:var(--bad)} .verdict.tbd .dot{background:var(--warn)}
-.steps{margin:12px 20px 0; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); gap:8px}
-@media (max-width:920px){.steps{grid-template-columns:repeat(3,minmax(0,1fr))}}
-.step.bank{border-style:dashed; background:var(--surface-2)}
-.annex{border-top:2px solid var(--line); padding:16px 20px 8px; display:flex; flex-direction:column; gap:8px}
-.annex h3{margin:0; font-family:var(--font-head); font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:var(--deep)}
-.annex .hint{margin:0}
-.annex dl.rows{padding:0}
-.amount{margin:12px 20px 0; display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap; border:1px solid var(--line); border-radius:10px; padding:10px 14px; background:var(--surface-2)}
-.amount .k{font-size:13px; color:var(--muted)}
-.gc{border-top:2px solid var(--line); padding:16px 20px 8px; display:flex; flex-direction:column; gap:10px}
-.gc h3{margin:0; font-family:var(--font-head); font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:var(--deep)}
-.gc-m{border:1px solid var(--line); border-radius:10px; overflow:hidden}
-.gc-m .gc-h{display:flex; justify-content:space-between; gap:8px; padding:8px 12px; background:var(--surface-2); font-weight:600; font-size:13.5px}
-.gc-m .gc-h .num{font-weight:500; color:var(--muted)}
-.gc-m table{width:100%; border-collapse:collapse; font-size:12.5px}
-.gc-m td{padding:6px 12px; border-top:1px solid var(--line); vertical-align:top}
-.gc-m td:first-child{color:var(--muted); width:58%}
-.gc-m td.todo{color:var(--warn)}
-details.panel summary{cursor:pointer; font-family:var(--font-head); font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:var(--deep); font-weight:700}
-@media (max-width:480px){.steps{grid-template-columns:minmax(0,1fr)}}
-@media print{.annex.off{display:none!important}}
-.step{border:1px solid var(--line); border-radius:8px; padding:8px 10px; display:flex; flex-direction:column; gap:4px; font-size:12.5px; min-width:0}
-.step .k{color:var(--muted)}
-dl.rows{margin:0; padding:8px 20px 4px; display:flex; flex-direction:column}
-.r{display:grid; grid-template-columns:minmax(0,180px) minmax(0,1fr); gap:12px; padding:11px 0; border-bottom:1px solid var(--line)}
+details.panel summary{cursor:pointer; font:800 22px var(--sans); list-style:none}
+details.panel summary::before{content:"+ "; color:var(--brick)}
+details.panel[open] summary::before{content:"− "}
+/* The file, laid out as a document */
+.cert{background:var(--paper); border-top:3px solid var(--rule-strong); padding:22px 26px 6px; min-width:0}
+@media (max-width:560px){.cert{padding:18px 14px 4px}}
+.cert-head{display:flex; justify-content:space-between; gap:12px; flex-wrap:wrap; align-items:baseline; border-bottom:1px solid var(--rule); padding-bottom:12px}
+.cert-head .eyebrow{color:var(--brick)}
+.cert-head h2{margin:2px 0 0; font:800 26px/1.1 var(--sans)}
+.cert-ref{font:400 13px var(--sans); color:var(--grey); text-align:right}
+.verdict{margin:16px 0 0; padding:0; display:block}
+.verdict .big{font:800 21px/1.2 var(--sans)}
+.verdict .sub{font-size:15.5px; color:var(--ink-2); margin-top:4px}
+.verdict.ok .big{color:var(--green)} .verdict.no .big{color:var(--bad)} .verdict.tbd .big{color:var(--ochre)}
+.dot{display:none}
+.steps{margin:16px 0 0; display:grid; grid-template-columns:repeat(5,minmax(0,1fr)); border-top:1px solid var(--rule); border-bottom:1px solid var(--rule)}
+@media (max-width:720px){.steps{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.step{padding:8px 10px 8px 0; display:flex; flex-direction:column; gap:2px; font:400 14px var(--sans); min-width:0}
+.step .k{color:var(--grey); font-weight:600}
+.step.bank .k{color:var(--ochre)}
+.amount{margin:14px 0 0; display:flex; justify-content:space-between; gap:12px; align-items:baseline; flex-wrap:wrap; border-bottom:2px solid var(--rule-strong); padding-bottom:10px}
+.amount .k{font:600 15px var(--sans); color:var(--ink-2)}
+dl.rows{margin:0; padding:6px 0; display:flex; flex-direction:column}
+.r{display:grid; grid-template-columns:minmax(0,200px) minmax(0,1fr); gap:16px; padding:11px 0; border-bottom:1px solid var(--rule)}
 .r:last-child{border-bottom:0}
-@media (max-width:480px){.r{grid-template-columns:minmax(0,1fr); gap:2px}}
-.r dt{font-size:12.5px; color:var(--muted); font-weight:500}
-.r dd{margin:0; font-size:14px; min-width:0}
-.num{font-family:var(--font-data); font-variant-numeric:tabular-nums}
-.big-num{font-family:var(--font-data); font-size:19px; font-weight:600; color:var(--deep)}
-.formula{font-family:var(--font-data); font-size:12px; color:var(--muted); background:var(--surface-2); border-radius:6px; padding:8px 10px; margin-top:6px; overflow-x:auto; white-space:nowrap}
-.state{display:inline-flex; align-items:center; gap:6px; font-size:12px; font-weight:600; padding:1px 9px; border-radius:999px; white-space:nowrap}
-.state.ok{background:var(--good-soft); color:var(--good)} .state.no{background:var(--bad-soft); color:var(--bad)} .state.tbd{background:var(--warn-soft); color:var(--warn)} .state.na{background:var(--surface-2); color:var(--muted)}
-.lines{list-style:none; margin:4px 0 0; padding:0; display:flex; flex-direction:column; gap:6px; font-size:13.5px}
-.lines li{display:flex; gap:8px; justify-content:space-between; align-items:flex-start}
-.docs{list-style:none; margin:4px 0 0; padding:0; display:flex; flex-direction:column; gap:4px; font-size:13.5px}
-.docs li{display:flex; gap:8px} .docs li::before{content:"□"; color:var(--muted)}
-.alert{font-size:13px; border-left:3px solid var(--warn); padding:4px 10px; background:var(--warn-soft); border-radius:0 6px 6px 0; margin-top:6px}
-.alert.bad{border-color:var(--bad); background:var(--bad-soft)}
-.junta{border-top:1px solid var(--line); padding:16px 20px 20px; display:flex; flex-direction:column; gap:12px}
-.junta h3{margin:0; font-family:var(--font-head); font-size:14px; letter-spacing:.06em; text-transform:uppercase; color:var(--deep)}
-.tiles{display:grid; grid-template-columns:repeat(3,minmax(0,1fr)); gap:10px}
-@media (max-width:480px){.tiles{grid-template-columns:minmax(0,1fr)}}
-.tile{background:var(--surface-2); border-radius:8px; padding:10px 12px; display:flex; flex-direction:column; gap:2px; min-width:0}
-.tile .k{font-size:12px; color:var(--muted)}
-.tile .v{font-family:var(--font-data); font-size:18px; font-variant-numeric:tabular-nums; color:var(--deep); font-weight:600}
-.junta ul{margin:0; padding-left:18px; font-size:12.5px; color:var(--muted); display:flex; flex-direction:column; gap:3px}
-.foot{font-size:12px; color:var(--muted); padding:14px 20px 18px; border-top:1px solid var(--line); display:flex; flex-direction:column; gap:6px}
-.foot a{color:var(--accent)}
-.disclaimer{font-weight:600; color:var(--fg)}
+@media (max-width:560px){.r{grid-template-columns:minmax(0,1fr); gap:2px}}
+.r dt{font:600 14px var(--sans); color:var(--ink-2)}
+.r dd{margin:0; font-size:16px; min-width:0}
+.num{font-family:var(--sans); font-variant-numeric:tabular-nums}
+.big-num{font:800 22px var(--sans); font-variant-numeric:tabular-nums}
+.formula{font:400 13.5px var(--sans); color:var(--grey); margin-top:4px; overflow-wrap:anywhere}
+.state{font:600 14px var(--sans); white-space:nowrap}
+.state::before{margin-right:5px}
+.state.ok{color:var(--green)} .state.ok::before{content:"✓"}
+.state.no{color:var(--bad)} .state.no::before{content:"✕"}
+.state.tbd{color:var(--ochre)} .state.tbd::before{content:"○"}
+.state.na{color:var(--grey)}
+.lines{list-style:none; margin:2px 0 0; padding:0; display:flex; flex-direction:column; gap:6px; font-size:15.5px}
+.lines li{display:flex; gap:12px; justify-content:space-between; align-items:flex-start}
+.docs{list-style:none; margin:2px 0 0; padding:0; display:flex; flex-direction:column; gap:3px; font-size:15.5px}
+.docs li{display:flex; gap:8px} .docs li::before{content:"□"; color:var(--grey); font-family:var(--sans)}
+.alert{font-size:15px; font-style:italic; color:var(--ink-2); margin-top:6px}
+.alert::before{content:"Note: "; font-style:normal; font-family:var(--sans); font-weight:600; color:var(--ochre)}
+html[lang="es"] .alert::before{content:"Nota: "}
+.alert.bad::before{color:var(--bad)}
+.gc, .annex{border-top:1px solid var(--rule-strong); padding:14px 0 8px; display:flex; flex-direction:column; gap:10px}
+.gc summary, .annex h3{font:800 18px var(--sans); margin:0; cursor:pointer}
+.annex h3{cursor:default}
+.gc summary{list-style:none} .gc summary::before{content:"+ "; color:var(--brick)} .gc[open] summary::before{content:"− "}
+.gc-m{border-top:1px solid var(--rule)}
+.gc-m .gc-h{display:flex; justify-content:space-between; gap:8px; padding:8px 0 4px; font:800 15.5px var(--sans)}
+.gc-m .gc-h .num{font-weight:400; color:var(--grey)}
+.gc-m table{width:100%; border-collapse:collapse; font-size:14.5px}
+.gc-m td{padding:5px 0; border-top:1px dotted var(--rule); vertical-align:top}
+.gc-m td:first-child{color:var(--ink-2); width:58%; padding-right:14px}
+.gc-m td.num{font-weight:600}
+.gc-m td.todo{color:var(--ochre); font-style:italic}
+.foot{font-size:14px; color:var(--grey); padding:14px 0 18px; border-top:1px solid var(--rule); display:flex; flex-direction:column; gap:6px}
+.disclaimer{font-weight:600; color:var(--ink); font-style:normal}
 .print-only{display:none}
 @media print{
   @page{size:A4; margin:14mm 12mm}
-  html{-webkit-print-color-adjust:exact; print-color-adjust:exact}
-  :root{--bg:#fff; --surface:#fff; --surface-2:#F3F8F5; --line:#D5E6DD; --fg:#0D1F1A; --muted:#51625A; --deep:#0A4A3A; --accent:#1A7A5E}
-  body{background:#fff; font-size:12px}
-  .topbar,header.hero,.notice,.col.inputs,.no-print{display:none!important}
-  .wrap{padding:0; max-width:none}
-  .grid{display:block}
-  .cert{border:1px solid #1A7A5E; box-shadow:none; break-inside:auto}
+  :root{--bg:#fff; --paper:#fff}
+  body{background:#fff; font-size:11.5pt}
+  .topbar,header.hero,.notice,.how,.status-line,.col.inputs,.no-print{display:none!important}
+  .wrap{padding:0; max-width:none; margin:0}
+  .cert{padding:0; border-top:2px solid #000}
+  .gc{display:flex} .gc>*{display:block}
   .r{break-inside:avoid}
   .print-only{display:block}
-  .formula{white-space:normal}
 }
 </style>
 </head>
@@ -171,7 +171,7 @@ dl.rows{margin:0; padding:8px 20px 4px; display:flex; flex-direction:column}
   <div class="topbar-in">
     <a class="logo" href="https://retrofin.es">Retro<b>Fin</b><small>AI</small></a>
     <div class="top-actions">
-      <button class="btn btn-gold" id="b-print" type="button" data-i="print">Descargar expediente (PDF)</button>
+      <button class="btn" id="b-print" type="button" data-i="print">Imprimir o guardar en PDF</button>
       <div class="lang" role="group" aria-label="Idioma / Language">
         <button type="button" id="l-en" aria-pressed="true">EN</button><button type="button" id="l-es" aria-pressed="false">ES</button>
       </div>
@@ -183,8 +183,23 @@ dl.rows{margin:0; padding:8px 20px 4px; display:flex; flex-direction:column}
   <header class="hero">
     <div class="eyebrow" data-i="eyebrow">RetroFin AI · prototipo</div>
     <h1 data-i="title">Selector Verde de Rehabilitación</h1>
-    <p class="lede" data-i="lede">Prepara la evidencia para que el banco evalúe si el préstamo de una obra en una comunidad de propietarios puede considerarse verde, y estima los CAE de la actuación.</p>
+    <p class="lede" data-i="lede"></p>
+    <p class="facts" id="facts"></p>
   </header>
+
+  <section class="how" aria-labelledby="h-how">
+    <h2 id="h-how" data-i="how_t">Seis pasos, de la obra a la decisión del banco</h2>
+    <ol>
+      <li><b>1</b><strong data-i="how1">Comunidad y obra</strong><span data-i="how1d">Edificio, viviendas y presupuesto</span></li>
+      <li><b>2</b><strong data-i="how2">Vía</strong><span data-i="how2d">Edificio completo o por medidas</span></li>
+      <li><b>3</b><strong data-i="how3">Criterio técnico</strong><span data-i="how3d">Taxonomía UE 7.2 a 7.6</span></li>
+      <li><b>4</b><strong data-i="how4">DNSH</strong><span data-i="how4d">No causar daño significativo</span></li>
+      <li><b>5</b><strong data-i="how5">Expediente</strong><span data-i="how5d">Veredicto, importe y datos para el BEI</span></li>
+      <li><b>6</b><strong data-i="how6">Decisión de la entidad</strong><span data-i="how6d">Con sus propios criterios</span></li>
+    </ol>
+  </section>
+
+  <div class="status-line" id="status-line" aria-live="polite"><span class="lab" data-i="now">Estado del expediente</span><span class="val" id="top-v"></span><span class="miss" id="top-miss"></span></div>
 
   <div class="notice" role="note" data-i-html="notice"></div>
 
@@ -205,11 +220,13 @@ dl.rows{margin:0; padding:8px 20px 4px; display:flex; flex-direction:column}
         </div>
       </section>
 
-      <div class="hint" style="margin:-6px 0 -10px" data-i="h_route">2. Elija la vía</div>
+      <section class="panel" aria-labelledby="h-route">
+      <h2 id="h-route" data-i="h_route">2. Vía</h2>
       <div class="seg" role="group" aria-label="Vía">
         <button type="button" id="b-rapida" aria-pressed="true" data-i="route_m">Por medidas</button>
         <button type="button" id="b-edif" aria-pressed="false" data-i="route_b">Edificio completo</button>
       </div>
+      </section>
 
       <section class="panel" id="p-rapida" aria-labelledby="h-rap">
         <h2 id="h-rap" data-i="h_meas">3. Criterio técnico: medidas</h2>
@@ -235,7 +252,7 @@ dl.rows{margin:0; padding:8px 20px 4px; display:flex; flex-direction:column}
       <section class="panel" aria-labelledby="h-dnsh">
         <h2 id="h-dnsh" data-i="h_dnsh">4. No causar daño significativo (DNSH)</h2>
         <div class="dnsh" id="dnsh"></div>
-        <span class="hint" data-i="dnsh_h">Resumen basado en documentación de la Comisión y guías sectoriales; el texto del acto delegado no se ha contrastado todavía.</span>
+        <span class="hint" data-i-html="dnsh_h"></span>
       </section>
 
       <details class="panel" id="annex-in">
@@ -250,8 +267,9 @@ dl.rows{margin:0; padding:8px 20px 4px; display:flex; flex-direction:column}
           <div class="field"><label for="e-dem" data-i="e_dem">Reducción de demanda de calefacción y refrigeración (%)</label><input id="e-dem" type="number" min="0" max="100"></div>
           <div class="field"><label for="e-efb" data-i="e_efb">Energía final antes (kWh/año)</label><input id="e-efb" type="number" min="0"><span class="hint" data-i="e_efb_h">Edificio completo: CAE con RES080</span></div>
           <div class="field"><label for="e-efa" data-i="e_efa">Energía final después (kWh/año)</label><input id="e-efa" type="number" min="0"></div>
-          <div class="field"><label for="f-price"><span data-i="f_price">Precio de referencia (€/MWh)</span> <span class="tag prov" data-i="prov">provisional</span></label><input id="f-price" type="number" min="0" step="5" value="125"><span class="hint" data-i="f_price_h">Rango indicativo 115–140 €/MWh; no hay índice oficial</span></div>
-          <div class="field"><label for="f-net"><span data-i="f_net">Parte neta para la comunidad (%)</span> <span class="tag prov" data-i="prov">provisional</span></label><input id="f-net" type="number" min="0" max="100" step="1" value="85"><span class="hint" data-i="f_net_h">Tras comisiones del sujeto delegado</span></div>
+          <div class="field"><label for="f-pmin"><span data-i="f_pmin">Precio del CAE, mínimo (€/MWh)</span></label><input id="f-pmin" type="number" min="0" step="5" value="115"></div>
+          <div class="field"><label for="f-pmax"><span data-i="f_pmax">Precio del CAE, máximo (€/MWh)</span></label><input id="f-pmax" type="number" min="0" step="5" value="140"><span class="hint" data-i="f_price_h">No hay índice oficial: se muestra un rango</span></div>
+          <div class="field"><label for="f-net"><span data-i="f_net">Parte neta para la comunidad (%)</span></label><input id="f-net" type="number" min="0" max="100" step="1" value="85"><span class="hint" data-i="f_net_h">Tras comisiones del sujeto delegado</span></div>
         </div>
         <span class="hint" data-i="fnee_h">Equivalencia financiera FNEE 2026: 198,62 €/MWh (Orden TED/133/2026). Es lo que paga el sujeto obligado al Fondo, no el precio que recibe el propietario.</span>
       </details>
@@ -265,19 +283,19 @@ dl.rows{margin:0; padding:8px 20px 4px; display:flex; flex-direction:column}
         </div>
         <div class="verdict tbd" id="verdict" aria-live="polite"><span class="dot"></span><div><div class="big" id="v-big"></div><div class="sub" id="v-sub"></div></div></div>
         <div class="steps">
-          <div class="step"><span class="k" data-i="s0">2. Vía</span><span id="s0"></span></div>
-          <div class="step"><span class="k" data-i="s1">3. Criterio técnico</span><span id="s1"></span></div>
-          <div class="step"><span class="k" data-i="s2">4. DNSH</span><span id="s2"></span></div>
-          <div class="step"><span class="k" data-i="s4">5. Expediente</span><span id="s4"></span></div>
-          <div class="step bank"><span class="k" data-i="s3">6. Validación del banco</span><span id="s3"></span></div>
+          <div class="step"><span class="k" data-i="s0">Vía</span><span id="s0"></span></div>
+          <div class="step"><span class="k" data-i="s1">Criterio técnico</span><span id="s1"></span></div>
+          <div class="step"><span class="k" data-i="s2">DNSH</span><span id="s2"></span></div>
+          <div class="step"><span class="k" data-i="s4">Expediente</span><span id="s4"></span></div>
+          <div class="step bank"><span class="k" data-i="s3">Decisión</span><span id="s3"></span></div>
         </div>
         <div class="amount"><span class="k" data-i="amt">Importe del préstamo atribuible a medidas elegibles</span><span class="big-num" id="amt"></span></div>
         <dl class="rows" id="rows"></dl>
-        <div class="gc" id="gc">
-          <h3 data-i="gc_t">Datos para el Green Checker del BEI</h3>
+        <details class="gc" id="gc">
+          <summary data-i="gc_t">Datos para el Green Checker del BEI</summary>
           <p class="hint" style="margin:0" data-i-html="gc_h"></p>
           <div id="gc-list" style="display:flex;flex-direction:column;gap:10px"></div>
-        </div>
+        </details>
         <div class="annex" id="annex">
           <h3 data-i="annex_t">Anexo opcional: fuentes de devolución</h3>
           <p class="hint" data-i="annex_h">Fuera de la clasificación verde. Ayudas y certificados de ahorro energético (CAE) que reducen el importe a financiar o ayudan a devolverlo.</p>
@@ -517,6 +535,55 @@ en:{
 }};
 const t = k => (I[lang][k] ?? I.es[k] ?? k);
 
+
+/* ---------- Text overrides, 6 Nov 2026: one name for the tool and the file, owners' community, sourced DNSH ---------- */
+Object.assign(I.es, {
+  print:'Imprimir o guardar en PDF', eyebrow:'RetroFin AI · prototipo para entidades financieras', title:'Selector Verde',
+  lede:'Prepara el expediente de cribado verde de un préstamo para rehabilitar un edificio de viviendas: vía, criterio técnico de la taxonomía UE y DNSH. Las ayudas y los CAE van aparte, como fuentes de devolución.',
+  notice:'<b>Prototipo.</b> El caso de Marcelo Usera 51 es el de la demo de RetroFin; los datos marcados <span class="tag est">estimación</span> son supuestos hasta tener el certificado energético del arquitecto.',
+  how_t:'Seis pasos, de la obra a la decisión de la entidad', how1:'Comunidad y obra', how1d:'Edificio, viviendas y presupuesto', how2:'Vía', how2d:'Edificio completo (7.2) o por medidas (7.3 a 7.6)',
+  how3:'Criterio técnico', how3d:'Taxonomía UE: lo que hace verde el préstamo', how4:'DNSH', how4d:'No causar daño significativo', how5:'Expediente', how5d:'Veredicto, importe y datos para el BEI', how6:'Decisión de la entidad', how6d:'Con sus propios criterios',
+  now:'Estado del expediente', missing:'Falta', nothing_missing:'No falta nada por parte de la comunidad; decide la entidad.',
+  h_com:'1. Comunidad de propietarios y obra', h_route:'2. Vía', name:'Comunidad de propietarios',
+  cost_h_usera:'Cifra orientativa de la demo; se sustituye por los tres presupuestos de constructora.',
+  h_meas:'3. Criterio técnico, por medidas', meas_h:'Marque las medidas de la obra. El veredicto usa solo los requisitos de la taxonomía; los de las fichas CAE van al anexo.',
+  h_build:'3. Criterio técnico, edificio completo', h_dnsh:'4. No causar daño significativo (DNSH)',
+  dnsh_h:'Criterios DNSH de las actividades 7.2 y 7.3 del anexo I del <a href="https://eur-lex.europa.eu/eli/reg_del/2021/2139/oj" target="_blank" rel="noopener">Reglamento Delegado (UE) 2021/2139</a>.',
+  d_water:'Grifería y sanitarios nuevos dentro de los caudales del apéndice E (solo si se instalan)',
+  h_fin:'Anexo opcional: fuentes de devolución', f_pmin:'Precio del CAE, mínimo (€/MWh)', f_pmax:'Precio del CAE, máximo (€/MWh)', f_price_h:'No hay índice oficial: se muestra un rango',
+  for_bank:'Para la entidad financiera', cert_t:'Expediente de cribado verde (preliminar)', s0:'Vía', s1:'Criterio técnico', s2:'DNSH', s4:'Expediente', s3:'Decisión', bank_side:'De la entidad',
+  r_tax:'Taxonomía UE', r_cae_req:'Requisitos de la ficha CAE', tax_cte:'El elemento cumple los mínimos del CTE (taxonomía 7.3)',
+  v_ok:'Cumple el criterio técnico de la taxonomía', v_no:'No cumple el criterio técnico de la taxonomía', v_tbd:'Faltan datos para el criterio técnico',
+  r_bank:'Criterios de la entidad', bank2:'GAR (green asset ratio): falta criterio publicado sobre si una comunidad de propietarios cuenta como hogar o como empresa no sujeta a la CSRD',
+  gross:'Valor bruto', net_c:'neto para la comunidad', range_note:'rango de precio',
+  gc_t:'Datos para el Green Checker del BEI', gc_h:'Si el préstamo se financia con una línea verde del BEI, la entidad puede evaluarlo en el <a href="https://greenchecker.eib-group.org/eib-green" target="_blank" rel="noopener">Green Checker del Grupo BEI</a> (Assess green investments, una evaluación por comunidad). Las preguntas se muestran en su texto original en inglés, con los datos de este expediente; lo que va en cursiva se completa allí. Leídas el 6 de noviembre de 2026.',
+  ref_demo:'caso de la demo', region_todo:'completar', ok_given:'Aportado'
+});
+Object.assign(I.en, {
+  print:'Print or save as PDF', eyebrow:'RetroFin AI · prototype for lenders', title:'Green Selector',
+  lede:'Prepares the green screening file for a loan to renovate an apartment building: route, EU taxonomy technical criterion and DNSH. Grants and energy-savings certificates (CAE) are kept apart, as repayment sources.',
+  notice:'<b>Prototype.</b> Marcelo Usera 51 is the RetroFin demo case; figures marked <span class="tag est">estimate</span> are assumptions until the architect issues the energy certificate.',
+  how_t:'Six steps, from the works to the lender’s decision', how1:'Community and works', how1d:'Building, homes and budget', how2:'Route', how2d:'Whole building (7.2) or by measure (7.3 to 7.6)',
+  how3:'Technical criterion', how3d:'EU taxonomy: what makes the loan green', how4:'DNSH', how4d:'Do no significant harm', how5:'The file', how5d:'Verdict, amount and data for the EIB', how6:'Lender’s decision', how6d:'Under its own criteria',
+  now:'File status', missing:'Missing', nothing_missing:'Nothing missing on the community’s side; the lender decides.',
+  h_com:'1. Owners’ community and works', h_route:'2. Route', name:'Owners’ community (comunidad de propietarios)', case_free:'Your own building (free input)',
+  cost_h_usera:'Indicative demo figure; replaced by the three builders’ quotes.',
+  h_meas:'3. Technical criterion, by measure', meas_h:'Tick the measures in the works. The verdict uses only the taxonomy requirements; the CAE sheet requirements go to the annex.',
+  h_build:'3. Technical criterion, whole building', h_dnsh:'4. Do no significant harm (DNSH)',
+  dnsh_h:'DNSH criteria for activities 7.2 and 7.3 in Annex I of <a href="https://eur-lex.europa.eu/eli/reg_del/2021/2139/oj" target="_blank" rel="noopener">Delegated Regulation (EU) 2021/2139</a>.',
+  d_water:'New taps and sanitary ware within the Appendix E flow limits (only if installed)',
+  h_fin:'Optional annex: repayment sources', annex_in_h:'They do not change the green classification. They matter to the lender because they reduce the amount to borrow or help repay it.',
+  f_pmin:'CAE price, low (€/MWh)', f_pmax:'CAE price, high (€/MWh)', f_price_h:'There is no official index, so a range is shown', f_net:'Net share for the community (%)',
+  for_bank:'For the lender', cert_t:'Green screening file (preliminary)', s0:'Route', s1:'Technical criterion', s2:'DNSH', s4:'File', s3:'Decision', bank_side:'The lender’s',
+  r_tax:'EU taxonomy', r_cae_req:'CAE sheet requirements', tax_cte:'The component meets the CTE minimum requirements (taxonomy 7.3)',
+  v_ok:'Meets the taxonomy technical criterion', v_no:'Does not meet the taxonomy technical criterion', v_tbd:'Data still missing for the technical criterion',
+  r_bank:'Lender’s criteria', bank2:'GAR (green asset ratio): no published criterion on whether an owners’ community counts as a household or as a company outside the CSRD',
+  gross:'Gross value', net_c:'net for the community', range_note:'price range',
+  annex_h:'Outside the green classification. Grants and energy-savings certificates (CAE) that reduce the amount to finance or help repay it.',
+  ref_demo:'demo case', region_todo:'complete', ok_given:'Provided',
+  notes:['Costs and income are shared by ownership coefficients; the average is indicative.','CAE certify one year of savings and are paid once, after verification, usually months after the works.','A CAE is valid for three years from the end of the works and at most until 31 December 2030.','Tax: a private seller of CAE pays tax as a capital gain (DGT V0478-26); in an owners’ community it is attributed to owners by coefficient, by analogy with V1554-20. Confirm with a tax adviser.','Savings are final energy estimated with the sheet, not euros on the bill.']
+});
+
 /* ---------- Cases ---------- */
 const CASES = {
   usera:{ name:'C. P. Calle de Marcelo Usera 51, Madrid (Usera, ZETU)', zone:'D3', viv:24, s:1840, aid:'other', cost:76300,
@@ -530,13 +597,15 @@ const CASES = {
 /* ---------- Measures (each driven by its official sheet) ---------- */
 /* Each measure: id, code, name{es,en}, fields[], calc(vals, ctx) -> {ae, html, tech:[{label, state}], docs[]} */
 const MEASURES = window.SV_MEASURES || [];
+MEASURES.forEach(m => { if(m.id!=='hp' && !m.fields.some(f=>f.id==='cte')) m.fields.push({id:'cte', type:'check', label:{es:'El elemento cumple los mínimos del CTE (y, si tiene etiqueta, las dos mejores clases)', en:'The component meets the CTE minimum requirements (and, if labelled, the top two classes)'}}); });
+const isTax = x => /taxonom|CTE|ecodise|ecodesign|PCA|GWP/i.test(x.label);
 
 /* ---------- Helpers ---------- */
 const loc = () => lang==='es' ? 'es-ES' : 'en-GB';
-const f0 = x => new Intl.NumberFormat(loc(),{maximumFractionDigits:0}).format(x);
+const f0 = x => new Intl.NumberFormat(loc(),{maximumFractionDigits:0, useGrouping:'always'}).format(x);
 const f1 = x => new Intl.NumberFormat(loc(),{maximumFractionDigits:1,minimumFractionDigits:1}).format(x);
 const f2 = x => new Intl.NumberFormat(loc(),{maximumFractionDigits:3,minimumFractionDigits:2}).format(x);
-const eur = x => new Intl.NumberFormat(loc(),{style:'currency',currency:'EUR',maximumFractionDigits:0}).format(x);
+const eur = x => new Intl.NumberFormat(loc(),{style:'currency',currency:'EUR',maximumFractionDigits:0, useGrouping:'always'}).format(x);
 const v = id => { const el=$(id); if(!el) return 0; const n = parseFloat(String(el.value).replace(',','.')); return isFinite(n) ? n : 0; };
 const st = (k, txt) => `<span class="state ${k}">${txt}</span>`;
 const row = (dt, dd) => `<div class="r"><dt>${dt}</dt><dd>${dd}</dd></div>`;
@@ -568,7 +637,7 @@ function buildMeasures(){
 
 function buildDnsh(){
   const keep = {}; $('dnsh').querySelectorAll('select').forEach(s=>keep[s.id]=s.value);
-  $('dnsh').innerHTML = ['d_clim','d_waste','d_subs','d_asb'].map(k => `<div class="dnsh-row"><label for="${k}">${t(k)}</label><select id="${k}"><option value="pend">${t('pend')}</option><option value="ok">${t('ok_given')}</option><option value="na">${t('na')}</option></select></div>`).join('');
+  $('dnsh').innerHTML = ['d_clim','d_waste','d_subs','d_asb','d_water'].map(k => `<div class="dnsh-row"><label for="${k}">${t(k)}</label><select id="${k}"><option value="pend">${t('pend')}</option><option value="ok">${t('ok_given')}</option><option value="na">${t('na')}</option></select></div>`).join('');
   Object.entries(keep).forEach(([id,val])=>{ $(id).value=val; });
   wire($('dnsh'));
 }
@@ -585,7 +654,7 @@ function loadCase(key){
     $('on-'+m.id).checked = !!p.on; $('on-'+m.id).dispatchEvent(new Event('change'));
     m.fields.forEach(f => { const el=$(m.id+'-'+f.id); if(!el) return; const val = (f.id in p) ? p[f.id] : f.def; if(el.type==='checkbox') el.checked=!!val; else el.value = (val ?? ''); });
   });
-  if(key==='usera'){ $('d-asb') && ($('d-asb').value='pend'); }
+  if($('d_water')) $('d_water').value = 'na';
   render();
 }
 
@@ -603,7 +672,7 @@ function gcMeasure(title, code, fields){
     fields.map(([k, val]) => `<tr><td>${k}</td>${val===null ? `<td class="todo">${t('gc_todo')}</td>` : `<td class="num">${val}</td>`}</tr>`).join('') + '</table></div>';
 }
 const yn = b => b ? 'Yes' : 'No';
-const REGION = () => $('c-zone').value==='D3' ? 'Spain – Comunidad de Madrid (if Madrid)' : 'Spain – ' + (lang==='es'?'región del edificio':'region of the building');
+const REGION = () => $('c-case').value==='usera' ? 'Spain – Comunidad de Madrid' : null;
 function gcFor(m, vals, S, cost){
   const cost_ = `${eur(cost)} (${t('gc_split')})`;
   const epbd = ['What is the investment cost? (optional)', cost_];
@@ -633,7 +702,7 @@ function gcFor(m, vals, S, cost){
     case 'win': return gcMeasure('Window replacement', m.code, [
       ['Do you confirm that the building component, when renovated, will meet the minimum requirements of the national implementation of the EPBD?', null],
       ['Which type of window will be installed?', `${lang==='es'?'elegir según U':'choose from U'} = ${f1(vals.uf)} W/m²K`],
-      ['What is the the total area of the windows that will be replaced? (m²)', f0(vals.s)],
+      ['What is the total area of the windows that will be replaced? (m²)', f0(vals.s)],
       ['Is the space enclosed by the windows actively cooled?', null],
       ['Which energy source is used for heating?', null],
       ['Are the windows equipped with external sun protection devices?', null], epbd]);
@@ -669,11 +738,12 @@ function gcBuilding(S, cost){
 }
 
 function render(){
-  const viv = Math.max(1, v('c-viv')), S = v('c-s'), price = v('f-price'), net = Math.min(100, Math.max(0, v('f-net')))/100, cost = v('c-cost');
+  const viv = Math.max(1, v('c-viv')), S = v('c-s'), pmin = v('f-pmin'), pmax = Math.max(v('f-pmin'), v('f-pmax')), net = Math.min(100, Math.max(0, v('f-net')))/100, cost = v('c-cost');
   const zone = $('c-zone').value, aid = aidBlock();
-  const dn = ['d_clim','d_waste','d_subs','d_asb'].map(id => $(id) ? $(id).value : 'pend');
+  const dnIds = ['d_clim','d_waste','d_subs','d_asb','d_water'];
+  const dn = dnIds.map(id => $(id) ? $(id).value : 'pend');
   const dnDone = dn.every(x => x!=='pend');
-  let gc = '';
+  let gc = ''; const miss = [];
   let html = '', ax = '', sc = 'tbd', sub = '', cae = null, aeAll = null, docs = [], srcs = [];
 
   if(mode==='rapida'){
@@ -683,16 +753,22 @@ function render(){
     on.forEach(m => {
       const vals = {}; m.fields.forEach(f => { const el=$(m.id+'-'+f.id); vals[f.id] = !el ? null : el.type==='checkbox' ? el.checked : (f.type==='select' ? el.value : v(m.id+'-'+f.id)); });
       const r = m.calc(vals, {S, viv, zone, lang, f0, f1, f2, st, t, L});
-      total += Math.max(0, r.ae || 0); states.push(...(r.tech||[]).map(x=>x.state));
+      const tech = r.tech || [];
+      const tax = tech.filter(isTax), caeReq = tech.filter(x => !isTax(x));
+      if(m.id!=='hp' && m.id!=='env') tax.unshift({label: t('tax_cte'), ...(vals.cte ? {state:'ok', text: t('ok_given')} : {state:'tbd', text: t('pend')})});
+      tax.filter(x => x.state!=='ok').forEach(x => miss.push(`${L(m.name)}: ${x.label}`));
+      total += Math.max(0, r.ae || 0); states.push(...tax.map(x=>x.state));
       gc += gcFor(m, vals, S, cost);
-      html += row(`${L(m.name)}<br><span class="num">${m.code}</span> <span class="tag real">${t('official')}</span>`,
-        (r.tech && r.tech.length ? `<ul class="lines">${r.tech.map(x=>`<li><span>${x.label}</span>${st(x.state, x.text)}</li>`).join('')}</ul>` : '') + (r.html||''));
-      ax += row(`${L(m.name)} <span class="num">${m.code}</span>`, `<span class="big-num">${f0(r.ae||0)}</span> <span class="num">${t('per_year')}</span>${estTag()}` + (r.formula ? `<div class="formula">${r.formula}</div>` : ''));
+      html += row(`${L(m.name)}<br><span class="tag">${t('r_tax')}</span>`,
+        `<ul class="lines">${tax.map(x=>`<li><span>${x.label}</span>${st(x.state, x.text)}</li>`).join('')}</ul>` + (r.html||''));
+      ax += row(`${L(m.name)}<br><span class="num">${m.code}</span> <span class="tag real">${t('official')}</span>`,
+        (caeReq.length ? `<ul class="lines">${caeReq.map(x=>`<li><span>${x.label}</span>${st(x.state, x.text)}</li>`).join('')}</ul>` : '')
+        + `<div style="margin-top:6px"><span class="big-num">${f0(r.ae||0)}</span> <span class="num">${t('per_year')}</span>${estTag()}</div>` + (r.formula ? `<div class="formula">${r.formula}</div>` : ''));
       docs.push(...(r.docs||[])); if(m.src) srcs.push(`<a href="${m.src}" target="_blank" rel="noopener">${m.code}</a>`);
     });
     if(on.length){
       sc = states.includes('no') ? 'no' : states.includes('tbd') ? 'tbd' : 'ok';
-      sub = sc==='ok' ? (lang==='es'?'Las medidas seleccionadas cumplen los requisitos técnicos de sus fichas.':'The selected measures meet the technical requirements of their sheets.')
+      sub = sc==='ok' ? (lang==='es'?'Las medidas seleccionadas cumplen los requisitos de la taxonomía.':'The selected measures meet the taxonomy requirements.')
           : sc==='no' ? (lang==='es'?'Al menos una medida no cumple un requisito técnico (ver detalle).':'At least one measure fails a technical requirement (see detail).')
           : (lang==='es'?'Faltan datos o acreditaciones de alguna medida (ver detalle).':'Some measures still lack data or evidence (see detail).');
       aeAll = total; cae = aid.ok ? total : 0;
@@ -705,6 +781,8 @@ function render(){
     const z = zone[0], demReq = (z==='D'||z==='E') ? 35 : z==='C' ? 25 : 0;
     const tax = major || redT >= 0.30, projected = $('e-cert').value==='proj';
     sc = tax ? 'ok' : 'no';
+    if(!tax) miss.push(lang==='es' ? 'Reducción de energía primaria del 30% o rehabilitación importante' : '30% primary energy cut or a major renovation');
+    if(projected) miss.push(lang==='es' ? 'Certificado energético registrado tras la obra' : 'Energy certificate registered after the works');
     sub = tax ? (major ? (lang==='es'?'Rehabilitación importante según la normativa nacional.':'Major renovation under national rules.')
                        : (lang==='es'?`Reducción de energía primaria total del ${f0(redT*100)}%, por encima del 30%.`:`Total primary energy cut of ${f0(redT*100)}%, above 30%.`)) + (projected ? t('projected_tail') : '')
               : (lang==='es'?`Reducción de energía primaria total del ${f0(redT*100)}%: no alcanza el 30%.`:`Total primary energy cut of ${f0(redT*100)}%: below 30%.`);
@@ -734,10 +812,10 @@ function render(){
   }
 
   ax += row(t('r_cae'), (cae===null ? `${lang==='es'?'Se calculan por medida con cada ficha':'Calculated per measure with each sheet'} ${st('tbd', lang==='es'?'Vía «Por medidas»':'“By measure” route')}` :
-    `<span class="big-num">${f0(cae)}</span> CAE <span class="hint">${t('cae_unit')}</span><br>${t('gross')} ≈ <span class="num">${eur(cae/1000*price)}</span> · ${t('net_c')} ≈ <span class="num">${eur(cae/1000*price*net)}</span> <span class="tag prov">${t('price_prov')}</span>`) + aid.html);
+    `<span class="big-num">${f0(cae)}</span> CAE <span class="hint">${t('cae_unit')}</span><br>${t('gross')}: <span class="num">${eur(cae/1000*pmin)}–${eur(cae/1000*pmax)}</span> · ${t('net_c')}: <span class="num">${eur(cae/1000*pmin*net)}–${eur(cae/1000*pmax*net)}</span> <span class="tag prov">${t('range_note')} ${f0(pmin)}–${f0(pmax)} €/MWh</span>`) + aid.html);
   const elig = sc==='ok' ? cost : 0;
   html += row(t('r_bank'), `<ul class="lines"><li><span>${t('bank1')}</span>${st('tbd',t('to_confirm'))}</li><li><span>${t('bank2')}</span>${st('tbd',t('to_confirm'))}</li><li><span>${t('bank3')}</span><span class="num">${sc==='ok' ? eur(cost) : '—'}</span></li></ul>`);
-  ax += row(t('r_perhome'), `<ul class="lines"><li><span>${t('t_cost')}</span><span class="num">${eur(cost/viv)}</span></li><li><span>${t('t_cae')}</span><span class="num">${cae===null ? t('to_compute') : eur(cae/1000*price*net/viv)}</span></li><li><span>${t('t_kwh')}</span><span class="num">${cae===null ? t('to_compute') : f0(aeAll/viv)+' kWh'}</span></li><li><span>${t('quota_na')}</span>${st('na','—')}</li></ul>`);
+  ax += row(t('r_perhome'), `<ul class="lines"><li><span>${t('t_cost')}</span><span class="num">${eur(cost/viv)}</span></li><li><span>${t('t_cae')}</span><span class="num">${cae===null ? t('to_compute') : eur(cae/1000*pmin*net/viv) + '–' + eur(cae/1000*pmax*net/viv)}</span></li><li><span>${t('t_kwh')}</span><span class="num">${cae===null ? t('to_compute') : f0(aeAll/viv)+' kWh'}</span></li></ul>`);
   if(docs.length) html += row(t('r_docs'), '<ul class="docs">' + [...new Set(docs)].map(d=>`<li>${d}</li>`).join('') + '</ul>');
   $('rows').innerHTML = html;
   $('annex-rows').innerHTML = ax;
@@ -750,11 +828,16 @@ function render(){
   $('s3').innerHTML = st('na', t('bank_side'));
   $('s0').innerHTML = st('ok', mode==='rapida' ? t('route_m') : t('route_b'));
   $('s4').innerHTML = (sc==='ok' && dnDone) ? st('ok', t('ready')) : st('tbd', t('prelim'));
+  dnIds.forEach((id, i) => { if(dn[i]==='pend') miss.push('DNSH: ' + t(id)); });
   $('verdict').className = 'verdict ' + sc;
+  $('top-v').textContent = sc==='ok' ? t('v_ok') : sc==='no' ? t('v_no') : t('v_tbd');
+  $('top-v').style.color = sc==='ok' ? 'var(--green)' : sc==='no' ? 'var(--bad)' : 'var(--ochre)';
+  $('top-miss').textContent = miss.length ? `${t('missing')} (${miss.length}): ${miss.join(' · ')}` : t('nothing_missing');
   $('v-big').textContent = sc==='ok' ? t('v_ok') : sc==='no' ? t('v_no') : t('v_tbd');
   $('v-sub').textContent = sub + (sc==='ok' ? (dnDone ? t('v_dnsh_tail') : t('v_pending_tail')) : '');
   const key = $('c-case').value;
-  $('cert-ref').textContent = (key==='usera' ? 'SV-USERA51-' : 'SV-') + (mode==='rapida' ? 'M' : 'E') + ' · ' + t('example');
+  $('cert-ref').textContent = key==='usera' ? 'SV-USERA51 · ' + t('ref_demo') : 'SV';
+  $('facts').textContent = key==='usera' ? (lang==='es' ? 'Marcelo Usera 51, Madrid · 24 viviendas · construido hacia 1972 · certificado energético E (estimación)' : 'Marcelo Usera 51, Madrid · 24 homes · built around 1972 · energy certificate E (estimate)') : '';
   $('cert-date').textContent = new Date().toLocaleDateString(loc(),{day:'numeric',month:'long',year:'numeric'});
   $('cert-com').textContent = $('c-name').value + ' · ' + f0(viv) + (lang==='es'?' viviendas · ':' homes · ') + f0(S) + ' m² · ' + (lang==='es'?'zona ':'zone ') + zone;
 
