@@ -61,6 +61,7 @@ h1{font:500 24px/1.2 var(--font); margin:0 0 4px}
 .land-head{justify-content:flex-end}
 .land-head h2{position:absolute; width:1px; height:1px; overflow:hidden; clip:rect(0 0 0 0)}
 .landing img{display:block; width:100%; height:auto; margin-top:14px}
+.land-p{margin:10px 0 0; max-width:900px; line-height:1.55; color:var(--ink-2)}
 html[lang="es"] .tree-en, html:not([lang="es"]) .tree-es{display:none}
 .layout{display:grid; grid-template-columns:minmax(0,1fr) 300px; gap:24px; align-items:start}
 @media (max-width:900px){.layout{grid-template-columns:minmax(0,1fr)}}
@@ -197,8 +198,9 @@ html[lang="es"] .alert::before{content:"Nota: "}
       <h2 id="h-land" data-i="land_t">Cómo se llega al veredicto verde</h2>
       <button class="btn btn-primary" type="button" id="b-start" data-i="start">Empezar con el caso de Usera 51</button>
     </div>
-    <img class="tree-en" src="decision-tree-en.png" width="1600" height="1120" alt="Decision tree of the Green Selector: route, technical criterion, DNSH, file and the lender's decision">
-    <img class="tree-es" src="decision-tree-es.png" width="1600" height="1120" alt="Árbol de decisión del Selector Verde: vía, criterio técnico, DNSH, expediente y decisión de la entidad">
+    <p class="land-p" data-i="land_p"></p>
+    <img class="tree-en" src="phases-en.png" width="1600" height="1256" alt="The Green Selector across the five phases of the RetroFin process: what it collects, calculates, checks and generates in each phase, what RetroFin provides, and the lender's decision">
+    <img class="tree-es" src="phases-es.png" width="1600" height="1319" alt="El Selector Verde en las cinco fases del proceso RetroFin: qué recopila, calcula, comprueba y genera en cada fase, qué aporta RetroFin y la decisión de la entidad">
   </section>
 
   <div class="layout">
@@ -613,7 +615,7 @@ Object.assign(I.en, {
 
 /* ---------- EIB-style wizard texts (6 Nov 2026) ---------- */
 Object.assign(I.es, {
-  land_t:'Cómo se llega al veredicto verde', start:'Empezar con el caso de Usera 51', annex_h:'', title:'Selector Verde', title2:'Expediente de cribado verde', lede:'Seis pasos para preparar lo que la entidad necesita para clasificar como verde el préstamo de una rehabilitación en una comunidad de propietarios.',
+  land_t:'El Selector Verde en el proceso RetroFin', land_p:'Para una entidad financiera, prestar a una comunidad de propietarios para rehabilitar exige reunir información técnica repartida entre el administrador, el arquitecto y la constructora, y contrastarla con la taxonomía de la UE. El Selector Verde entrega esa información ordenada desde la consulta preliminar: el importe atribuible a medidas elegibles, los requisitos DNSH aportados y pendientes, y las respuestas del Green Checker del BEI ya rellenas. La entidad puede así valorar si el préstamo cuenta en sus objetivos de financiación sostenible con menos análisis propio, y ve aparte, en un anexo, las ayudas y los certificados de ahorro energético que reducen el importe o ayudan a devolverlo. La decisión sigue siendo de la entidad.', start:'Empezar con el caso de Usera 51', annex_h:'', title:'Selector Verde', title2:'Expediente de cribado verde', lede:'Seis pasos para preparar lo que la entidad necesita para clasificar como verde el préstamo de una rehabilitación en una comunidad de propietarios.',
   zone_h:'', meas_h:'', annex_in_h:'', fnee_h:'', f_net_h:'', dnsh_h:'', f_price_h:'Sin índice oficial: se usa un rango', cost_h_usera:'Cifra orientativa; se sustituye por los presupuestos.',
   st_t:'Estado de elegibilidad', amt_s:'Importe atribuible a medidas elegibles', prev:'Anterior', next:'Siguiente',
   b_inc:'INCOMPLETO', b_ok:'CUMPLE', b_no:'NO CUMPLE', more:'y {n} más',
@@ -626,7 +628,7 @@ Object.assign(I.es, {
   gc_h:'Preguntas del Green Checker del BEI en su texto original, con los datos de este expediente; lo marcado se completa allí.'
 });
 Object.assign(I.en, {
-  land_t:'How the green verdict is reached', start:'Start with the Usera 51 case', annex_h:'', title:'Green Selector', title2:'Green screening file', lede:'Six steps to prepare what a lender needs to classify a loan for a building retrofit in an owners’ community as green.',
+  land_t:'The Green Selector across the RetroFin process', land_p:'For a lender, financing a building retrofit for an owners’ community means gathering technical information spread across the property manager, the architect and the builder, and checking it against the EU taxonomy. The Green Selector delivers that information in order from the preliminary enquiry: the amount attributable to eligible measures, the DNSH requirements provided and pending, and the EIB Green Checker answers already filled in. The lender can then judge whether the loan counts towards its sustainable-finance targets with less analysis of its own, and sees separately, in an annex, the grants and energy savings certificates that reduce the amount or help repay it. The decision remains the lender’s.', start:'Start with the Usera 51 case', annex_h:'', title:'Green Selector', title2:'Green screening file', lede:'Six steps to prepare what a lender needs to classify a loan for a building retrofit in an owners’ community as green.',
   zone_h:'', meas_h:'', annex_in_h:'', fnee_h:'', f_net_h:'', dnsh_h:'', f_price_h:'No official index, so a range is used', cost_h_usera:'Indicative figure; replaced by the builders’ quotes.',
   st_t:'Eligibility status', amt_s:'Amount attributable to eligible measures', prev:'Back', next:'Next',
   b_inc:'INCOMPLETE', b_ok:'MEETS', b_no:'DOES NOT MEET', more:'and {n} more',
