@@ -562,8 +562,14 @@ Object.assign(I.es, {
   cost_h_usera:'Cifra orientativa de la demo; se sustituye por los tres presupuestos de constructora.',
   h_meas:'3. Criterio técnico, por medidas', meas_h:'Marque las medidas de la obra. El veredicto usa solo los requisitos de la taxonomía; los de las fichas CAE van al anexo.',
   h_build:'3. Criterio técnico, edificio completo', h_dnsh:'4. No causar daño significativo (DNSH)',
-  dnsh_h:'Criterios DNSH de las actividades 7.2 y 7.3 del anexo I del <a href="https://eur-lex.europa.eu/eli/reg_del/2021/2139/oj" target="_blank" rel="noopener">Reglamento Delegado (UE) 2021/2139</a>.',
-  d_water:'Grifería y sanitarios nuevos dentro de los caudales del apéndice E (solo si se instalan)',
+  dnsh_h:'Criterios DNSH de las actividades 7.2 y 7.3 del anexo I del <a href="https://eur-lex.europa.eu/eli/reg_del/2021/2139/oj" target="_blank" rel="noopener">Reglamento Delegado (UE) 2021/2139</a>. Dependen de la vía. El requisito de agua (apéndice E) no se aplica a las viviendas. En el proyecto se aportan planes y compromisos; las pruebas se completan al terminar la obra.',
+  d_clim:'Evaluación de riesgos climáticos y vulnerabilidad, y medidas de adaptación (apéndice A)',
+  d_waste:'Al menos el 70% (en peso) de los residuos no peligrosos de construcción y demolición preparados para reutilización o reciclaje; diseño que facilite la circularidad (por ejemplo, ISO 20887)',
+  d_mat:'Materiales en contacto con los ocupantes dentro de los límites de formaldehído y COV cancerígenos; componentes conformes al apéndice C',
+  d_works:'Medidas para reducir ruido, polvo y emisiones durante la obra',
+  d_subs:'Componentes y materiales conformes al apéndice C (sustancias restringidas)',
+  d_asb:'Estudio de amianto por un técnico especializado si se añade aislamiento a la envolvente',
+  dn_h72:'Requisitos de la vía edificio completo (actividad 7.2):', dn_h73:'Requisitos de la vía por medidas (actividad 7.3):',
   h_fin:'Anexo opcional: fuentes de devolución', f_pmin:'Precio del CAE, mínimo (€/MWh)', f_pmax:'Precio del CAE, máximo (€/MWh)', f_price_h:'No hay índice oficial: se muestra un rango',
   for_bank:'Para la entidad financiera', cert_t:'Expediente de cribado verde (preliminar)', s0:'Vía', s1:'Criterio técnico', s2:'DNSH', s4:'Expediente', s3:'Decisión', bank_side:'De la entidad',
   r_tax:'Taxonomía UE', r_cae_req:'Requisitos de la ficha CAE', tax_cte:'El elemento cumple los mínimos del CTE (taxonomía 7.3)',
@@ -584,8 +590,14 @@ Object.assign(I.en, {
   cost_h_usera:'Indicative demo figure; replaced by the three builders’ quotes.',
   h_meas:'3. Technical criterion, by measure', meas_h:'Tick the measures in the works. The verdict uses only the taxonomy requirements; the CAE sheet requirements go to the annex.',
   h_build:'3. Technical criterion, whole building', h_dnsh:'4. Do no significant harm (DNSH)',
-  dnsh_h:'DNSH criteria for activities 7.2 and 7.3 in Annex I of <a href="https://eur-lex.europa.eu/eli/reg_del/2021/2139/oj" target="_blank" rel="noopener">Delegated Regulation (EU) 2021/2139</a>.',
-  d_water:'New taps and sanitary ware within the Appendix E flow limits (only if installed)',
+  dnsh_h:'DNSH criteria for activities 7.2 and 7.3 in Annex I of <a href="https://eur-lex.europa.eu/eli/reg_del/2021/2139/oj" target="_blank" rel="noopener">Delegated Regulation (EU) 2021/2139</a>. They depend on the route. The water requirement (Appendix E) does not apply to residential units. Plans and commitments are provided at project stage; evidence is completed when the works finish.',
+  d_clim:'Climate risk and vulnerability assessment, and adaptation measures (Appendix A)',
+  d_waste:'At least 70% (by weight) of non-hazardous construction and demolition waste prepared for reuse or recycling; design that supports circularity (for example ISO 20887)',
+  d_mat:'Materials in contact with occupants within the formaldehyde and carcinogenic VOC limits; components compliant with Appendix C',
+  d_works:'Measures to reduce noise, dust and emissions during the works',
+  d_subs:'Components and materials compliant with Appendix C (restricted substances)',
+  d_asb:'Asbestos survey by a competent specialist if insulation is added to the envelope',
+  dn_h72:'Requirements for the whole-building route (activity 7.2):', dn_h73:'Requirements for the by-measure route (activity 7.3):',
   h_fin:'Optional annex: repayment sources', annex_in_h:'They do not change the green classification. They matter to the lender because they reduce the amount to borrow or help repay it.',
   f_pmin:'CAE price, low (€/MWh)', f_pmax:'CAE price, high (€/MWh)', f_price_h:'There is no official index, so a range is shown', f_net:'Net share for the community (%)',
   for_bank:'For the lender', cert_t:'Green screening file (preliminary)', s0:'Route', s1:'Technical criterion', s2:'DNSH', s4:'File', s3:'Decision', bank_side:'The lender’s',
@@ -678,10 +690,11 @@ function buildMeasures(){
   wire(box);
 }
 
+function dnList(){ return mode==='rapida' ? ['d_clim','d_subs','d_asb'] : ['d_clim','d_waste','d_mat','d_works']; }
 function buildDnsh(){
   const keep = {}; $('dnsh').querySelectorAll('select').forEach(s=>keep[s.id]=s.value);
-  $('dnsh').innerHTML = ['d_clim','d_waste','d_subs','d_asb','d_water'].map(k => `<div class="dnsh-row"><label for="${k}">${t(k)}</label><select id="${k}"><option value="pend">${t('pend')}</option><option value="ok">${t('ok_given')}</option><option value="na">${t('na')}</option></select></div>`).join('');
-  Object.entries(keep).forEach(([id,val])=>{ $(id).value=val; });
+  $('dnsh').innerHTML = `<p class="hint" style="margin:0 0 4px">${t(mode==='rapida'?'dn_h73':'dn_h72')}</p>` + dnList().map(k => `<div class="dnsh-row"><label for="${k}">${t(k)}</label><select id="${k}"><option value="pend">${t('pend')}</option><option value="ok">${t('ok_given')}</option><option value="na">${t('na')}</option></select></div>`).join('');
+  Object.entries(keep).forEach(([id,val])=>{ if($(id)) $(id).value=val; });
   wire($('dnsh'));
 }
 
@@ -697,7 +710,6 @@ function loadCase(key){
     $('on-'+m.id).checked = !!p.on; $('on-'+m.id).dispatchEvent(new Event('change'));
     m.fields.forEach(f => { const el=$(m.id+'-'+f.id); if(!el) return; const val = (f.id in p) ? p[f.id] : f.def; if(el.type==='checkbox') el.checked=!!val; else el.value = (val ?? ''); });
   });
-  if($('d_water')) $('d_water').value = 'na';
   render();
 }
 
@@ -783,7 +795,7 @@ function gcBuilding(S, cost){
 function render(){
   const viv = Math.max(1, v('c-viv')), S = v('c-s'), pmin = v('f-pmin'), pmax = Math.max(v('f-pmin'), v('f-pmax')), net = Math.min(100, Math.max(0, v('f-net')))/100, cost = v('c-cost');
   const zone = $('c-zone').value, aid = aidBlock();
-  const dnIds = ['d_clim','d_waste','d_subs','d_asb','d_water'];
+  const dnIds = dnList();
   const dn = dnIds.map(id => $(id) ? $(id).value : 'pend');
   const dnDone = dn.every(x => x!=='pend');
   let gc = ''; const miss = [];
@@ -917,7 +929,7 @@ function setLang(l){
   buildMeasures(); buildDnsh(); render(); drawSteps();
 }
 
-function setMode(m){ mode=m; $('b-rapida').setAttribute('aria-pressed', m==='rapida'); $('b-edif').setAttribute('aria-pressed', m==='edif'); $('p-rapida').hidden = m!=='rapida'; $('p-edif').hidden = m!=='edif'; render(); }
+function setMode(m){ mode=m; $('b-rapida').setAttribute('aria-pressed', m==='rapida'); $('b-edif').setAttribute('aria-pressed', m==='edif'); $('p-rapida').hidden = m!=='rapida'; $('p-edif').hidden = m!=='edif'; buildDnsh(); render(); }
 function wire(root){ root.querySelectorAll('input,select').forEach(el=>{ if(el.dataset.w) return; el.dataset.w=1; el.addEventListener('input',render); el.addEventListener('change',render); }); }
 
 $('b-rapida').addEventListener('click',()=>setMode('rapida'));
