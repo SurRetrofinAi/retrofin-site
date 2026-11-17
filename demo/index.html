@@ -382,8 +382,8 @@ const AI_SYSTEM = `Eres RetroFin AI, un asistente especializado que ayuda a comu
 Edificio: Calle de Marcelo Usera 51, Madrid (Usera, zona ZETU · APIRU). 24 viviendas, 1972, CEE E, 6 plantas.
 Ingresos anuales: 67.695 €. Fondo de reserva: 31.375 €. Sin deuda bancaria. 22/24 propietarios al corriente.
 Proyecto integral único (sin escenarios): Bloque 1 Eficiencia energética 76.300 € (Plan Rehabilita, Línea Verde ZETU 60% −45.780 €) · Bloque 2 Conservación y accesibilidad IEE 15.700 € (Plan Rehabilita ZETU: forjado 8.400 € al 50%, rampa 4.200 € al 75%, contra incendios 3.100 € al 60% = −9.210 €) · Bloque 3 no subvencionado 7.400 €.
-Totales: 99.400 € · subvenciones 54.990 € (≈55%) · préstamo 35.210 € (11 €/viv/mes, 15 años) · comunidad 9.200 € (383 €/viv) · neto +29 €/viv/mes.
-Subvenciones: el Plan Rehabilita Madrid cubre todo lo subvencionable, más el 75% de honorarios (hasta 12.000 €) y costes indirectos (hasta 3.000 €), no incluidos en las cifras (compatible con el CAE y con ayudas de otras administraciones hasta el coste); Plan Estatal 2026–2030: la CAM no lo ha convocado y lo ha recurrido ante el Supremo, solo complemento opcional; Plan Rehabilita Madrid (convocatoria 2026: 50 M€, por orden de llegada, cerró el 30 sep 2026; la demo asume la siguiente convocatoria); préstamo verde para comunidades con CaixaBank como ejemplo (demo ilustrativa, sin acuerdo), tipo indicativo ilustrativo Euribor + 1,5%. La línea de avales ICO–MIVAU para rehabilitación cerró el 31/12/2025, sin línea sucesora. Mayorías LPH: obras y préstamo por mayoría simple (art. 17.2, coste anual ≤ 12 cuotas ordinarias); renovables 1/3 (art. 17.1, solo pagan quienes votan a favor).
+Totales: 99.400 € · subvenciones 54.990 € (≈55%) · préstamo 35.210 € (11,60 €/viv/mes, 15 años) · comunidad 9.200 € (383 €/viv) · neto +29 €/viv/mes.
+Subvenciones: el Plan Rehabilita Madrid cubre todo lo subvencionable, más el 75% de honorarios (hasta 12.000 €) y costes indirectos (hasta 3.000 €), no incluidos en las cifras (compatible con el CAE y con ayudas de otras administraciones hasta el coste); Plan Estatal 2026–2030: la CAM no lo ha convocado y lo ha recurrido ante el Supremo, solo complemento opcional; Plan Rehabilita Madrid (convocatoria 2026: 50 M€, por orden de llegada, cerró el 30 sep 2026; la demo asume la siguiente convocatoria); préstamo verde para comunidades con CaixaBank como ejemplo (demo ilustrativa, sin acuerdo), tipo indicativo ilustrativo del 5% TIN. La línea de avales ICO–MIVAU para rehabilitación cerró el 31/12/2025, sin línea sucesora. Mayorías LPH: obras y préstamo por mayoría simple (art. 17.2, coste anual ≤ 12 cuotas ordinarias); renovables 1/3 (art. 17.1, solo pagan quienes votan a favor).
 Flujo: 1 datos y paquete borrador · 2 el arquitecto valida in situ e se contrata para la dirección del proyecto · 3 presupuestos de 3 constructoras, selección y negociación, pre-solicitud bancaria (cribado, no negociación) · 4 presentación a la junta y una única votación (obras + constructora + préstamo) · 5 documentos, solicitudes y ejecución.
 El Plan Rehabilita paga la ayuda por anticipado, en un pago único al notificarse la concesión; la certificación final la justifica después. Si la obra empieza antes de la resolución, el préstamo adelanta ese importe.
 Responde en el idioma del usuario. Sé conciso y práctico.`;
@@ -1877,7 +1877,7 @@ function Step1Draft({
       gridTemplateColumns: "1fr 1fr 1fr",
       gap: 8
     }
-  }, [["Cuota préstamo est.", "11 €/viv/mes"], ["Ahorro energético est.", "40 €/viv/mes"], ["Beneficio neto est.", "+29 €/viv/mes"]].map(([l, v], i) => /*#__PURE__*/React.createElement("div", {
+  }, [["Cuota préstamo est.", "11,60 €/viv/mes"], ["Ahorro energético est.", "40 €/viv/mes"], ["Beneficio neto est.", "+29 €/viv/mes"]].map(([l, v], i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
       background: i === 2 ? "#edfdf5" : C.pale,
@@ -3208,7 +3208,7 @@ function Step3Quotes({
       gap: 8,
       animation: "fadeIn .4s ease"
     }
-  }, [["Tipo indicativo", "Euribor + 1,5% (ilustrativo)"], ["Plazo", "15 años"], ["Cuota estimada", "11 €/viv/mes"]].map(([l, v], i) => /*#__PURE__*/React.createElement("div", {
+  }, [["Tipo indicativo", "5% TIN (ilustrativo)"], ["Plazo", "15 años"], ["Cuota estimada", "11,60 €/viv/mes"]].map(([l, v], i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
       background: C.pale,
@@ -3672,7 +3672,7 @@ function BillChart() {
   const X = m => L + m / months * (W - L - R);
   const Y = v => T + (1 - v / maxY) * (H - T - B);
   const energia = m => m <= 4 ? 150 : m >= 9 ? 110 : 150 - (m - 4) / 5 * (150 - 110);
-  const cuota = m => m < 9 ? 55 : m < 16 ? 66 : 61;
+  const cuota = m => m < 9 ? 55 : m < 16 ? 66.6 : 61.7;
   const pts = f => Array.from({
     length: months + 1
   }, (_, m) => `${X(m)},${Y(f(m))}`).join(" ");
@@ -3705,7 +3705,7 @@ function BillChart() {
     style: {
       color: C.gold
     }
-  }, "sube 11 €"), " al iniciarse el préstamo (M9), pero la factura energética ", /*#__PURE__*/React.createElement("strong", {
+  }, "sube 11,60 €"), " al iniciarse el préstamo (M9), pero la factura energética ", /*#__PURE__*/React.createElement("strong", {
     style: {
       color: C.mid
     }
@@ -3715,7 +3715,7 @@ function BillChart() {
     }
   }, "−29 €/mes"), ". Con la ", /*#__PURE__*/React.createElement("strong", {
     style: {color: C.teal}
-  }, "venta de los CAE (M16, aprox. 16.000 €)"), " la cuota del préstamo baja a aprox. 6,5 €: ", /*#__PURE__*/React.createElement("strong", {
+  }, "venta de los CAE (M16, aprox. 16.000 €)"), " la cuota del préstamo baja a aprox. 6,70 €: ", /*#__PURE__*/React.createElement("strong", {
     style: {color: C.teal}
   }, "−34 €/mes"), " desde entonces."), /*#__PURE__*/React.createElement("svg", {
     viewBox: `0 0 ${W} ${H}`,
@@ -3791,7 +3791,7 @@ function BillChart() {
     fontWeight: "700",
     fill: C.deep,
     fontFamily: "IBM Plex Sans, sans-serif"
-  }, "Total 170 €"), /*#__PURE__*/React.createElement("text", {
+  }, "Total 172 €"), /*#__PURE__*/React.createElement("text", {
     x: X(36) + 5,
     y: Y(energia(36)) + 3,
     fontSize: "4.8",
@@ -3803,7 +3803,7 @@ function BillChart() {
     fontSize: "4.8",
     fill: C.gold,
     fontFamily: "IBM Plex Sans, sans-serif"
-  }, "Cuota 60 €"), /*#__PURE__*/React.createElement("text", {
+  }, "Cuota 62 €"), /*#__PURE__*/React.createElement("text", {
     x: X(0.6),
     y: Y(205) - 7,
     fontSize: "4.8",
@@ -3894,7 +3894,7 @@ function Step4Vote({
       gridTemplateColumns: "1fr 1fr 1fr",
       gap: 8
     }
-  }, [["Obras", "Proyecto integral en 3 bloques", "99.400 € · subv. 54.990 €"], ["Constructora", "EcoRehab Madrid", "negociado 93.900 € · 14 sem"], ["Préstamo", "CaixaBank · préstamo verde", "cribado ✓ · 11 €/viv/mes"]].map(([h, l, d], i) => /*#__PURE__*/React.createElement("div", {
+  }, [["Obras", "Proyecto integral en 3 bloques", "99.400 € · subv. 54.990 €"], ["Constructora", "EcoRehab Madrid", "negociado 93.900 € · 14 sem"], ["Préstamo", "CaixaBank · préstamo verde", "cribado ✓ · 11,60 €/viv/mes"]].map(([h, l, d], i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
       background: C.pale,
@@ -3983,7 +3983,7 @@ function Step4Vote({
       lineHeight: 1.5,
       marginBottom: 10
     }
-  }, "Coste anual por vivienda tras ayudas y préstamo: aprox. 515 € el 1.er año (383 € + 12 × 11 €), por debajo de 12 cuotas ordinarias (660 €). Basta ", /*#__PURE__*/React.createElement("strong", {
+  }, "Coste anual por vivienda tras ayudas y préstamo: aprox. 522 € el 1.er año (383 € + 12 × 11,60 €), por debajo de 12 cuotas ordinarias (660 €). Basta ", /*#__PURE__*/React.createElement("strong", {
     style: {
       color: C.deep
     }
@@ -4553,7 +4553,7 @@ function App() {
       setUploadState("done");
       setMsgs(prev => [...prev, {
         role: "assistant",
-        text: "**Cuentas 2024 analizadas.**\n\nIngresos: 67.695 € · Fondo de reserva: 31.375 € ✓ · Sin deuda bancaria ✓ · 22/24 al corriente (92%)\n\nPerfil compatible con el préstamo del caso (35.210 €, aprox. 11 €/viv/mes)."
+        text: "**Cuentas 2024 analizadas.**\n\nIngresos: 67.695 € · Fondo de reserva: 31.375 € ✓ · Sin deuda bancaria ✓ · 22/24 al corriente (92%)\n\nPerfil compatible con el préstamo del caso (35.210 €, aprox. 11,60 €/viv/mes)."
       }]);
     }, 3300);
   };
@@ -4568,7 +4568,7 @@ function App() {
     r: "El **Selector Verde** (pasos 1 y 3) prepara el **expediente de cribado verde** para el banco en seis pasos: comunidad y obra, vía, criterio técnico de la **Taxonomía UE 7.2** (al menos un **30% menos de energía primaria**; Usera 51: certificado E → B), **DNSH** (riesgos climáticos, residuos de obra reciclados, materiales y medidas durante la obra), el expediente y la **validación del propio banco**.\n\n• El expediente incluye los datos para el **Green Checker del Grupo BEI**, la herramienta que usan los bancos con líneas verdes del BEI\n• Las ayudas y los CAE van en un anexo, como **fuentes de devolución**: reducen el préstamo, pero no lo hacen verde\n\nSi cumple, el préstamo puede contar en el **ratio de activos verdes (GAR)** de la entidad. Es un **cribado preliminar**: la entidad lo valida con sus propios criterios. Herramienta completa: retrofin.es/greenselector"
   }, {
     k: ["supuesto", "hipótesis", "fiable", "es real", "garantiz", "verificad"],
-    r: "Lo que esta demo **supone** (cifras ilustrativas):\n\n• La próxima convocatoria del **Plan Rehabilita** tendrá condiciones parecidas a la de 2026 (cerró el 30/09/2026)\n• La reducción de **demanda** (−50% estimado) supera el 35% que exige la Línea Verde; la arquitecta debe confirmarlo\n• **Tipo del préstamo** ilustrativo (Euribor + 1,5%); el real lo fija la entidad\n• **CAE**: precio de mercado sin índice oficial (referencia 115–140 €/MWh)\n• No hay **acuerdos firmados** con CaixaBank ni con las empresas que aparecen\n\nLo **verificado**: zona ZETU de Usera 51, porcentajes y compatibilidades del Plan Rehabilita 2026 y mayorías de la Ley de Propiedad Horizontal."
+    r: "Lo que esta demo **supone** (cifras ilustrativas):\n\n• La próxima convocatoria del **Plan Rehabilita** tendrá condiciones parecidas a la de 2026 (cerró el 30/09/2026)\n• La reducción de **demanda** (−50% estimado) supera el 35% que exige la Línea Verde; la arquitecta debe confirmarlo\n• **Tipo del préstamo** ilustrativo (5% TIN); el real lo fija la entidad\n• **CAE**: precio de mercado sin índice oficial (referencia 115–140 €/MWh)\n• No hay **acuerdos firmados** con CaixaBank ni con las empresas que aparecen\n\nLo **verificado**: zona ZETU de Usera 51, porcentajes y compatibilidades del Plan Rehabilita 2026 y mayorías de la Ley de Propiedad Horizontal."
   }, {
     k: ["honorario", "costes indirectos", "coste indirecto"],
     r: "El Plan Rehabilita en ZETU cubre el **75% de los honorarios técnicos** (hasta 12.000 € por edificio; honorarios de hasta el 10% del coste) y el **75% de los costes indirectos** (hasta 3.000 €; hasta el 4% del coste).\n\nNo están incluidos en las cifras del caso. Si los honorarios de la arquitecta (4,5%) van aparte del presupuesto, serían unos **3.300 € más de subvención** (calculado sobre 99.400 €)."
@@ -4583,7 +4583,7 @@ function App() {
     r: "El proyecto integral se organiza en **3 bloques según la subvención aplicable**:\n\n**Bloque 1 · Eficiencia energética** — 76.300 € · Plan Rehabilita, Línea Verde ZETU (60%) −45.780 €\nSATE, ventanas triple acristalamiento, cubierta.\n\n**Bloque 2 · Conservación y accesibilidad (IEE)** — 15.700 € · Plan Rehabilita ZETU (Conserva 50% · Accesible 75% · Seguridad 60%) −9.210 €\nForjado, rampa, contra incendios.\n\n**Bloque 3 · Mejoras no subvencionadas** — 7.400 € · 0 €\nPortal, buzones, videoportero, pintura.\n\n**Total 99.400 € · subvenciones 54.990 € (≈55%)**. Este desglose es el borrador que ya aparece en el paso 1; el arquitecto lo valida y ajusta en el paso 2."
   }, {
     k: ["ico verde", "ico", "banco", "préstamo", "financiaci", "caixa", "uci", "pre-solicitud", "cribado"],
-    r: "**Préstamo verde para la comunidad** (en esta demo, CaixaBank como ejemplo ilustrativo, sin acuerdo).\n\nPara Usera 51:\n• En el paso 3 RetroFin envía una **pre-solicitud** — un **cribado inicial, no una negociación**\n• Tipo indicativo ilustrativo: **Euribor + 1,5%** · 15 años (supuesto de la demo, no condiciones de CaixaBank)\n• Préstamo: **35.210 €** → cuota estimada **11 €/viv/mes**\n• Ahorro energético: 40 €/viv/mes\n• **Beneficio neto tras la obra: +29 €/viv/mes**\n\nNota: la línea de avales ICO–MIVAU para rehabilitación cerró el 31/12/2025 y no tiene línea sucesora; el tipo real dependerá del banco."
+    r: "**Préstamo verde para la comunidad** (en esta demo, CaixaBank como ejemplo ilustrativo, sin acuerdo).\n\nPara Usera 51:\n• En el paso 3 RetroFin envía una **pre-solicitud** — un **cribado inicial, no una negociación**\n• Tipo indicativo ilustrativo: **5% TIN** · 15 años (supuesto de la demo, no condiciones de CaixaBank)\n• Préstamo: **35.210 €** → cuota estimada **11,60 €/viv/mes**\n• Ahorro energético: 40 €/viv/mes\n• **Beneficio neto tras la obra: +29 €/viv/mes**\n\nNota: la línea de avales ICO–MIVAU para rehabilitación cerró el 31/12/2025 y no tiene línea sucesora; el tipo real dependerá del banco."
   }, {
     k: ["cronograma", "desfase", "fase", "cobro", "cuándo se cobra", "certificaci", "anticip"],
     r: "El **cronograma** del paso 3 es clave para el banco:\n\n• Obra en 6 fases (M0–M9) que suman **99.400 €**\n• Cobro anticipado del Plan Rehabilita Madrid al notificarse la concesión (54.990 €, pago único)\n• 3 disposiciones del crédito: M1, M4 y M7, para la parte no subvencionada\n• **Certificación final de obra: M9**, y justificación de la ayuda en los 3 meses siguientes\n• Plan Estatal (CAM): solo si se convoca, como complemento\n\nEl Plan Rehabilita paga **por anticipado**: si la comunidad empieza la obra antes de la resolución, el préstamo adelanta ese importe hasta el cobro."
@@ -4598,7 +4598,7 @@ function App() {
     r: "**Evaluación renovable de RetroFin** — dos rutas para Usera 51:\n\n**Ruta A · Autoconsumo colectivo (recomendada):** FV en cubierta + preinstalación de aerotermia, dentro de la comunidad. Se vota en la misma junta con **mayoría 1/3 (8/24)** (art. 17.1 LPH; solo pagan quienes voten a favor), sin constituir entidad nueva.\n\n**Ruta B · Comunidad energética (CER):** requiere una entidad jurídica propia (asociación o cooperativa) — la comunidad de propietarios no puede ser CER por sí misma. El Plan Rehabilita subvenciona el **90%** de sus renovables y de los estudios técnicos y jurídicos para crearla, **sin tope por vivienda** (apdo. 36 de la convocatoria 2026). A cambio: más trámite, ceder el uso de la cubierta, y el RD de comunidades energéticas sigue pendiente.\n\n**Recomendación:** la Ruta A es la más sencilla; la Ruta B puede salir mucho más barata para los vecinos. RetroFin compara ambas con números antes de la junta. Módulo opcional, fuera del presupuesto principal de 99.400 €."
   }, {
     k: ["vot", "mayoría", "3/5"],
-    r: "**La junta vota por bloques** en el paso 4:\n\n**Votación 1 — obras + préstamo.** **Mayoría simple (13/24)** por el **art. 17.2 LPH**: obras de eficiencia y su financiación, siempre que el coste anual por vivienda tras ayudas y préstamo no supere 12 cuotas ordinarias. Usera 51: aprox. 515 € el primer año (383 € + 12 × 11 €) frente a 660 € (12 × 55 €) ✓. Si se superara, harían falta 3/5. La constructora se aprueba como punto propio del orden del día.\n\n**Votación 2 — instalación renovable (FV + aerotermia).** Basta **1/3 (8/24)** por el **art. 17.1 LPH**, pero el coste solo se repercute a quienes voten a favor; para repartirlo entre todos, mayoría simple (art. 17.2).\n\nLa presentación muestra a cada propietario qué significa para él: cuota de 11 € frente a ahorro de 40 € → **+29 €/mes netos**. Al aprobarse, se genera el **borrador del acta** para la firma del presidente y el secretario."
+    r: "**La junta vota por bloques** en el paso 4:\n\n**Votación 1 — obras + préstamo.** **Mayoría simple (13/24)** por el **art. 17.2 LPH**: obras de eficiencia y su financiación, siempre que el coste anual por vivienda tras ayudas y préstamo no supere 12 cuotas ordinarias. Usera 51: aprox. 522 € el primer año (383 € + 12 × 11,60 €) frente a 660 € (12 × 55 €) ✓. Si se superara, harían falta 3/5. La constructora se aprueba como punto propio del orden del día.\n\n**Votación 2 — instalación renovable (FV + aerotermia).** Basta **1/3 (8/24)** por el **art. 17.1 LPH**, pero el coste solo se repercute a quienes voten a favor; para repartirlo entre todos, mayoría simple (art. 17.2).\n\nLa presentación muestra a cada propietario qué significa para él: cuota de 11,60 € frente a ahorro de 40 € → **+29 €/mes netos**. Al aprobarse, se genera el **borrador del acta** para la firma del presidente y el secretario."
   }, {
     k: ["siguiente", "qué hago", "cómo empez", "proceso", "pasos"],
     r: "Los 5 pasos para Usera 51:\n\n**1. Datos** — Catastro + cuentas + IEE → paquete borrador con un único proyecto integral ✓\n**2. Arquitecto** — elegido entre varios candidatos, contratado para dirigir el proyecto, valida in situ y define los bloques\n**3. Presupuestos** — enviados a 3 constructoras al inicio · 1 elegida · negociación + cronograma + pre-solicitud bancaria\n**4. Votación** — presentación con esquema de obras y simulación de facturas, turno de preguntas, **votación por bloques**: obras (mayoría simple, art. 17.2) y renovables (1/3, art. 17.1)\n**5. Ejecución** — acta, subvenciones, banco y licencia con solicitudes asistidas por IA\n\n¿Por dónde desea empezar?"
@@ -4610,10 +4610,10 @@ function App() {
     r: "El proyecto validado se envió a 3 constructoras **al inicio del paso 3** — misma especificación, mismo plazo:\n\n**EcoRehab Madrid** — 94.800 € · Especificación completa · Garantía 10 años · **elegida y negociada a 93.900 €**\n⚠ **Empresa Vidal** — 89.500 € · Doble acristalamiento (la especificación exige triple)\n**RehabiPro** — 98.200 € · Especificación completa · 15–18 semanas\n\nLa constructora y el arquitecto acordaron además **quién gestiona las solicitudes de subvención** (EcoRehab, gestión incluida)."
   }, {
     k: ["coste", "cuánto", "precio", "€", "euro", "dinero", "vend", "piso"],
-    r: "Resumen financiero del **proyecto integral** (validado y negociado):\n\n• Total obras: **99.400 €** (en 3 bloques, incl. obras de la IEE)\n• Plan Rehabilita (ZETU) · Bloque 1, Línea Verde 60%: **−45.780 €**\n• Plan Rehabilita (ZETU) · Bloque 2: **−9.210 €**\n• Préstamo verde: **35.210 €** → 11 €/viv/mes\n• Aportación de la comunidad: aprox. **383 €/viv** (única, 9.200 € en total)\n\n**Ahorro 40 €/viv · Cuota 11 €/viv → +29 €/viv netos tras la obra**\n\nSi se vende un piso, las cuotas pendientes van con la vivienda, no con la persona."
+    r: "Resumen financiero del **proyecto integral** (validado y negociado):\n\n• Total obras: **99.400 €** (en 3 bloques, incl. obras de la IEE)\n• Plan Rehabilita (ZETU) · Bloque 1, Línea Verde 60%: **−45.780 €**\n• Plan Rehabilita (ZETU) · Bloque 2: **−9.210 €**\n• Préstamo verde: **35.210 €** → 11,60 €/viv/mes\n• Aportación de la comunidad: aprox. **383 €/viv** (única, 9.200 € en total)\n\n**Ahorro 40 €/viv · Cuota 11,60 €/viv → +29 €/viv netos tras la obra**\n\nSi se vende un piso, las cuotas pendientes van con la vivienda, no con la persona."
   }, {
     k: ["cae", "certificado de ahorro", "certificados de ahorro", "devoluci"],
-    r: "**CAE (Certificados de Ahorro Energético):** el ahorro verificado tras la obra genera certificados (1 CAE = 1 kWh de ahorro anual de energía final) que compra un sujeto delegado (sin índice oficial de precio; referencia sectorial 115–140 €/MWh).\n\nPara Usera 51 (ficha RES010): aprox. 135 MWh/año certificables → **pago único de aprox. 16.000 € brutos** (aprox. 670 €/viv), tras terminar la obra y verificar el ahorro (M16 en la demo), menos la comisión del sujeto delegado.\n\nLa convocatoria del Plan Rehabilita declara el CAE compatible con sus ayudas. Aun así, el convenio CAE debe justificar el efecto incentivador del propio CAE (art. 13 RD 36/2023): se firma antes de iniciar la obra.\n\nSe aplica como **amortización anticipada del préstamo**: con aprox. 14.100 € netos de comisión, la cuota baja de 11 € a aprox. 6,5 €/viv/mes y el beneficio neto pasa de +29 € a **+34 €/viv/mes**. *Cifras ilustrativas.*"
+    r: "**CAE (Certificados de Ahorro Energético):** el ahorro verificado tras la obra genera certificados (1 CAE = 1 kWh de ahorro anual de energía final) que compra un sujeto delegado (sin índice oficial de precio; referencia sectorial 115–140 €/MWh).\n\nPara Usera 51 (ficha RES010): aprox. 135 MWh/año certificables → **pago único de aprox. 16.000 € brutos** (aprox. 670 €/viv), tras terminar la obra y verificar el ahorro (M16 en la demo), menos la comisión del sujeto delegado.\n\nLa convocatoria del Plan Rehabilita declara el CAE compatible con sus ayudas. Aun así, el convenio CAE debe justificar el efecto incentivador del propio CAE (art. 13 RD 36/2023): se firma antes de iniciar la obra.\n\nSe aplica como **amortización anticipada del préstamo**: con aprox. 14.100 € netos de comisión, la cuota baja de 11,60 € a aprox. 6,70 €/viv/mes y el beneficio neto pasa de +29 € a **+34 €/viv/mes**. *Cifras ilustrativas.*"
   }, {
     k: ["sate", "fachada", "aislamiento", "exterior"],
     r: "El **SATE** (Sistema de Aislamiento Térmico por el Exterior) es el aislamiento de fachada del Bloque 1.\n\nPaneles aislantes adheridos al exterior con acabado continuo. En Usera 51:\n• Reduce las pérdidas de la fachada en **aprox. 40%**\n• Sin pérdida de espacio interior\n• Calificación CEE de E → B\n• Incluido en la especificación de EcoRehab Madrid y RehabiPro ✓\n\n⚠ Empresa Vidal no incluyó SATE certificado, por lo que queda fuera de especificación."
@@ -4969,8 +4969,8 @@ const AI_SYSTEM = `You are RetroFin AI, a specialised assistant helping Spanish 
 Building: Calle de Marcelo Usera 51, Madrid (Usera, ZETU zone · APIRU). 24 homes, 1972, EPC E, 6 floors.
 Annual income: €67,695. Reserve fund: €31,375. No bank debt. 22/24 owners up to date.
 Single whole-building retrofit (no scenarios): Block 1 Energy efficiency €76,300 (Plan Rehabilita, Green line ZETU 60% −€45,780) · Block 2 Conservation & accessibility IEE €15,700 (Plan Rehabilita ZETU: slab €8,400 at 50%, ramp €4,200 at 75%, fire protection €3,100 at 60% = −€9,210) · Block 3 non-subsidised €7,400.
-Totals: €99,400 · subsidies €54,990 (≈55%) · loan €35,210 (€11/home/mo, 15 years) · community €9,200 (€383/home) · net +€29/home/mo.
-Subsidies: Plan Rehabilita Madrid covers everything subsidisable, plus 75% of fees (up to €12,000) and indirect costs (up to €3,000), not included in the figures (compatible with CAE and with other administrations' aid up to cost); State Plan 2026–2030: no CAM call and the CAM has appealed it to the Supreme Court, optional top-up only; Plan Rehabilita Madrid (2026 call: €50M, first come first served, closed 30 Sep 2026; the demo assumes the next call); green community loan with CaixaBank as an example (illustrative demo, no agreement), illustrative indicative rate Euribor + 1.5%. The ICO–MIVAU guarantee line for retrofits closed on 31/12/2025, with no successor line. LPH majorities: works and loan by simple majority (art. 17.2, annual cost ≤ 12 ordinary monthly fees); renewables 1/3 (art. 17.1, only those voting in favour pay).
+Totals: €99,400 · subsidies €54,990 (≈55%) · loan €35,210 (€11.60/home/mo, 15 years) · community €9,200 (€383/home) · net +€29/home/mo.
+Subsidies: Plan Rehabilita Madrid covers everything subsidisable, plus 75% of fees (up to €12,000) and indirect costs (up to €3,000), not included in the figures (compatible with CAE and with other administrations' aid up to cost); State Plan 2026–2030: no CAM call and the CAM has appealed it to the Supreme Court, optional top-up only; Plan Rehabilita Madrid (2026 call: €50M, first come first served, closed 30 Sep 2026; the demo assumes the next call); green community loan with CaixaBank as an example (illustrative demo, no agreement), illustrative indicative rate of 5% fixed. The ICO–MIVAU guarantee line for retrofits closed on 31/12/2025, with no successor line. LPH majorities: works and loan by simple majority (art. 17.2, annual cost ≤ 12 ordinary monthly fees); renewables 1/3 (art. 17.1, only those voting in favour pay).
 Flow: 1 data and draft package · 2 the architect validates on site and starts as project manager · 3 quotes from 3 builders, selection and negotiation, bank pre-application (screening, not negotiation) · 4 assembly presentation and a single vote (works + builder + loan) · 5 documents, applications and execution.
 Plan Rehabilita pays the grant in advance, as a single payment once the award is notified; the final certificate justifies it afterwards. If works start before the award, the loan advances that amount.
 Reply in the user's language. Be concise and practical.`;
@@ -6464,7 +6464,7 @@ function Step1Draft({
       gridTemplateColumns: "1fr 1fr 1fr",
       gap: 8
     }
-  }, [["Est. loan instalment", "€11/home/mo"], ["Est. energy savings", "€40/home/mo"], ["Est. net benefit", "+€29/home/mo"]].map(([l, v], i) => /*#__PURE__*/React.createElement("div", {
+  }, [["Est. loan instalment", "€11.60/home/mo"], ["Est. energy savings", "€40/home/mo"], ["Est. net benefit", "+€29/home/mo"]].map(([l, v], i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
       background: i === 2 ? "#edfdf5" : C.pale,
@@ -7795,7 +7795,7 @@ function Step3Quotes({
       gap: 8,
       animation: "fadeIn .4s ease"
     }
-  }, [["Indicative rate", "Euribor + 1.5% (illustrative)"], ["Term", "15 years"], ["Estimated instalment", "€11/home/mo"]].map(([l, v], i) => /*#__PURE__*/React.createElement("div", {
+  }, [["Indicative rate", "5% fixed (illustrative)"], ["Term", "15 years"], ["Estimated instalment", "€11.60/home/mo"]].map(([l, v], i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
       background: C.pale,
@@ -8259,7 +8259,7 @@ function BillChart() {
   const X = m => L + m / months * (W - L - R);
   const Y = v => T + (1 - v / maxY) * (H - T - B);
   const energia = m => m <= 4 ? 150 : m >= 9 ? 110 : 150 - (m - 4) / 5 * (150 - 110);
-  const cuota = m => m < 9 ? 55 : m < 16 ? 66 : 61;
+  const cuota = m => m < 9 ? 55 : m < 16 ? 66.6 : 61.7;
   const pts = f => Array.from({
     length: months + 1
   }, (_, m) => `${X(m)},${Y(f(m))}`).join(" ");
@@ -8292,7 +8292,7 @@ function BillChart() {
     style: {
       color: C.gold
     }
-  }, "rises €11"), " when the loan starts (M9), but the energy bill ", /*#__PURE__*/React.createElement("strong", {
+  }, "rises €11.60"), " when the loan starts (M9), but the energy bill ", /*#__PURE__*/React.createElement("strong", {
     style: {
       color: C.mid
     }
@@ -8302,7 +8302,7 @@ function BillChart() {
     }
   }, "−€29/mo"), ". With the ", /*#__PURE__*/React.createElement("strong", {
     style: {color: C.teal}
-  }, "CAE proceeds (M16, about €16,000)"), " the loan instalment drops to about €6.50: ", /*#__PURE__*/React.createElement("strong", {
+  }, "CAE proceeds (M16, about €16,000)"), " the loan instalment drops to about €6.70: ", /*#__PURE__*/React.createElement("strong", {
     style: {color: C.teal}
   }, "−€34/mo"), " from then on."), /*#__PURE__*/React.createElement("svg", {
     viewBox: `0 0 ${W} ${H}`,
@@ -8378,7 +8378,7 @@ function BillChart() {
     fontWeight: "700",
     fill: C.deep,
     fontFamily: "IBM Plex Sans, sans-serif"
-  }, "Total €170"), /*#__PURE__*/React.createElement("text", {
+  }, "Total €172"), /*#__PURE__*/React.createElement("text", {
     x: X(36) + 5,
     y: Y(energia(36)) + 3,
     fontSize: "4.8",
@@ -8390,7 +8390,7 @@ function BillChart() {
     fontSize: "4.8",
     fill: C.gold,
     fontFamily: "IBM Plex Sans, sans-serif"
-  }, "Fee €60"), /*#__PURE__*/React.createElement("text", {
+  }, "Fee €62"), /*#__PURE__*/React.createElement("text", {
     x: X(0.6),
     y: Y(205) - 7,
     fontSize: "4.8",
@@ -8481,7 +8481,7 @@ function Step4Vote({
       gridTemplateColumns: "1fr 1fr 1fr",
       gap: 8
     }
-  }, [["Works", "Whole-building retrofit in 3 blocks", "€99,400 · subs. €54,990"], ["Builder", "EcoRehab Madrid", "negotiated €93,900 · 14 wks"], ["Loan", "CaixaBank · green loan", "screening ✓ · €11/home/mo"]].map(([h, l, d], i) => /*#__PURE__*/React.createElement("div", {
+  }, [["Works", "Whole-building retrofit in 3 blocks", "€99,400 · subs. €54,990"], ["Builder", "EcoRehab Madrid", "negotiated €93,900 · 14 wks"], ["Loan", "CaixaBank · green loan", "screening ✓ · €11.60/home/mo"]].map(([h, l, d], i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
       background: C.pale,
@@ -8570,7 +8570,7 @@ function Step4Vote({
       lineHeight: 1.5,
       marginBottom: 10
     }
-  }, "Annual cost per home after subsidies and loan: about €515 in year 1 (€383 + 12 × €11), below 12 ordinary monthly fees (€660). A ", /*#__PURE__*/React.createElement("strong", {
+  }, "Annual cost per home after subsidies and loan: about €522 in year 1 (€383 + 12 × €11.60), below 12 ordinary monthly fees (€660). A ", /*#__PURE__*/React.createElement("strong", {
     style: {
       color: C.deep
     }
@@ -9140,7 +9140,7 @@ function App() {
       setUploadState("done");
       setMsgs(prev => [...prev, {
         role: "assistant",
-        text: "**2024 accounts analysed.**\n\nIncome: €67,695 · Reserve fund: €31,375 ✓ · No bank debt ✓ · 22/24 up to date (92%)\n\nProfile compatible with the case loan (€35,210, about €11/home/mo)."
+        text: "**2024 accounts analysed.**\n\nIncome: €67,695 · Reserve fund: €31,375 ✓ · No bank debt ✓ · 22/24 up to date (92%)\n\nProfile compatible with the case loan (€35,210, about €11.60/home/mo)."
       }]);
     }, 3300);
   };
@@ -9155,7 +9155,7 @@ function App() {
     r: "The **Green Selector** (steps 1 and 3) prepares the bank's **green screening file** in six steps: association and works, route, **EU Taxonomy 7.2** technical criterion (at least **30% lower primary energy**; Usera 51: EPC E → B), **DNSH** (climate risks, recycled construction waste, materials and on-site measures), the file, and the **bank's own validation**.\n\n• The file includes the data for the **EIB Group Green Checker**, the tool banks on EIB green credit lines use\n• Subsidies and CAE go in an annex as **repayment sources**: they reduce the loan but do not make it green\n\nIf it qualifies, the loan can count towards the lender's **green asset ratio (GAR)**. It is a **preliminary screening**: the lender validates it against its own criteria. Full tool: retrofin.es/greenselector"
   }, {
     k: ["assum", "reliable", "is this real", "guarantee", "verified"],
-    r: "What this demo **assumes** (illustrative figures):\n\n• The next **Plan Rehabilita** call will have terms similar to 2026 (closed 30/09/2026)\n• The **demand** reduction (−50% estimated) exceeds the 35% the Green line requires; the architect must confirm it\n• Illustrative **loan rate** (Euribor + 1.5%); the lender sets the real one\n• **CAE**: market price with no official index (reference €115–140/MWh)\n• No **signed agreements** with CaixaBank or the companies shown\n\nWhat is **verified**: Usera 51's ZETU zone, the 2026 Plan Rehabilita rates and compatibility rules, and the Horizontal Property Law majorities."
+    r: "What this demo **assumes** (illustrative figures):\n\n• The next **Plan Rehabilita** call will have terms similar to 2026 (closed 30/09/2026)\n• The **demand** reduction (−50% estimated) exceeds the 35% the Green line requires; the architect must confirm it\n• Illustrative **loan rate** (5% fixed); the lender sets the real one\n• **CAE**: market price with no official index (reference €115–140/MWh)\n• No **signed agreements** with CaixaBank or the companies shown\n\nWhat is **verified**: Usera 51's ZETU zone, the 2026 Plan Rehabilita rates and compatibility rules, and the Horizontal Property Law majorities."
   }, {
     k: ["professional fees", "architect fee", "architect's fee", "indirect cost"],
     r: "Plan Rehabilita in ZETU covers **75% of professional fees** (up to €12,000 per building; fees up to 10% of cost) and **75% of indirect costs** (up to €3,000; up to 4% of cost).\n\nThese are not included in the case figures. If the architect's fee (4.5%) sits outside the budget, it would add about **€3,300 in subsidy** (calculated on €99,400)."
@@ -9170,7 +9170,7 @@ function App() {
     r: "The whole-building retrofit is organised into **3 blocks by applicable subsidy**:\n\n**Block 1 · Energy efficiency** — €76,300 · Plan Rehabilita, Green line ZETU (60%): −€45,780\n**Block 2 · Conservation / IEE** — €15,700 · Plan Rehabilita ZETU (Conserva 50% · Accessible 75% · Safety 60%): −€9,210\n**Block 3 · Non-subsidised improvements** — €7,400\n\nOne single works contract and one site setup — but each block matched to its funding line, which is what the subsidy files require."
   }, {
     k: ["ico verde", "ico", "bank", "loan", "financiaci", "caixa", "uci", "pre-solicitud", "screening"],
-    r: "**Green community loan** (in this demo, CaixaBank as an illustrative example, no agreement).\n\nFor Usera 51:\n• Loan: **€35,210** → **€11/home/mo**\n• Term: 15 years\n• Illustrative indicative rate: Euribor + 1.5% (demo assumption, not CaixaBank terms)\n• Formalised **once the subsidy resolution arrives**\n\nThe CAE rebate then repays part of the loan early once savings are verified.\n\nNote: the ICO–MIVAU guarantee line for retrofits closed on 31/12/2025 and has no successor line; the actual rate depends on the bank."
+    r: "**Green community loan** (in this demo, CaixaBank as an illustrative example, no agreement).\n\nFor Usera 51:\n• Loan: **€35,210** → **€11.60/home/mo**\n• Term: 15 years\n• Illustrative indicative rate: 5% fixed (demo assumption, not CaixaBank terms)\n• Formalised **once the subsidy resolution arrives**\n\nThe CAE rebate then repays part of the loan early once savings are verified.\n\nNote: the ICO–MIVAU guarantee line for retrofits closed on 31/12/2025 and has no successor line; the actual rate depends on the bank."
   }, {
     k: ["cronograma", "desfase", "fase", "cobro", "when is it paid", "certificaci"],
     r: "The **timeline** from step 3 is key for the bank:\n\n• Works in 6 phases (M0–M9) totalling **€99,400**\n• Plan Rehabilita Madrid pays in advance once the award is notified (€54,990, single payment)\n• 3 loan drawdowns: M1, M4 and M7, for the unsubsidised part\n• Final certification at M9, and justification of the grant within 3 months\n• State Plan (CAM): only as a top-up if a call opens\n\nPlan Rehabilita pays **in advance**: if the community starts works before the award, the loan advances that amount until payout."
@@ -9185,7 +9185,7 @@ function App() {
     r: "**RetroFin renewables assessment** — two routes for Usera 51:\n\n**Route A · Collective self-consumption (recommended):** rooftop PV + heat-pump pre-installation, within the community. Voted at the same assembly with a **1/3 majority (8/24)** (art. 17.1 LPH; only those voting in favour pay), no new entity required.\n\n**Route B · Energy community (CER):** requires its own legal entity (association or cooperative) — the homeowners' community cannot be a CER by itself. Plan Rehabilita covers **90%** of its renewables and of the technical and legal studies to set it up, **with no per-home cap** (section 36 of the 2026 call). In exchange: more paperwork, ceding use of the roof, and the energy-community Royal Decree is still pending.\n\n**Recommendation:** Route A is the simplest; Route B can be much cheaper for the neighbours. RetroFin compares both with numbers before the assembly. Optional module, outside the main €99,400 budget."
   }, {
     k: ["vot", "majority", "3/5"],
-    r: "**The assembly votes by blocks** in step 4:\n\n**Vote 1 — works + loan.** **Simple majority (13/24)** under **art. 17.2 LPH**: efficiency works and their financing, provided the annual cost per home after subsidies and loan does not exceed 12 ordinary monthly fees. Usera 51: about €515 in year 1 (€383 + 12 × €11) against €660 (12 × €55) ✓. Above that, 3/5 would be needed. The builder is approved as its own agenda item.\n\n**Vote 2 — renewables installation (PV + heat pump).** **1/3 (8/24)** suffices under **art. 17.1 LPH**, but the cost is only charged to those voting in favour; to share it among all, simple majority (art. 17.2).\n\nThe presentation shows each owner what it means for them: an €11 instalment against €40 of savings → **+€29/month net**. Once approved, a **draft of the minutes** is generated for the chair and the secretary to sign."
+    r: "**The assembly votes by blocks** in step 4:\n\n**Vote 1 — works + loan.** **Simple majority (13/24)** under **art. 17.2 LPH**: efficiency works and their financing, provided the annual cost per home after subsidies and loan does not exceed 12 ordinary monthly fees. Usera 51: about €522 in year 1 (€383 + 12 × €11.60) against €660 (12 × €55) ✓. Above that, 3/5 would be needed. The builder is approved as its own agenda item.\n\n**Vote 2 — renewables installation (PV + heat pump).** **1/3 (8/24)** suffices under **art. 17.1 LPH**, but the cost is only charged to those voting in favour; to share it among all, simple majority (art. 17.2).\n\nThe presentation shows each owner what it means for them: an €11.60 instalment against €40 of savings → **+€29/month net**. Once approved, a **draft of the minutes** is generated for the chair and the secretary to sign."
   }, {
     k: ["siguiente", "what do I do", "how do I start", "proceso", "pasos"],
     r: "The 5 steps for Usera 51:\n\n**1. Data** — Cadastre + accounts + IEE → draft package with one whole-building retrofit ✓\n**2. Architect** — chosen among candidates, engaged as project manager, validates on site and defines the blocks\n**3. Quotes** — sent to 3 builders at the start · 1 chosen · negotiation + timeline + bank pre-application\n**4. Vote** — presentation with works diagram and bill simulation, Q&A round, **voting by blocks**: works (simple majority, art. 17.2) and renewables (1/3, art. 17.1)\n**5. Execution** — minutes, subsidies, bank and permit with AI-assisted applications\n\nWhere would you like to start?"
@@ -9197,10 +9197,10 @@ function App() {
     r: "The validated project went to 3 builders **at the start of step 3** — same spec, same timeline:\n\n**EcoRehab Madrid** — €94,800 · Full spec · 10-year warranty · **chosen and negotiated to €93,900**\n⚠ **Empresa Vidal** — €89,500 · Double glazing (the spec requires triple)\n**RehabiPro** — €98,200 · Full spec · 15–18 weeks\n\nBuilder and architect also agreed **who files the subsidy applications** (EcoRehab, management included)."
   }, {
     k: ["coste", "how much", "price", "€", "euro", "dinero", "vend", "piso"],
-    r: "Financial summary of the **whole-building retrofit** (validated and negotiated):\n\n• Total works: **€99,400** (3 blocks, incl. IEE works)\n• Plan Rehabilita (ZETU) · Block 1, Green line 60%: **−€45,780**\n• Plan Rehabilita (ZETU) · Block 2: **−€9,210**\n• Green loan: **€35,210** → €11/home/mo\n• Community contribution: about **€383/home** (one-off, €9,200 total)\n\n**Savings €40/home · Instalment €11/home → +€29/home net once works are complete**\n\nIf a flat is sold, outstanding instalments stay with the home, not the person."
+    r: "Financial summary of the **whole-building retrofit** (validated and negotiated):\n\n• Total works: **€99,400** (3 blocks, incl. IEE works)\n• Plan Rehabilita (ZETU) · Block 1, Green line 60%: **−€45,780**\n• Plan Rehabilita (ZETU) · Block 2: **−€9,210**\n• Green loan: **€35,210** → €11.60/home/mo\n• Community contribution: about **€383/home** (one-off, €9,200 total)\n\n**Savings €40/home · Instalment €11.60/home → +€29/home net once works are complete**\n\nIf a flat is sold, outstanding instalments stay with the home, not the person."
   }, {
     k: ["cae", "energy savings certificate", "energy savings certificates", "refund"],
-    r: "**CAE (Energy Savings Certificates):** verified post-works savings generate certificates (1 CAE = 1 kWh of annual final-energy savings) bought by a delegated party (no official price index; sector reference €115–140/MWh).\n\nFor Usera 51 (sheet RES010): about 135 MWh/yr certifiable → **one-off payment of about €16,000 gross** (about €670/home), after the works finish and savings are verified (M16 in the demo), minus the delegated party's fee.\n\nThe Plan Rehabilita call expressly declares CAE compatible with its grants. Even so, the CAE agreement must justify the CAE's own incentive effect (art. 13 RD 36/2023): it is signed before works start.\n\nApplied as **early loan repayment**: with about €14,100 net of fees, the instalment drops from €11 to about €6.50/home/mo and the net benefit rises from +€29 to **+€34/home/mo**. *Illustrative figures.*"
+    r: "**CAE (Energy Savings Certificates):** verified post-works savings generate certificates (1 CAE = 1 kWh of annual final-energy savings) bought by a delegated party (no official price index; sector reference €115–140/MWh).\n\nFor Usera 51 (sheet RES010): about 135 MWh/yr certifiable → **one-off payment of about €16,000 gross** (about €670/home), after the works finish and savings are verified (M16 in the demo), minus the delegated party's fee.\n\nThe Plan Rehabilita call expressly declares CAE compatible with its grants. Even so, the CAE agreement must justify the CAE's own incentive effect (art. 13 RD 36/2023): it is signed before works start.\n\nApplied as **early loan repayment**: with about €14,100 net of fees, the instalment drops from €11.60 to about €6.70/home/mo and the net benefit rises from +€29 to **+€34/home/mo**. *Illustrative figures.*"
   }, {
     k: ["sate", "facade", "fachada", "insulation", "aislamiento", "exterior"],
     r: "**SATE** (external thermal insulation system) is Block 1's façade insulation.\n\nInsulating panels fixed to the exterior with a continuous finish. At Usera 51:\n• Cuts façade losses by **about 40%**\n• No loss of interior space\n• EPC rating from E → B\n• Included in the EcoRehab Madrid and RehabiPro specs ✓\n\n⚠ Empresa Vidal did not include certified SATE — off-spec."
