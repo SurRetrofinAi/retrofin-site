@@ -441,6 +441,61 @@ function GreenSelector({ stage, pending }) {
       React.createElement("div", { style: { fontSize: 10, color: C.muted, marginTop: 7 } }, pending ? T.np : (stage === 1 ? T.n1 : T.n3))));
 }
 
+
+function FundingSplit({ final }) {
+  const L = {
+    en: false,
+    titleD: "Quién paga la obra · estimación",
+    titleF: "Quién paga la obra · proyecto validado (99.400 €)",
+    sub: "Subvenciones públicas", subS: "Plan Rehabilita Madrid (ZETU) · no se devuelven", subD: "Plan Rehabilita Madrid (ZETU) · no se devuelven · aprox. 2.290 €/viv",
+    loan: "Préstamo verde a la comunidad", loanD: "lo devuelven los propietarios en la cuota · 11,60 €/viv/mes, 15 años",
+    own: "Aportación directa de los propietarios", ownD: "pago único · aprox. 383 €/viv",
+    pub: "Ayudas públicas · 55 %",
+    ownersD: "Financiación de los propietarios · 45 %", ownersF: "Financiación de los propietarios · 45 % · 44.410 €",
+    caeD: "Después de la obra, la venta de los certificados de ahorro energético (CAE) amortiza parte del préstamo: la parte que pagan los propietarios baja a aprox. 29 %.",
+    caeF: "Después de la obra (M16), la venta de los certificados de ahorro energético (CAE, aprox. 16.000 €) amortiza parte del préstamo: la cuota baja a aprox. 6,70 €/viv/mes y lo que pagan los propietarios queda en aprox. 28.400 € (29 %).",
+    noteD: "Porcentajes sobre el borrador · el arquitecto valida las cifras en el paso 2."
+  };
+  const segs = [
+    { pct: 55, amt: "54.990 €", color: C.bright, label: L.sub, sub: final ? L.subD : L.subS },
+    { pct: 36, amt: "35.210 €", color: C.gold, label: L.loan, sub: L.loanD },
+    { pct: 9, amt: "9.200 €", color: C.purple, label: L.own, sub: L.ownD }
+  ];
+  const fmt = s => L.en ? s.replace(/^([\d.]+) €$/, (m, n) => "€" + n.replace(/\./g, ",")) : s;
+  return React.createElement("div", {
+    style: { background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 12, padding: "12px 14px", margin: "10px 0 12px" }
+  }, React.createElement("div", {
+    style: { fontSize: 10, fontWeight: 700, color: C.deep, textTransform: "uppercase", letterSpacing: ".5px", marginBottom: 8 }
+  }, final ? L.titleF : L.titleD), React.createElement("div", {
+    style: { display: "flex", height: 28, borderRadius: 7, overflow: "hidden", border: `1px solid ${C.border}` }
+  }, segs.map((s, i) => React.createElement("div", {
+    key: i,
+    title: s.label,
+    style: { flex: `0 0 ${s.pct}%`, background: s.color, color: "#fff", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", borderLeft: i ? "2px solid #fff" : "none" }
+  }, s.pct + " %"))), React.createElement("div", {
+    style: { display: "flex", marginTop: 5, fontSize: 9.5, fontWeight: 700 }
+  }, React.createElement("div", {
+    style: { flex: "0 0 55%", color: C.bright, borderTop: `2px solid ${C.bright}`, paddingTop: 3, paddingRight: 6 }
+  }, L.pub), React.createElement("div", {
+    style: { flex: "0 0 45%", color: C.deep, borderTop: `2px solid ${C.deep}`, paddingTop: 3, paddingLeft: 4, marginLeft: 0 }
+  }, final ? L.ownersF : L.ownersD)), React.createElement("div", {
+    style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8, marginTop: 10 }
+  }, segs.map((s, i) => React.createElement("div", {
+    key: i,
+    style: { display: "flex", gap: 7, alignItems: "flex-start" }
+  }, React.createElement("span", {
+    style: { width: 10, height: 10, borderRadius: 3, background: s.color, flexShrink: 0, marginTop: 2 }
+  }), React.createElement("div", null, React.createElement("div", {
+    style: { fontSize: 10, fontWeight: 700, color: C.text }
+  }, s.label, final ? React.createElement("span", { style: { color: C.deep } }, " · " + fmt(s.amt)) : null), React.createElement("div", {
+    style: { fontSize: 9, color: C.muted, lineHeight: 1.4 }
+  }, s.sub))))), React.createElement("div", {
+    style: { marginTop: 10, fontSize: 9.5, color: C.mid, background: C.pale, border: `1px dashed ${C.border}`, borderRadius: 8, padding: "7px 10px", lineHeight: 1.5 }
+  }, final ? L.caeF : L.caeD), final ? null : React.createElement("div", {
+    style: { fontSize: 9, color: C.muted, fontStyle: "italic", marginTop: 6 }
+  }, L.noteD));
+}
+
 function DocChecklist({ title, items }) {
   const [st, setSt] = useState(items.map(i => i.s));
   const icon = k => k === "listo" ? "\u2713" : k === "tram" ? "\u23f3" : "\u2192";
@@ -1898,7 +1953,7 @@ function Step1Draft({
       fontWeight: 800,
       color: i === 2 ? C.mid : C.deep
     }
-  }, v)))))), /*#__PURE__*/React.createElement("div", {
+  }, v)))))), React.createElement(FundingSplit, { final: false }), /*#__PURE__*/React.createElement("div", {
     style: { marginTop: 2 }
   }, React.createElement("div", {
     style: { fontSize: 10, fontWeight: 700, color: C.deep, textTransform: "uppercase", letterSpacing: ".4px", marginBottom: 4 }
@@ -3921,7 +3976,7 @@ function Step4Vote({
       fontSize: 9,
       color: C.muted
     }
-  }, d))))), /*#__PURE__*/React.createElement("div", {
+  }, d))))), React.createElement(FundingSplit, { final: true }), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 10,
       fontWeight: 700,
@@ -5026,6 +5081,61 @@ function GreenSelector({ stage, pending }) {
           React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, v,
             p ? React.createElement("span", { style: { marginLeft: 6, fontSize: 8.5, fontWeight: 700, padding: "1px 7px", borderRadius: 100, background: C.goldL, color: C.gold, border: `1px solid ${C.goldB}` } }, T.pend) : null)))),
       React.createElement("div", { style: { fontSize: 10, color: C.muted, marginTop: 7 } }, pending ? T.np : (stage === 1 ? T.n1 : T.n3))));
+}
+
+
+function FundingSplit({ final }) {
+  const L = {
+    en: true,
+    titleD: "Who pays for the works · estimate",
+    titleF: "Who pays for the works · validated project (€99,400)",
+    sub: "Public subsidies", subS: "Plan Rehabilita Madrid (ZETU) · not repaid", subD: "Plan Rehabilita Madrid (ZETU) · not repaid · about €2,290/home",
+    loan: "Green loan to the community", loanD: "repaid by the owners through the community fee · €11.60/home/mo, 15 years",
+    own: "Owners' direct contribution", ownD: "one-off payment · about €383/home",
+    pub: "Public subsidies · 55%",
+    ownersD: "Owner financing · 45%", ownersF: "Owner financing · 45% · €44,410",
+    caeD: "After the works, the sale of the energy-savings certificates (CAE) repays part of the loan: the owners' share falls to about 29%.",
+    caeF: "After the works (M16), the sale of the energy-savings certificates (CAE, about €16,000) repays part of the loan: the instalment falls to about €6.70/home/mo and what the owners pay comes to about €28,400 (29%).",
+    noteD: "Shares based on the draft · the architect validates the figures in step 2."
+  };
+  const segs = [
+    { pct: 55, amt: "54.990 €", color: C.bright, label: L.sub, sub: final ? L.subD : L.subS },
+    { pct: 36, amt: "35.210 €", color: C.gold, label: L.loan, sub: L.loanD },
+    { pct: 9, amt: "9.200 €", color: C.purple, label: L.own, sub: L.ownD }
+  ];
+  const fmt = s => L.en ? s.replace(/^([\d.]+) €$/, (m, n) => "€" + n.replace(/\./g, ",")) : s;
+  return React.createElement("div", {
+    style: { background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 12, padding: "12px 14px", margin: "10px 0 12px" }
+  }, React.createElement("div", {
+    style: { fontSize: 10, fontWeight: 700, color: C.deep, textTransform: "uppercase", letterSpacing: ".5px", marginBottom: 8 }
+  }, final ? L.titleF : L.titleD), React.createElement("div", {
+    style: { display: "flex", height: 28, borderRadius: 7, overflow: "hidden", border: `1px solid ${C.border}` }
+  }, segs.map((s, i) => React.createElement("div", {
+    key: i,
+    title: s.label,
+    style: { flex: `0 0 ${s.pct}%`, background: s.color, color: "#fff", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", borderLeft: i ? "2px solid #fff" : "none" }
+  }, s.pct + " %"))), React.createElement("div", {
+    style: { display: "flex", marginTop: 5, fontSize: 9.5, fontWeight: 700 }
+  }, React.createElement("div", {
+    style: { flex: "0 0 55%", color: C.bright, borderTop: `2px solid ${C.bright}`, paddingTop: 3, paddingRight: 6 }
+  }, L.pub), React.createElement("div", {
+    style: { flex: "0 0 45%", color: C.deep, borderTop: `2px solid ${C.deep}`, paddingTop: 3, paddingLeft: 4, marginLeft: 0 }
+  }, final ? L.ownersF : L.ownersD)), React.createElement("div", {
+    style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(150px, 1fr))", gap: 8, marginTop: 10 }
+  }, segs.map((s, i) => React.createElement("div", {
+    key: i,
+    style: { display: "flex", gap: 7, alignItems: "flex-start" }
+  }, React.createElement("span", {
+    style: { width: 10, height: 10, borderRadius: 3, background: s.color, flexShrink: 0, marginTop: 2 }
+  }), React.createElement("div", null, React.createElement("div", {
+    style: { fontSize: 10, fontWeight: 700, color: C.text }
+  }, s.label, final ? React.createElement("span", { style: { color: C.deep } }, " · " + fmt(s.amt)) : null), React.createElement("div", {
+    style: { fontSize: 9, color: C.muted, lineHeight: 1.4 }
+  }, s.sub))))), React.createElement("div", {
+    style: { marginTop: 10, fontSize: 9.5, color: C.mid, background: C.pale, border: `1px dashed ${C.border}`, borderRadius: 8, padding: "7px 10px", lineHeight: 1.5 }
+  }, final ? L.caeF : L.caeD), final ? null : React.createElement("div", {
+    style: { fontSize: 9, color: C.muted, fontStyle: "italic", marginTop: 6 }
+  }, L.noteD));
 }
 
 function DocChecklist({ title, items }) {
@@ -6485,7 +6595,7 @@ function Step1Draft({
       fontWeight: 800,
       color: i === 2 ? C.mid : C.deep
     }
-  }, v)))))), /*#__PURE__*/React.createElement("div", {
+  }, v)))))), React.createElement(FundingSplit, { final: false }), /*#__PURE__*/React.createElement("div", {
     style: { marginTop: 2 }
   }, React.createElement("div", {
     style: { fontSize: 10, fontWeight: 700, color: C.deep, textTransform: "uppercase", letterSpacing: ".4px", marginBottom: 4 }
@@ -8508,7 +8618,7 @@ function Step4Vote({
       fontSize: 9,
       color: C.muted
     }
-  }, d))))), /*#__PURE__*/React.createElement("div", {
+  }, d))))), React.createElement(FundingSplit, { final: true }), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 10,
       fontWeight: 700,
