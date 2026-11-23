@@ -382,7 +382,7 @@ const AI_SYSTEM = `Eres RetroFin AI, un asistente especializado que ayuda a comu
 Edificio: Calle de Marcelo Usera 51, Madrid (Usera, zona ZETU · APIRU). 24 viviendas, 1972, CEE E, 6 plantas.
 Ingresos anuales: 67.695 €. Fondo de reserva: 31.375 €. Sin deuda bancaria. 22/24 propietarios al corriente.
 Proyecto integral único (sin escenarios): Bloque 1 Eficiencia energética 76.300 € (Plan Rehabilita, Línea Verde ZETU 60% −45.780 €) · Bloque 2 Conservación y accesibilidad IEE 15.700 € (Plan Rehabilita ZETU: forjado 8.400 € al 50%, rampa 4.200 € al 75%, contra incendios 3.100 € al 60% = −9.210 €) · Bloque 3 no subvencionado 7.400 €.
-Totales: 99.400 € · subvenciones 54.990 € (≈55%) · préstamo 35.210 € (11,60 €/viv/mes, 15 años) · comunidad 9.200 € (383 €/viv) · neto +29 €/viv/mes.
+Totales: 99.400 € · subvenciones 54.990 € (aprox. 55%) · préstamo 35.210 € (11,60 €/viv/mes, 15 años) · comunidad 9.200 € (383 €/viv) · neto +29 €/viv/mes.
 Subvenciones: el Plan Rehabilita Madrid cubre todo lo subvencionable, más el 75% de honorarios (hasta 12.000 €) y costes indirectos (hasta 3.000 €), no incluidos en las cifras (compatible con el CAE y con ayudas de otras administraciones hasta el coste); Plan Estatal 2026–2030: la CAM no lo ha convocado y lo ha recurrido ante el Supremo, solo complemento opcional; Plan Rehabilita Madrid (convocatoria 2026: 50 M€, por orden de llegada, cerró el 30 sep 2026; la demo asume la siguiente convocatoria); préstamo verde para comunidades con CaixaBank como ejemplo (demo ilustrativa, sin acuerdo), tipo indicativo ilustrativo del 5% TIN. La línea de avales ICO–MIVAU para rehabilitación cerró el 31/12/2025, sin línea sucesora. Mayorías LPH: obras y préstamo por mayoría simple (art. 17.2, coste anual ≤ 12 cuotas ordinarias); renovables 1/3 (art. 17.1, solo pagan quienes votan a favor).
 Flujo: 1 datos y paquete borrador · 2 el arquitecto valida in situ e se contrata para la dirección del proyecto · 3 presupuestos de 3 constructoras, selección y negociación, pre-solicitud bancaria (cribado, no negociación) · 4 presentación a la junta y una única votación (obras + constructora + préstamo) · 5 documentos, solicitudes y ejecución.
 El Plan Rehabilita paga la ayuda por anticipado, en un pago único al notificarse la concesión; la certificación final la justifica después. Si la obra empieza antes de la resolución, el préstamo adelanta ese importe.
@@ -409,20 +409,8 @@ const WORKFLOW_STEPS = [{
   label: "Ejecución"
 }];
 
-function AdBanner() {
-  const T = {"t": "Publicidad en la lona de obra · valoración", "badge": "POCO PROBABLE AQUÍ", "r": [["Obra que la permite", "Restauración de fachada (SATE) ✓"], ["Protección del edificio", "Sin protección (a confirmar en el catálogo municipal)"], ["Ubicación", "Distrito periférico: sin lonas registradas en Usera entre 2010 y 2017"], ["Referencia de mercado", "12.000–100.000 €/mes en ejes como Gran Vía o Castellana"], ["Duración máxima", "6 meses, prorrogables una vez"], ["Si se plantea", "Votación de 3/5 (art. 17.3 LPH) · reserva para el local de planta baja"]], "n": "Ingreso no incluido en el plan financiero. En edificios de ejes céntricos, RetroFin pide ofertas a empresas de publicidad exterior antes de la junta."};
-  return React.createElement("div", { style: { background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 12, padding: "12px 16px", marginBottom: 12 } },
-    React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, marginBottom: 6 } },
-      React.createElement("div", { style: { fontSize: 11.5, fontWeight: 700, color: C.deep } }, T.t),
-      React.createElement("span", { style: { fontSize: 8.5, fontWeight: 700, padding: "2px 8px", borderRadius: 100, background: C.goldL, color: C.gold, border: `1px solid ${C.goldB}` } }, T.badge)),
-    T.r.map(([k, v], i) => React.createElement("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, fontSize: 10.5, padding: "5px 0", borderBottom: `1px dashed ${C.border}` } },
-      React.createElement("span", { style: { color: C.muted } }, k),
-      React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, v))),
-    React.createElement("div", { style: { fontSize: 9.5, color: C.muted, marginTop: 6 } }, T.n));
-}
-
 function GreenSelector({ stage, pending }) {
-  const T = {"t1": "Selector Verde · estimación", "t3": "Expediente de cribado verde · adjunto a la pre-solicitud", "r1": [["Ruta probable", "Edificio completo · Green Checker del BEI: Renovation of existing buildings", ""], ["Criterio verde", "Taxonomía UE 7.2 · ≥30% menos energía primaria", ""], ["Estado", "Pendiente del certificado energético del arquitecto", "p"], ["Anexo · fuente de devolución", "CAE aprox. 135 MWh/año (RES010) · ≈15.700–19.100 € brutos, pago único", ""]], "r3": [["2. Vía", "Edificio completo · Green Checker del BEI: Renovation of existing buildings", ""], ["3. Criterio técnico", "Taxonomía 7.2 · ≥30% menos energía primaria según CEE antes/después", "p"], ["4. DNSH", "Riesgos climáticos · residuos ≥70% · materiales · medidas en obra", "p"], ["5. Expediente", "Obra elegible 76.300 € de 99.400 € · datos listos para el Green Checker del BEI", ""], ["6. Validación del banco (lado del banco)", "Según sus criterios de financiación verde", "p"], ["Anexo · fuentes de devolución", "Subvenciones 54.990 € · CAE RES010 aprox. 135 MWh/año, cobro único (efecto incentivador: art. 13 RD 36/2023)", ""]], "n1": "El Selector se recalcula con el CEE real en el paso 2. Herramienta completa: retrofin.es/greenselector", "n3": "Documento preliminar: la elegibilidad la decide la entidad financiadora. Herramienta completa: retrofin.es/greenselector", "pend": "pendiente", "k": "SELECTOR VERDE", "h1": "¿Cuenta como préstamo verde?", "h3": "Expediente de cribado verde", "s1": "Comprobación automática de lo que pide el banco para un préstamo verde: vía, criterio de la Taxonomía UE y DNSH. Las ayudas y los CAE van en un anexo, como fuentes de devolución.", "s3": "Se adjunta a la pre-solicitud a CaixaBank para que el banco pueda clasificar el préstamo como verde.", "b1": "Estimación", "b3p": "Se adjunta al enviar", "b3d": "Adjunto a la pre-solicitud", "np": "Se genera al enviar la pre-solicitud a CaixaBank."};
+  const T = {"t1": "Selector Verde · estimación", "t3": "Expediente de cribado verde · adjunto a la pre-solicitud", "r1": [["Ruta probable", "Edificio completo · Green Checker del BEI: Renovation of existing buildings", ""], ["Criterio verde", "Taxonomía UE 7.2 · ≥30% menos energía primaria", ""], ["Estado", "Pendiente del certificado energético del arquitecto", "p"], ["Anexo · fuente de devolución", "CAE aprox. 135 MWh/año (RES010) · 15.700–19.100 € brutos, pago único", ""]], "r3": [["2. Vía", "Edificio completo · Green Checker del BEI: Renovation of existing buildings", ""], ["3. Criterio técnico", "Taxonomía 7.2 · ≥30% menos energía primaria según CEE antes/después", "p"], ["4. DNSH", "Riesgos climáticos · residuos ≥70% · materiales · medidas en obra", "p"], ["5. Expediente", "Obra elegible 76.300 € de 99.400 € · datos listos para el Green Checker del BEI", ""], ["6. Validación del banco (lado del banco)", "Según sus criterios de financiación verde", "p"], ["Anexo · fuentes de devolución", "Subvenciones 54.990 € · CAE RES010 aprox. 135 MWh/año, cobro único (efecto incentivador: art. 13 RD 36/2023)", ""]], "n1": "El Selector se recalcula con el CEE real en el paso 2. Herramienta completa: retrofin.es/greenselector", "n3": "Documento preliminar: la elegibilidad la decide la entidad financiadora. Herramienta completa: retrofin.es/greenselector", "pend": "pendiente", "k": "SELECTOR VERDE", "h1": "¿Cuenta como préstamo verde?", "h3": "Expediente de cribado verde", "s1": "Comprobación automática de lo que pide el banco para un préstamo verde: vía, criterio de la Taxonomía UE y DNSH. Las ayudas y los CAE van en un anexo, como fuentes de devolución.", "s3": "Se adjunta a la pre-solicitud a CaixaBank para que el banco pueda clasificar el préstamo como verde.", "b1": "Estimación", "b3p": "Se adjunta al enviar", "b3d": "Adjunto a la pre-solicitud", "np": "Se genera al enviar la pre-solicitud a CaixaBank."};
   const rows = stage === 1 ? T.r1 : T.r3;
   const pill = stage === 1 ? T.b1 : (pending ? T.b3p : T.b3d);
   return React.createElement("div", { style: { background: C.white, border: `2px solid ${C.mid}`, borderRadius: 14, overflow: "hidden", marginBottom: 14, boxShadow: "0 4px 14px rgba(10,74,58,.14)" } },
@@ -556,6 +544,35 @@ function BuildingOptions({ final }) {
     }, e))));
 }
 
+
+function FinStrip({ title, rows }) {
+  return React.createElement("div", {
+    style: { background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, padding: "8px 12px", marginTop: 4, marginBottom: 4 }
+  }, React.createElement("div", {
+    style: { fontSize: 9.5, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: ".4px", marginBottom: 6 }
+  }, title), React.createElement("div", {
+    style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(118px, 1fr))", gap: "6px 12px" }
+  }, rows.map(([l, v, w], i) => React.createElement("div", { key: i },
+    React.createElement("div", { style: { fontSize: 9, color: C.muted } }, l),
+    React.createElement("div", { style: { fontSize: 11.5, fontWeight: 700, color: w ? C.gold : C.mid } }, v)))));
+}
+
+function Step1SubNav({ phase, ready, onGo }) {
+  const tabs = [[1, "1a · Datos del edificio"], [2, "1b · Paquete borrador"]];
+  return React.createElement("div", {
+    style: { display: "flex", gap: 0, marginBottom: 14, border: `1.5px solid ${C.border}`, borderRadius: 10, overflow: "hidden", background: C.white, maxWidth: 520 }
+  }, tabs.map(([p, label]) => {
+    const on = phase === p, dis = p === 2 && !ready;
+    return React.createElement("button", {
+      key: p,
+      onClick: () => { if (!dis) onGo(p); },
+      title: dis ? "Se genera con «Generar paquete borrador»" : "",
+      disabled: dis,
+      style: { flex: 1, padding: "9px 12px", border: "none", borderLeft: p === 2 ? `1.5px solid ${C.border}` : "none", background: on ? C.deep : "transparent", color: on ? "#fff" : dis ? "#b5c4be" : C.deep, fontSize: 11.5, fontWeight: 700, cursor: dis ? "not-allowed" : "pointer", fontFamily: "inherit" }
+    }, label);
+  }));
+}
+
 function DocChecklist({ title, items }) {
   const [st, setSt] = useState(items.map(i => i.s));
   const icon = k => k === "listo" ? "\u2713" : k === "tram" ? "\u23f3" : "\u2192";
@@ -638,7 +655,7 @@ const BLOQUES = [{
   title: "Bloque 2 · Conservación y accesibilidad (IEE)",
   subsidio: "Plan Rehabilita Madrid · Conserva, Accesible y Seguridad (ZETU)",
   coste: "15.700 €",
-  subv: "−9.210 € (≈59%)",
+  subv: "−9.210 € (aprox. 59%)",
   items: ["Reparación grieta forjado planta baja", "Rampa de accesibilidad en portal (RD 505/2007)", "Renovación sistema contra incendios (BIE)"]
 }, {
   id: 3,
@@ -1835,7 +1852,7 @@ function Step1Intake({
       color: C.muted,
       fontWeight: 400
     }
-  }, "incluidas en el proyecto integral")))), /*#__PURE__*/React.createElement(GreenSelector, { stage: 1 }), React.createElement(AdBanner, null), React.createElement(DocChecklist, { title: "Documentos del paso 1", items: [{ t: "Certificación catastral", s: "listo", h: "automática" }, { t: "IEE", s: "listo", h: "subido" }, { t: "Cuentas de la comunidad", s: "listo", h: "analizadas" }, { t: "CIF y titularidad de cuenta", s: "tram", h: "aporta el administrador" }, { t: "Nombramiento vigente del presidente", s: "tram", h: "acta de la última junta · administrador" }, { t: "Planos del edificio", s: "pend", h: "si no existen, levantamiento en el paso 2" }, { t: "CEE inicial", s: "pend", h: "si no existe, lo emite el arquitecto en el paso 2" }, { t: "Encargo del arquitecto", s: "pend", h: "se contrata en el paso 2" }] }), /*#__PURE__*/React.createElement("button", {
+  }, "incluidas en el proyecto integral")))), /*#__PURE__*/React.createElement(GreenSelector, { stage: 1 }), React.createElement(DocChecklist, { title: "Documentos del paso 1", items: [{ t: "Certificación catastral", s: "listo", h: "automática" }, { t: "IEE", s: "listo", h: "subido" }, { t: "Cuentas de la comunidad", s: "listo", h: "analizadas" }, { t: "CIF y titularidad de cuenta", s: "tram", h: "aporta el administrador" }, { t: "Nombramiento vigente del presidente", s: "tram", h: "acta de la última junta · administrador" }, { t: "Planos del edificio", s: "pend", h: "si no existen, levantamiento en el paso 2" }, { t: "CEE inicial", s: "pend", h: "si no existe, lo emite el arquitecto en el paso 2" }, { t: "Encargo del arquitecto", s: "pend", h: "se contrata en el paso 2" }] }), /*#__PURE__*/React.createElement("button", {
     onClick: onNext,
     style: {
       width: "100%",
@@ -1854,7 +1871,8 @@ function Step1Intake({
 /* ─────────────────────────────── PASO 1b · PAQUETE BORRADOR (PROYECTO ÚNICO) ─────────────────────────────── */
 
 function Step1Draft({
-  onNext
+  onNext,
+  onBack
 }) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(StepBadge, {
     n: "1",
@@ -1863,48 +1881,6 @@ function Step1Draft({
     badgeBg: `${C.mid}25`,
     badgeC: C.mid
   }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: C.white,
-      border: `1px solid ${C.border}`,
-      borderRadius: 12,
-      overflow: "hidden",
-      marginBottom: 14
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: C.pale,
-      borderBottom: `1px solid ${C.border}`,
-      padding: "10px 16px",
-      fontSize: 11,
-      fontWeight: 700,
-      color: C.deep,
-      textTransform: "uppercase"
-    }
-  }, "Datos financieros — Ejercicio 2024"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr"
-    }
-  }, [["Ingresos anuales", "67.695 €"], ["Gastos anuales", "29.577 €"], ["Superávit", "38.118 €"], ["Fondo de reserva", "31.375 € ✓"], ["Deuda bancaria", "Ninguna ✓"], ["Derramas pendientes", "1.200 €", true], ["Cuota mensual", "55 €/mes"], ["Propietarios al corriente", "22 de 24 ✓"]].map(([l, v, w], i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      padding: "11px 16px",
-      borderBottom: `1px solid ${C.border}`,
-      borderRight: i % 2 === 0 ? `1px solid ${C.border}` : "none"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10.5,
-      color: C.muted,
-      marginBottom: 2
-    }
-  }, l), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontWeight: 700,
-      fontSize: 15,
-      color: w ? C.gold : C.mid
-    }
-  }, v))))), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.pale,
       border: `1px solid ${C.border}`,
@@ -1960,7 +1936,7 @@ function Step1Draft({
       flexWrap: "wrap",
       marginBottom: 10
     }
-  }, ["CEE E → B", "Consumo −48%", "Demanda calef./refr. −50% (est.)", "Coste bruto 98.000 € (est.)", "≈ 55% subvencionado"].map((t, i) => /*#__PURE__*/React.createElement("span", {
+  }, ["CEE E → B", "Consumo −48%", "Demanda calef./refr. −50% (est.)", "Coste bruto 98.000 € (est.)", "aprox. 55% subvencionado"].map((t, i) => /*#__PURE__*/React.createElement("span", {
     key: i,
     style: {
       fontSize: 10,
@@ -2013,7 +1989,7 @@ function Step1Draft({
       fontWeight: 800,
       color: i === 2 ? C.mid : C.deep
     }
-  }, v)))))), React.createElement(BuildingOptions, null), React.createElement(FundingSplit, { final: false })), /*#__PURE__*/React.createElement("button", {
+  }, v)))))), React.createElement(BuildingOptions, null), React.createElement(FundingSplit, { final: false })), React.createElement(FinStrip, { title: "Datos financieros — Ejercicio 2024", rows: [["Ingresos anuales", "67.695 €"], ["Gastos anuales", "29.577 €"], ["Superávit", "38.118 €"], ["Fondo de reserva", "31.375 € ✓"], ["Deuda bancaria", "Ninguna ✓"], ["Derramas pendientes", "1.200 €", true], ["Cuota mensual", "55 €/mes"], ["Propietarios al corriente", "22 de 24 ✓"]] }), React.createElement("button", { onClick: onBack, style: { display: "block", width: "100%", marginTop: 12, marginBottom: 8, padding: "10px", borderRadius: 10, border: `1.5px solid ${C.border}`, background: C.white, color: C.deep, fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" } }, "← Volver a los datos del edificio"), /*#__PURE__*/React.createElement("button", {
     onClick: onNext,
     style: {
       width: "100%",
@@ -2493,7 +2469,7 @@ function Step2Architect({
       fontWeight: 700,
       color: C.mid
     }
-  }, "Subvenciones: 54.990 € (≈55%) · Préstamo: 35.210 € · Comunidad: 9.200 € · CAE: −16.000 € brutos (M16)")), /*#__PURE__*/React.createElement(DocChecklist, { title: "Documentos del paso 2", items: [{ t: "Proyecto / memoria técnica", s: "listo", h: "validado in situ" }, { t: "CEE de proyecto (≥30% energía primaria · ≥35% demanda)", s: "listo", h: "emitido · lo exigen la taxonomía y la Línea Verde" }, { t: "Libro del Edificio Existente (LEEx)", s: "tram", h: "exigido por los programas de ayudas" }, { t: "Licencia de obras", s: "pend", h: "junta de distrito · 4–8 semanas" }, { t: "Estudio de residuos + SyS", s: "listo", h: "anexos del proyecto" }] }), /*#__PURE__*/React.createElement("button", {
+  }, "Subvenciones: 54.990 € (aprox. 55%) · Préstamo: 35.210 € · Comunidad: 9.200 € · CAE: −16.000 € brutos (M16)")), /*#__PURE__*/React.createElement(DocChecklist, { title: "Documentos del paso 2", items: [{ t: "Proyecto / memoria técnica", s: "listo", h: "validado in situ" }, { t: "CEE de proyecto (≥30% energía primaria · ≥35% demanda)", s: "listo", h: "emitido · lo exigen la taxonomía y la Línea Verde" }, { t: "Libro del Edificio Existente (LEEx)", s: "tram", h: "exigido por los programas de ayudas" }, { t: "Licencia de obras", s: "pend", h: "junta de distrito · 4–8 semanas" }, { t: "Estudio de residuos + SyS", s: "listo", h: "anexos del proyecto" }] }), /*#__PURE__*/React.createElement("button", {
     onClick: onNext,
     style: {
       width: "100%",
@@ -4635,6 +4611,8 @@ function Step5Export() {
 function App() {
   const [step, setStep] = useState(1);
   const [intakePhase, setIntakePhase] = useState(1);
+  const [draftReady, setDraftReady] = useState(false);
+  const goPhase = p => { setIntakePhase(p); try { const m = document.querySelector("[data-rf-main]"); if (m) m.scrollTop = 0; } catch (_) {} };
   const [uploadState, setUploadState] = useState("idle");
   const [msgs, setMsgs] = useState([{
     role: "assistant",
@@ -4661,9 +4639,6 @@ function App() {
     }, 3300);
   };
   const CANNED = [{
-    k: ["publicidad", "lona", "anuncio", "andamio"],
-    r: "**Publicidad en la lona de obra:** durante la obra de fachada, la comunidad puede alquilar la superficie del andamio a una empresa de publicidad exterior.\n\n• **Requisitos en Madrid:** obra de restauración de fachada con licencia; no se permite en BIC ni en edificios con protección de nivel 1; licencia de 6 meses, prorrogable una vez\n• **Junta:** alquilar un elemento común exige **3/5** (art. 17.3 LPH) y el consentimiento del propietario directamente afectado\n• **Locales de planta baja:** conviene reservar parte del ingreso; en 2026 la Audiencia Provincial de Madrid condenó a una comunidad a indemnizar a un local tapado por la lona\n\n**Cuánto:** en ejes como Gran Vía o Castellana, entre 12.000 y 100.000 €/mes según la prensa; en distritos periféricos apenas hay demanda. En Usera 51 se considera poco probable y no se incluye en el plan financiero."
-  }, {
     k: ["quién es caixabank", "qué es caixabank", "sobre caixabank", "caixabank?", "uci"],
     r: "**CaixaBank** aparece en esta demo como ejemplo de la entidad que recibe la pre-solicitud y el expediente verde de la comunidad.\n\n• RetroFin prepara el expediente: obras elegibles, criterio de la Taxonomía UE, DNSH y calendario de disposiciones\n• La entidad hace su propio análisis de riesgo y fija el tipo, el plazo y las garantías\n\n*Ejemplo ilustrativo: no hay acuerdo con CaixaBank, y el tipo y el plazo de la demo no son condiciones de CaixaBank.*"
   }, {
@@ -4677,13 +4652,13 @@ function App() {
     r: "El Plan Rehabilita en ZETU cubre el **75% de los honorarios técnicos** (hasta 12.000 € por edificio; honorarios de hasta el 10% del coste) y el **75% de los costes indirectos** (hasta 3.000 €; hasta el 4% del coste).\n\nNo están incluidos en las cifras del caso. Si los honorarios de la arquitecta (4,5%) van aparte del presupuesto, serían unos **3.300 € más de subvención** (calculado sobre 99.400 €)."
   }, {
     k: ["plan rehabilita", "rehabilita madrid", "ayuntamiento", "municipal", "zire", "zetu", "50 millones", "subvenci", "ayuda"],
-    r: "**Plan Rehabilita Madrid** es la subvención municipal del Ayuntamiento. La convocatoria 2026 (**50 M€**, **por orden de llegada**) estuvo abierta del 3 de junio al 30 de septiembre de 2026 y ya ha cerrado: la demo asume que la siguiente tendrá condiciones parecidas.\n\nMarcelo Usera 51 está en **zona ZETU** (Área Preferente de Impulso a la Regeneración Urbana, según el visor del geoportal). En ZETU financia **todo lo subvencionable del proyecto**:\n• Bloque 1 · Línea Verde **60%** (con ≥35% menos demanda de calefacción y refrigeración): **−45.780 €**\n• Bloque 2 · forjado (Conserva 50%), rampa (Accesible 75%) y contra incendios (Seguridad 60%): **−9.210 €**\n\nTotal **54.990 € (≈55%)**. Es compatible con el CAE y con ayudas de otras administraciones, siempre que la suma no supere el coste.\n\nAdemás cubre el **75% de los honorarios técnicos** (hasta 12.000 € por edificio) y de los **costes indirectos** (hasta 3.000 €), que no están incluidos en las cifras del caso.\n\nAl ser por orden de llegada, presentar pronto importa — por eso todo el proceso se comprime en semanas, no meses."
+    r: "**Plan Rehabilita Madrid** es la subvención municipal del Ayuntamiento. La convocatoria 2026 (**50 M€**, **por orden de llegada**) estuvo abierta del 3 de junio al 30 de septiembre de 2026 y ya ha cerrado: la demo asume que la siguiente tendrá condiciones parecidas.\n\nMarcelo Usera 51 está en **zona ZETU** (Área Preferente de Impulso a la Regeneración Urbana, según el visor del geoportal). En ZETU financia **todo lo subvencionable del proyecto**:\n• Bloque 1 · Línea Verde **60%** (con ≥35% menos demanda de calefacción y refrigeración): **−45.780 €**\n• Bloque 2 · forjado (Conserva 50%), rampa (Accesible 75%) y contra incendios (Seguridad 60%): **−9.210 €**\n\nTotal **54.990 € (aprox. 55%)**. Es compatible con el CAE y con ayudas de otras administraciones, siempre que la suma no supere el coste.\n\nAdemás cubre el **75% de los honorarios técnicos** (hasta 12.000 € por edificio) y de los **costes indirectos** (hasta 3.000 €), que no están incluidos en las cifras del caso.\n\nAl ser por orden de llegada, presentar pronto importa — por eso todo el proceso se comprime en semanas, no meses."
   }, {
     k: ["plan estatal", "plan nacional", "comunidad de madrid", "cam", "supremo"],
-    r: "**Plan Estatal 2026–2030** (RD 326/2026) lo gestionan las comunidades autónomas. La **Comunidad de Madrid aún no lo ha convocado** y lo ha recurrido ante el Tribunal Supremo (junio de 2026), así que **el caso no cuenta con él**: todo lo subvencionable va al Plan Rehabilita (54.990 €, ≈55%).\n\nSi la CAM convoca, sería un **complemento**: el Plan Rehabilita es compatible con ayudas de otras administraciones mientras la suma no supere el coste de la obra."
+    r: "**Plan Estatal 2026–2030** (RD 326/2026) lo gestionan las comunidades autónomas. La **Comunidad de Madrid aún no lo ha convocado** y lo ha recurrido ante el Tribunal Supremo (junio de 2026), así que **el caso no cuenta con él**: todo lo subvencionable va al Plan Rehabilita (54.990 €, aprox. 55%).\n\nSi la CAM convoca, sería un **complemento**: el Plan Rehabilita es compatible con ayudas de otras administraciones mientras la suma no supere el coste de la obra."
   }, {
     k: ["bloque", "desglose", "no subvencionad", "portal", "videoportero"],
-    r: "El proyecto integral se organiza en **3 bloques según la subvención aplicable**:\n\n**Bloque 1 · Eficiencia energética** — 76.300 € · Plan Rehabilita, Línea Verde ZETU (60%) −45.780 €\nSATE, ventanas triple acristalamiento, cubierta.\n\n**Bloque 2 · Conservación y accesibilidad (IEE)** — 15.700 € · Plan Rehabilita ZETU (Conserva 50% · Accesible 75% · Seguridad 60%) −9.210 €\nForjado, rampa, contra incendios.\n\n**Bloque 3 · Mejoras no subvencionadas** — 7.400 € · 0 €\nPortal, buzones, videoportero, pintura.\n\n**Total 99.400 € · subvenciones 54.990 € (≈55%)**. Son las cifras validadas en el paso 2. El borrador del paso 1 estimaba 98.000 € (74.900 € en el bloque 1); la visita del arquitecto añadió 72 m² de fachada."
+    r: "El proyecto integral se organiza en **3 bloques según la subvención aplicable**:\n\n**Bloque 1 · Eficiencia energética** — 76.300 € · Plan Rehabilita, Línea Verde ZETU (60%) −45.780 €\nSATE, ventanas triple acristalamiento, cubierta.\n\n**Bloque 2 · Conservación y accesibilidad (IEE)** — 15.700 € · Plan Rehabilita ZETU (Conserva 50% · Accesible 75% · Seguridad 60%) −9.210 €\nForjado, rampa, contra incendios.\n\n**Bloque 3 · Mejoras no subvencionadas** — 7.400 € · 0 €\nPortal, buzones, videoportero, pintura.\n\n**Total 99.400 € · subvenciones 54.990 € (aprox. 55%)**. Son las cifras validadas en el paso 2. El borrador del paso 1 estimaba 98.000 € (74.900 € en el bloque 1); la visita del arquitecto añadió 72 m² de fachada."
   }, {
     k: ["ico verde", "ico", "banco", "préstamo", "financiaci", "caixa", "uci", "pre-solicitud", "cribado"],
     r: "**Préstamo verde para la comunidad** (en esta demo, CaixaBank como ejemplo ilustrativo, sin acuerdo).\n\nPara Usera 51:\n• En el paso 3 RetroFin envía una **pre-solicitud** — un **cribado inicial, no una negociación**\n• Tipo indicativo ilustrativo: **5% TIN** · 15 años (supuesto de la demo, no condiciones de CaixaBank)\n• Préstamo: **35.210 €** → cuota estimada **11,60 €/viv/mes**\n• Ahorro energético: 40 €/viv/mes\n• **Beneficio neto tras la obra: +29 €/viv/mes**\n\nNota: la línea de avales ICO–MIVAU para rehabilitación cerró el 31/12/2025 y no tiene línea sucesora; el tipo real dependerá del banco."
@@ -4733,7 +4708,7 @@ function App() {
     const msgLower = msg.toLowerCase();
     const hit = k => k.length <= 4 ? new RegExp("(^|[^a-z0-9áéíóúñü])" + k.replace(/[.*+?^$()|[\]\\{}]/g, "\\$&")).test(msgLower) : msgLower.includes(k);
     const match = CANNED.find(c => c.k.some(hit));
-    const reply = match ? match.r : "En esta demo no tengo una respuesta preparada para eso. Puedo explicarle: subvenciones (Plan Rehabilita y Plan Estatal), el préstamo con CaixaBank, el CAE, el Selector Verde, la votación en la junta, el papel del arquitecto, el cronograma, la comunidad energética o los supuestos de la demo.\n\nResumen del caso: **99.400 € de obra, 54.990 € de subvención (≈55%) y +29 €/viv/mes netos tras la obra**.";
+    const reply = match ? match.r : "En esta demo no tengo una respuesta preparada para eso. Puedo explicarle: subvenciones (Plan Rehabilita y Plan Estatal), el préstamo con CaixaBank, el CAE, el Selector Verde, la votación en la junta, el papel del arquitecto, el cronograma, la comunidad energética o los supuestos de la demo.\n\nResumen del caso: **99.400 € de obra, 54.990 € de subvención (aprox. 55%) y +29 €/viv/mes netos tras la obra**.";
     setTimeout(() => {
       setMsgs(prev => [...prev, {
         role: "assistant",
@@ -4830,13 +4805,15 @@ function App() {
       flex: 1,
       overflowY: "auto",
       padding: "18px 20px 48px"
-    }
-  }, step === 1 && intakePhase === 1 && /*#__PURE__*/React.createElement(Step1Intake, {
+    },
+    "data-rf-main": "1"
+  }, step === 1 && React.createElement(Step1SubNav, { phase: intakePhase, ready: draftReady, onGo: goPhase }), step === 1 && React.createElement("div", { style: { display: intakePhase === 1 ? "block" : "none" } }, /*#__PURE__*/React.createElement(Step1Intake, {
     uploadState: uploadState,
     onUpload: handleUpload,
-    onNext: () => setIntakePhase(2)
-  }), step === 1 && intakePhase === 2 && /*#__PURE__*/React.createElement(Step1Draft, {
-    onNext: () => setStep(2)
+    onNext: () => { setDraftReady(true); goPhase(2); }
+  })), step === 1 && intakePhase === 2 && /*#__PURE__*/React.createElement(Step1Draft, {
+    onNext: () => setStep(2),
+    onBack: () => goPhase(1)
   }), step === 2 && /*#__PURE__*/React.createElement(Step2Architect, {
     onNext: () => setStep(3)
   }), step === 3 && /*#__PURE__*/React.createElement(Step3Quotes, {
@@ -5072,7 +5049,7 @@ const AI_SYSTEM = `You are RetroFin AI, a specialised assistant helping Spanish 
 Building: Calle de Marcelo Usera 51, Madrid (Usera, ZETU zone · APIRU). 24 homes, 1972, EPC E, 6 floors.
 Annual income: €67,695. Reserve fund: €31,375. No bank debt. 22/24 owners up to date.
 Single whole-building retrofit (no scenarios): Block 1 Energy efficiency €76,300 (Plan Rehabilita, Green line ZETU 60% −€45,780) · Block 2 Conservation & accessibility IEE €15,700 (Plan Rehabilita ZETU: slab €8,400 at 50%, ramp €4,200 at 75%, fire protection €3,100 at 60% = −€9,210) · Block 3 non-subsidised €7,400.
-Totals: €99,400 · subsidies €54,990 (≈55%) · loan €35,210 (€11.60/home/mo, 15 years) · community €9,200 (€383/home) · net +€29/home/mo.
+Totals: €99,400 · subsidies €54,990 (about 55%) · loan €35,210 (€11.60/home/mo, 15 years) · community €9,200 (€383/home) · net +€29/home/mo.
 Subsidies: Plan Rehabilita Madrid covers everything subsidisable, plus 75% of fees (up to €12,000) and indirect costs (up to €3,000), not included in the figures (compatible with CAE and with other administrations' aid up to cost); State Plan 2026–2030: no CAM call and the CAM has appealed it to the Supreme Court, optional top-up only; Plan Rehabilita Madrid (2026 call: €50M, first come first served, closed 30 Sep 2026; the demo assumes the next call); green community loan with CaixaBank as an example (illustrative demo, no agreement), illustrative indicative rate of 5% fixed. The ICO–MIVAU guarantee line for retrofits closed on 31/12/2025, with no successor line. LPH majorities: works and loan by simple majority (art. 17.2, annual cost ≤ 12 ordinary monthly fees); renewables 1/3 (art. 17.1, only those voting in favour pay).
 Flow: 1 data and draft package · 2 the architect validates on site and starts as project manager · 3 quotes from 3 builders, selection and negotiation, bank pre-application (screening, not negotiation) · 4 assembly presentation and a single vote (works + builder + loan) · 5 documents, applications and execution.
 Plan Rehabilita pays the grant in advance, as a single payment once the award is notified; the final certificate justifies it afterwards. If works start before the award, the loan advances that amount.
@@ -5099,20 +5076,8 @@ const WORKFLOW_STEPS = [{
   label: "Execution"
 }];
 
-function AdBanner() {
-  const T = {"t": "Advertising on the scaffold banner · assessment", "badge": "UNLIKELY HERE", "r": [["Works that allow it", "Façade restoration (SATE) ✓"], ["Building protection", "Not protected (to be confirmed in the city catalogue)"], ["Location", "Outer district: no banners registered in Usera between 2010 and 2017"], ["Market reference", "€12,000–100,000/month on axes such as Gran Vía or Castellana"], ["Maximum duration", "6 months, renewable once"], ["If pursued", "3/5 vote (art. 17.3 LPH) · reserve for the ground-floor shop"]], "n": "Income not included in the financial plan. For buildings on central axes, RetroFin requests offers from outdoor-advertising firms before the assembly."};
-  return React.createElement("div", { style: { background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 12, padding: "12px 16px", marginBottom: 12 } },
-    React.createElement("div", { style: { display: "flex", justifyContent: "space-between", alignItems: "center", gap: 8, marginBottom: 6 } },
-      React.createElement("div", { style: { fontSize: 11.5, fontWeight: 700, color: C.deep } }, T.t),
-      React.createElement("span", { style: { fontSize: 8.5, fontWeight: 700, padding: "2px 8px", borderRadius: 100, background: C.goldL, color: C.gold, border: `1px solid ${C.goldB}` } }, T.badge)),
-    T.r.map(([k, v], i) => React.createElement("div", { key: i, style: { display: "flex", justifyContent: "space-between", gap: 10, fontSize: 10.5, padding: "5px 0", borderBottom: `1px dashed ${C.border}` } },
-      React.createElement("span", { style: { color: C.muted } }, k),
-      React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, v))),
-    React.createElement("div", { style: { fontSize: 9.5, color: C.muted, marginTop: 6 } }, T.n));
-}
-
 function GreenSelector({ stage, pending }) {
-  const T = {"t1": "Green Selector · estimate", "t3": "Green screening file · attached to the pre-application", "r1": [["Likely route", "Whole building · EIB Green Checker: Renovation of existing buildings", ""], ["Green criterion", "EU taxonomy 7.2 · ≥30% less primary energy", ""], ["Status", "Pending the architect's energy certificate", "p"], ["Annex · repayment source", "CAE about 135 MWh/yr (RES010) · ≈€15.7–19.1k gross, one-off", ""]], "r3": [["2. Route", "Whole building · EIB Green Checker: Renovation of existing buildings", ""], ["3. Technical criterion", "Taxonomy 7.2 · ≥30% less primary energy per EPC before/after", "p"], ["4. DNSH", "Climate risks · waste ≥70% · materials · on-site measures", "p"], ["5. File", "Eligible works €76,300 of €99,400 · data ready for the EIB Green Checker", ""], ["6. Bank validation (bank's side)", "Per the lender's own green-finance criteria", "p"], ["Annex · repayment sources", "Subsidies €54,990 · CAE RES010 about 135 MWh/yr, paid once (incentive effect: art. 13 RD 36/2023)", ""]], "n1": "The Selector is recomputed with the real EPC in step 2. Full tool: retrofin.es/greenselector", "n3": "Preliminary document: eligibility is decided by the lender. Full tool: retrofin.es/greenselector", "pend": "pending", "k": "GREEN SELECTOR", "h1": "Does it qualify as a green loan?", "h3": "Green screening file", "s1": "Automatic check of what the bank needs for a green loan: route, EU taxonomy criterion and DNSH. Subsidies and CAE go in an annex, as repayment sources.", "s3": "Attached to the CaixaBank pre-application so the bank can classify the loan as green.", "b1": "Estimate", "b3p": "Attached on sending", "b3d": "Attached to the pre-application", "np": "Generated when you send the pre-application to CaixaBank."};
+  const T = {"t1": "Green Selector · estimate", "t3": "Green screening file · attached to the pre-application", "r1": [["Likely route", "Whole building · EIB Green Checker: Renovation of existing buildings", ""], ["Green criterion", "EU taxonomy 7.2 · ≥30% less primary energy", ""], ["Status", "Pending the architect's energy certificate", "p"], ["Annex · repayment source", "CAE about 135 MWh/yr (RES010) · €15.7–19.1k gross, one-off", ""]], "r3": [["2. Route", "Whole building · EIB Green Checker: Renovation of existing buildings", ""], ["3. Technical criterion", "Taxonomy 7.2 · ≥30% less primary energy per EPC before/after", "p"], ["4. DNSH", "Climate risks · waste ≥70% · materials · on-site measures", "p"], ["5. File", "Eligible works €76,300 of €99,400 · data ready for the EIB Green Checker", ""], ["6. Bank validation (bank's side)", "Per the lender's own green-finance criteria", "p"], ["Annex · repayment sources", "Subsidies €54,990 · CAE RES010 about 135 MWh/yr, paid once (incentive effect: art. 13 RD 36/2023)", ""]], "n1": "The Selector is recomputed with the real EPC in step 2. Full tool: retrofin.es/greenselector", "n3": "Preliminary document: eligibility is decided by the lender. Full tool: retrofin.es/greenselector", "pend": "pending", "k": "GREEN SELECTOR", "h1": "Does it qualify as a green loan?", "h3": "Green screening file", "s1": "Automatic check of what the bank needs for a green loan: route, EU taxonomy criterion and DNSH. Subsidies and CAE go in an annex, as repayment sources.", "s3": "Attached to the CaixaBank pre-application so the bank can classify the loan as green.", "b1": "Estimate", "b3p": "Attached on sending", "b3d": "Attached to the pre-application", "np": "Generated when you send the pre-application to CaixaBank."};
   const rows = stage === 1 ? T.r1 : T.r3;
   const pill = stage === 1 ? T.b1 : (pending ? T.b3p : T.b3d);
   return React.createElement("div", { style: { background: C.white, border: `2px solid ${C.mid}`, borderRadius: 14, overflow: "hidden", marginBottom: 14, boxShadow: "0 4px 14px rgba(10,74,58,.14)" } },
@@ -5246,6 +5211,35 @@ function BuildingOptions({ final }) {
     }, e))));
 }
 
+
+function FinStrip({ title, rows }) {
+  return React.createElement("div", {
+    style: { background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, padding: "8px 12px", marginTop: 4, marginBottom: 4 }
+  }, React.createElement("div", {
+    style: { fontSize: 9.5, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: ".4px", marginBottom: 6 }
+  }, title), React.createElement("div", {
+    style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(118px, 1fr))", gap: "6px 12px" }
+  }, rows.map(([l, v, w], i) => React.createElement("div", { key: i },
+    React.createElement("div", { style: { fontSize: 9, color: C.muted } }, l),
+    React.createElement("div", { style: { fontSize: 11.5, fontWeight: 700, color: w ? C.gold : C.mid } }, v)))));
+}
+
+function Step1SubNav({ phase, ready, onGo }) {
+  const tabs = [[1, "1a · Building data"], [2, "1b · Draft package"]];
+  return React.createElement("div", {
+    style: { display: "flex", gap: 0, marginBottom: 14, border: `1.5px solid ${C.border}`, borderRadius: 10, overflow: "hidden", background: C.white, maxWidth: 520 }
+  }, tabs.map(([p, label]) => {
+    const on = phase === p, dis = p === 2 && !ready;
+    return React.createElement("button", {
+      key: p,
+      onClick: () => { if (!dis) onGo(p); },
+      title: dis ? "Generated with «Generate draft package»" : "",
+      disabled: dis,
+      style: { flex: 1, padding: "9px 12px", border: "none", borderLeft: p === 2 ? `1.5px solid ${C.border}` : "none", background: on ? C.deep : "transparent", color: on ? "#fff" : dis ? "#b5c4be" : C.deep, fontSize: 11.5, fontWeight: 700, cursor: dis ? "not-allowed" : "pointer", fontFamily: "inherit" }
+    }, label);
+  }));
+}
+
 function DocChecklist({ title, items }) {
   const [st, setSt] = useState(items.map(i => i.s));
   const icon = k => k === "listo" ? "\u2713" : k === "tram" ? "\u23f3" : "\u2192";
@@ -5328,7 +5322,7 @@ const BLOQUES = [{
   title: "Block 2 · Conservation & accessibility (IEE)",
   subsidio: "Plan Rehabilita Madrid · Conserva, Accessible & Safety (ZETU)",
   coste: "€15,700",
-  subv: "−€9,210 (≈59%)",
+  subv: "−€9,210 (about 59%)",
   items: ["Ground-floor slab crack repair", "Accessibility ramp at entrance (RD 505/2007)", "Fire-protection system renewal (hose reels)"]
 }, {
   id: 3,
@@ -6525,7 +6519,7 @@ function Step1Intake({
       color: C.muted,
       fontWeight: 400
     }
-  }, "included in the whole-building retrofit")))), /*#__PURE__*/React.createElement(GreenSelector, { stage: 1 }), React.createElement(AdBanner, null), React.createElement(DocChecklist, { title: "Step 1 documents", items: [{ t: "Cadastral certificate", s: "listo", h: "automatic" }, { t: "IEE", s: "listo", h: "uploaded" }, { t: "Community accounts", s: "listo", h: "analysed" }, { t: "Tax ID and account ownership", s: "tram", h: "provided by the property manager" }, { t: "Current appointment of the president", s: "tram", h: "minutes of the last assembly · property manager" }, { t: "Building plans", s: "pend", h: "if missing, surveyed in step 2" }, { t: "Initial EPC", s: "pend", h: "if missing, issued by the architect in step 2" }, { t: "Architect engagement", s: "pend", h: "contracted in step 2" }] }), /*#__PURE__*/React.createElement("button", {
+  }, "included in the whole-building retrofit")))), /*#__PURE__*/React.createElement(GreenSelector, { stage: 1 }), React.createElement(DocChecklist, { title: "Step 1 documents", items: [{ t: "Cadastral certificate", s: "listo", h: "automatic" }, { t: "IEE", s: "listo", h: "uploaded" }, { t: "Community accounts", s: "listo", h: "analysed" }, { t: "Tax ID and account ownership", s: "tram", h: "provided by the property manager" }, { t: "Current appointment of the president", s: "tram", h: "minutes of the last assembly · property manager" }, { t: "Building plans", s: "pend", h: "if missing, surveyed in step 2" }, { t: "Initial EPC", s: "pend", h: "if missing, issued by the architect in step 2" }, { t: "Architect engagement", s: "pend", h: "contracted in step 2" }] }), /*#__PURE__*/React.createElement("button", {
     onClick: onNext,
     style: {
       width: "100%",
@@ -6544,7 +6538,8 @@ function Step1Intake({
 /* ─────────────────────────────── PASO 1b · PAQUETE BORRADOR (PROYECTO ÚNICO) ─────────────────────────────── */
 
 function Step1Draft({
-  onNext
+  onNext,
+  onBack
 }) {
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(StepBadge, {
     n: "1",
@@ -6553,48 +6548,6 @@ function Step1Draft({
     badgeBg: `${C.mid}25`,
     badgeC: C.mid
   }), /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: C.white,
-      border: `1px solid ${C.border}`,
-      borderRadius: 12,
-      overflow: "hidden",
-      marginBottom: 14
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      background: C.pale,
-      borderBottom: `1px solid ${C.border}`,
-      padding: "10px 16px",
-      fontSize: 11,
-      fontWeight: 700,
-      color: C.deep,
-      textTransform: "uppercase"
-    }
-  }, "Financial data — FY2024"), /*#__PURE__*/React.createElement("div", {
-    style: {
-      display: "grid",
-      gridTemplateColumns: "1fr 1fr"
-    }
-  }, [["Annual income", "€67,695"], ["Annual expenses", "€29,577"], ["Surplus", "€38,118"], ["Reserve fund", "€31,375 ✓"], ["Bank debt", "None ✓"], ["Pending special levies", "€1,200", true], ["Monthly instalment", "€55/mo"], ["Owners up to date", "22 of 24 ✓"]].map(([l, v, w], i) => /*#__PURE__*/React.createElement("div", {
-    key: i,
-    style: {
-      padding: "11px 16px",
-      borderBottom: `1px solid ${C.border}`,
-      borderRight: i % 2 === 0 ? `1px solid ${C.border}` : "none"
-    }
-  }, /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontSize: 10.5,
-      color: C.muted,
-      marginBottom: 2
-    }
-  }, l), /*#__PURE__*/React.createElement("div", {
-    style: {
-      fontWeight: 700,
-      fontSize: 15,
-      color: w ? C.gold : C.mid
-    }
-  }, v))))), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.pale,
       border: `1px solid ${C.border}`,
@@ -6650,7 +6603,7 @@ function Step1Draft({
       flexWrap: "wrap",
       marginBottom: 10
     }
-  }, ["EPC E → B", "Consumption −48%", "Heating/cooling demand −50% (est.)", "Gross cost €98,000 (est.)", "≈ 55% subsidised"].map((t, i) => /*#__PURE__*/React.createElement("span", {
+  }, ["EPC E → B", "Consumption −48%", "Heating/cooling demand −50% (est.)", "Gross cost €98,000 (est.)", "about 55% subsidised"].map((t, i) => /*#__PURE__*/React.createElement("span", {
     key: i,
     style: {
       fontSize: 10,
@@ -6703,7 +6656,7 @@ function Step1Draft({
       fontWeight: 800,
       color: i === 2 ? C.mid : C.deep
     }
-  }, v)))))), React.createElement(BuildingOptions, null), React.createElement(FundingSplit, { final: false })), /*#__PURE__*/React.createElement("button", {
+  }, v)))))), React.createElement(BuildingOptions, null), React.createElement(FundingSplit, { final: false })), React.createElement(FinStrip, { title: "Financial data — FY2024", rows: [["Annual income", "€67,695"], ["Annual expenses", "€29,577"], ["Surplus", "€38,118"], ["Reserve fund", "€31,375 ✓"], ["Bank debt", "None ✓"], ["Pending special levies", "€1,200", true], ["Monthly instalment", "€55/mo"], ["Owners up to date", "22 of 24 ✓"]] }), React.createElement("button", { onClick: onBack, style: { display: "block", width: "100%", marginTop: 12, marginBottom: 8, padding: "10px", borderRadius: 10, border: `1.5px solid ${C.border}`, background: C.white, color: C.deep, fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" } }, "← Back to the building data"), /*#__PURE__*/React.createElement("button", {
     onClick: onNext,
     style: {
       width: "100%",
@@ -7183,7 +7136,7 @@ function Step2Architect({
       fontWeight: 700,
       color: C.mid
     }
-  }, "Subsidies: €54,990 (≈55%) · Loan: €35,210 · Community: €9,200 · CAE: −€16,000 gross (M16)")), /*#__PURE__*/React.createElement(DocChecklist, { title: "Step 2 documents", items: [{ t: "Project / technical report", s: "listo", h: "validated on site" }, { t: "Design-stage EPC (≥30% primary energy · ≥35% demand)", s: "listo", h: "issued · required by the taxonomy and the Green line" }, { t: "Existing Building Logbook (LEEx)", s: "tram", h: "required by the subsidy programmes" }, { t: "Works permit", s: "pend", h: "district board · 4–8 weeks" }, { t: "Waste + H&S studies", s: "listo", h: "project annexes" }] }), /*#__PURE__*/React.createElement("button", {
+  }, "Subsidies: €54,990 (about 55%) · Loan: €35,210 · Community: €9,200 · CAE: −€16,000 gross (M16)")), /*#__PURE__*/React.createElement(DocChecklist, { title: "Step 2 documents", items: [{ t: "Project / technical report", s: "listo", h: "validated on site" }, { t: "Design-stage EPC (≥30% primary energy · ≥35% demand)", s: "listo", h: "issued · required by the taxonomy and the Green line" }, { t: "Existing Building Logbook (LEEx)", s: "tram", h: "required by the subsidy programmes" }, { t: "Works permit", s: "pend", h: "district board · 4–8 weeks" }, { t: "Waste + H&S studies", s: "listo", h: "project annexes" }] }), /*#__PURE__*/React.createElement("button", {
     onClick: onNext,
     style: {
       width: "100%",
@@ -9325,6 +9278,8 @@ function Step5Export() {
 function App() {
   const [step, setStep] = useState(1);
   const [intakePhase, setIntakePhase] = useState(1);
+  const [draftReady, setDraftReady] = useState(false);
+  const goPhase = p => { setIntakePhase(p); try { const m = document.querySelector("[data-rf-main]"); if (m) m.scrollTop = 0; } catch (_) {} };
   const [uploadState, setUploadState] = useState("idle");
   const [msgs, setMsgs] = useState([{
     role: "assistant",
@@ -9351,9 +9306,6 @@ function App() {
     }, 3300);
   };
   const CANNED = [{
-    k: ["advertis", "banner", "billboard", "scaffold"],
-    r: "**Advertising on the scaffold banner:** during façade works, the community can rent the scaffold surface to an outdoor-advertising firm.\n\n• **Madrid rules:** façade-restoration works with a licence; not allowed on BIC or level-1 protected buildings; 6-month licence, renewable once\n• **Assembly:** renting a common element requires **3/5** (art. 17.3 LPH) and the consent of any directly affected owner\n• **Ground-floor shops:** set aside part of the income; in 2026 a Madrid provincial court ordered a community to compensate a shop hidden by the banner\n\n**How much:** on axes such as Gran Vía or Castellana, €12,000–100,000/month according to press reports; in outer districts there is little demand. At Usera 51 it is considered unlikely and is not included in the financial plan."
-  }, {
     k: ["who is caixabank", "what is caixabank", "about caixabank", "caixabank?", "uci"],
     r: "**CaixaBank** appears in this demo as an example of the lender that receives the community's pre-application and green file.\n\n• RetroFin prepares the file: eligible works, EU Taxonomy criterion, DNSH and drawdown schedule\n• The lender runs its own risk analysis and sets the rate, term and guarantees\n\n*Illustrative example: there is no agreement with CaixaBank, and the rate and term shown are not CaixaBank's terms.*"
   }, {
@@ -9367,10 +9319,10 @@ function App() {
     r: "Plan Rehabilita in ZETU covers **75% of professional fees** (up to €12,000 per building; fees up to 10% of cost) and **75% of indirect costs** (up to €3,000; up to 4% of cost).\n\nThese are not included in the case figures. If the architect's fee (4.5%) sits outside the budget, it would add about **€3,300 in subsidy** (calculated on €99,400)."
   }, {
     k: ["plan rehabilita", "rehabilita madrid", "ayuntamiento", "municipal", "zire", "zetu", "50 millones", "subsid", "grant"],
-    r: "**Plan Rehabilita Madrid** is the City of Madrid's municipal subsidy. The 2026 call (**€50M**, **first come, first served**) ran from 3 June to 30 September 2026 and has closed: the demo assumes the next call will have similar terms.\n\nMarcelo Usera 51 is in a **ZETU zone** (a Preferential Urban Regeneration Area, per the city geoportal). In ZETU it funds **everything subsidisable in the project**:\n• Block 1 · Green line **60%** (with ≥35% lower heating and cooling demand): **−€45,780**\n• Block 2 · slab (Conserva 50%), ramp (Accessible 75%) and fire protection (Safety 60%): **−€9,210**\n\nTotal **€54,990 (≈55%)**. It is compatible with CAE and with other administrations' aid, as long as the total does not exceed the cost.\n\nIt also covers **75% of professional fees** (up to €12,000 per building) and of **indirect costs** (up to €3,000), which are not included in the case figures.\n\nBeing first come, first served, filing early matters — which is why the whole process is compressed into weeks, not months."
+    r: "**Plan Rehabilita Madrid** is the City of Madrid's municipal subsidy. The 2026 call (**€50M**, **first come, first served**) ran from 3 June to 30 September 2026 and has closed: the demo assumes the next call will have similar terms.\n\nMarcelo Usera 51 is in a **ZETU zone** (a Preferential Urban Regeneration Area, per the city geoportal). In ZETU it funds **everything subsidisable in the project**:\n• Block 1 · Green line **60%** (with ≥35% lower heating and cooling demand): **−€45,780**\n• Block 2 · slab (Conserva 50%), ramp (Accessible 75%) and fire protection (Safety 60%): **−€9,210**\n\nTotal **€54,990 (about 55%)**. It is compatible with CAE and with other administrations' aid, as long as the total does not exceed the cost.\n\nIt also covers **75% of professional fees** (up to €12,000 per building) and of **indirect costs** (up to €3,000), which are not included in the case figures.\n\nBeing first come, first served, filing early matters — which is why the whole process is compressed into weeks, not months."
   }, {
     k: ["plan estatal", "state plan", "plan nacional", "comunidad de madrid", "cam", "supreme"],
-    r: "**Plan Estatal 2026–2030** (RD 326/2026) is run by the regions. The **Comunidad de Madrid has not opened a call** and has appealed the plan to the Supreme Court (June 2026), so **the case does not count on it**: everything subsidisable goes to Plan Rehabilita (€54,990, ≈55%).\n\nIf the CAM opens a call, it would be a **top-up**: Plan Rehabilita is compatible with other administrations' aid as long as the total does not exceed the cost."
+    r: "**Plan Estatal 2026–2030** (RD 326/2026) is run by the regions. The **Comunidad de Madrid has not opened a call** and has appealed the plan to the Supreme Court (June 2026), so **the case does not count on it**: everything subsidisable goes to Plan Rehabilita (€54,990, about 55%).\n\nIf the CAM opens a call, it would be a **top-up**: Plan Rehabilita is compatible with other administrations' aid as long as the total does not exceed the cost."
   }, {
     k: ["block", "desglose", "non-subsidised", "portal", "videoportero"],
     r: "The whole-building retrofit is organised into **3 blocks by applicable subsidy**:\n\n**Block 1 · Energy efficiency** — €76,300 · Plan Rehabilita, Green line ZETU (60%): −€45,780\n**Block 2 · Conservation / IEE** — €15,700 · Plan Rehabilita ZETU (Conserva 50% · Accessible 75% · Safety 60%): −€9,210\n**Block 3 · Non-subsidised improvements** — €7,400\n\nOne single works contract and one site setup — but each block matched to its funding line, which is what the subsidy files require."
@@ -9423,7 +9375,7 @@ function App() {
     const msgLower = msg.toLowerCase();
     const hit = k => k.length <= 4 ? new RegExp("(^|[^a-z0-9áéíóúñü])" + k.replace(/[.*+?^$()|[\]\\{}]/g, "\\$&")).test(msgLower) : msgLower.includes(k);
     const match = CANNED.find(c => c.k.some(hit));
-    const reply = match ? match.r : "This demo doesn't have a prepared answer for that. I can explain: subsidies (Plan Rehabilita and the State Plan), the CaixaBank loan, CAE, the Green Selector, the assembly vote, the architect's role, the timeline, the energy community or the demo's assumptions.\n\nCase summary: **€99,400 of works, €54,990 in subsidies (≈55%) and +€29/home/mo net once works are complete**.";
+    const reply = match ? match.r : "This demo doesn't have a prepared answer for that. I can explain: subsidies (Plan Rehabilita and the State Plan), the CaixaBank loan, CAE, the Green Selector, the assembly vote, the architect's role, the timeline, the energy community or the demo's assumptions.\n\nCase summary: **€99,400 of works, €54,990 in subsidies (about 55%) and +€29/home/mo net once works are complete**.";
     setTimeout(() => {
       setMsgs(prev => [...prev, {
         role: "assistant",
@@ -9520,13 +9472,15 @@ function App() {
       flex: 1,
       overflowY: "auto",
       padding: "18px 20px 48px"
-    }
-  }, step === 1 && intakePhase === 1 && /*#__PURE__*/React.createElement(Step1Intake, {
+    },
+    "data-rf-main": "1"
+  }, step === 1 && React.createElement(Step1SubNav, { phase: intakePhase, ready: draftReady, onGo: goPhase }), step === 1 && React.createElement("div", { style: { display: intakePhase === 1 ? "block" : "none" } }, /*#__PURE__*/React.createElement(Step1Intake, {
     uploadState: uploadState,
     onUpload: handleUpload,
-    onNext: () => setIntakePhase(2)
-  }), step === 1 && intakePhase === 2 && /*#__PURE__*/React.createElement(Step1Draft, {
-    onNext: () => setStep(2)
+    onNext: () => { setDraftReady(true); goPhase(2); }
+  })), step === 1 && intakePhase === 2 && /*#__PURE__*/React.createElement(Step1Draft, {
+    onNext: () => setStep(2),
+    onBack: () => goPhase(1)
   }), step === 2 && /*#__PURE__*/React.createElement(Step2Architect, {
     onNext: () => setStep(3)
   }), step === 3 && /*#__PURE__*/React.createElement(Step3Quotes, {
