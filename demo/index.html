@@ -497,10 +497,14 @@ function FundingSplit({ final }) {
 }
 
 
-function BuildingOptions() {
+function BuildingOptions({ final }) {
   const L = {
     title: "Qué se puede hacer con el edificio",
     badge: "ESTIMACIÓN INICIAL · IA SOBRE ARQUETIPO",
+    titleF: "Subvenciones por bloque · proyecto validado", badgeF: "VALIDADO POR EL ARQUITECTO · 99.400 €",
+    introF: "Cada bloque de obra con la subvención que le corresponde, tal como se presenta a la junta. Las renovables se votan aparte (votación 2).",
+    b1F: ["76.300 €", "−45.780 €"],
+    extrasF: ["Subvenciones: 54.990 € · aprox. 55 % de la obra", "+ CAE tras la obra: aprox. 16.000 € (M16)", "+ Honorarios técnicos: 75 % subvencionable en ZETU (no incluido)"],
     intro: "Tres bloques de obra, cada uno con la subvención que le corresponde, y un módulo opcional de renovables que se vota aparte. El arquitecto valida y ajusta las cifras en el paso 2.",
     subs: "Subvencionado", nosub: "Sin subvención", pc: " %",
     cards: [
@@ -541,12 +545,12 @@ function BuildingOptions() {
   return React.createElement("div", {
     style: { background: C.white, border: `1.5px solid ${C.bright}`, borderRadius: 12, padding: "12px 14px", margin: "10px 0 0" }
   }, React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginBottom: 3 } },
-    React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep } }, L.title),
-    React.createElement("span", { style: { fontSize: 8.5, fontWeight: 700, padding: "2px 8px", borderRadius: 100, background: C.goldL, color: C.gold, border: `1px solid ${C.goldB}` } }, L.badge)),
-  React.createElement("div", { style: { fontSize: 10, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, L.intro),
-  React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10 } }, L.cards.map(card)),
+    React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep } }, final ? L.titleF : L.title),
+    React.createElement("span", { style: { fontSize: 8.5, fontWeight: 700, padding: "2px 8px", borderRadius: 100, background: C.goldL, color: C.gold, border: `1px solid ${final ? C.border : C.goldB}`, ...(final ? { background: C.pale, color: C.mid } : {}) } }, final ? L.badgeF : L.badge)),
+  React.createElement("div", { style: { fontSize: 10, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, final ? L.introF : L.intro),
+  React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10 } }, (final ? L.cards.map((c, i) => i === 0 ? Object.assign({}, c, { cost: L.b1F[0], subAmt: L.b1F[1] }) : c) : L.cards).map(card)),
   React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 } },
-    L.extras.map((e, i) => React.createElement("span", {
+    (final ? L.extrasF : L.extras).map((e, i) => React.createElement("span", {
       key: i,
       style: { fontSize: 9.5, background: i === 0 ? "#edfdf5" : C.pale, border: `1px solid ${C.border}`, borderRadius: 100, padding: "3px 10px", color: C.mid, fontWeight: 600 }
     }, e))));
@@ -4020,7 +4024,7 @@ function Step4Vote({
       fontSize: 9,
       color: C.muted
     }
-  }, d))))), React.createElement(FundingSplit, { final: true }), /*#__PURE__*/React.createElement("div", {
+  }, d))))), React.createElement(BuildingOptions, { final: true }), React.createElement(FundingSplit, { final: true }), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 10,
       fontWeight: 700,
@@ -5183,10 +5187,14 @@ function FundingSplit({ final }) {
 }
 
 
-function BuildingOptions() {
+function BuildingOptions({ final }) {
   const L = {
     title: "What you can do with the building",
     badge: "INITIAL ESTIMATE · AI ON ARCHETYPE",
+    titleF: "Subsidies by block · validated project", badgeF: "VALIDATED BY THE ARCHITECT · €99,400",
+    introF: "Each block of works with the subsidy that applies to it, as presented to the assembly. Renewables are voted separately (vote 2).",
+    b1F: ["€76,300", "−€45,780"],
+    extrasF: ["Subsidies: €54,990 · about 55% of the works", "+ CAE after the works: about €16,000 (M16)", "+ Professional fees: 75% eligible in ZETU (not included)"],
     intro: "Three blocks of works, each with the subsidy that applies to it, plus an optional renewables module voted separately. The architect validates and adjusts the figures in step 2.",
     subs: "Subsidised", nosub: "No subsidy", pc: "%",
     cards: [
@@ -5227,12 +5235,12 @@ function BuildingOptions() {
   return React.createElement("div", {
     style: { background: C.white, border: `1.5px solid ${C.bright}`, borderRadius: 12, padding: "12px 14px", margin: "10px 0 0" }
   }, React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginBottom: 3 } },
-    React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep } }, L.title),
-    React.createElement("span", { style: { fontSize: 8.5, fontWeight: 700, padding: "2px 8px", borderRadius: 100, background: C.goldL, color: C.gold, border: `1px solid ${C.goldB}` } }, L.badge)),
-  React.createElement("div", { style: { fontSize: 10, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, L.intro),
-  React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10 } }, L.cards.map(card)),
+    React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep } }, final ? L.titleF : L.title),
+    React.createElement("span", { style: { fontSize: 8.5, fontWeight: 700, padding: "2px 8px", borderRadius: 100, background: C.goldL, color: C.gold, border: `1px solid ${final ? C.border : C.goldB}`, ...(final ? { background: C.pale, color: C.mid } : {}) } }, final ? L.badgeF : L.badge)),
+  React.createElement("div", { style: { fontSize: 10, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, final ? L.introF : L.intro),
+  React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10 } }, (final ? L.cards.map((c, i) => i === 0 ? Object.assign({}, c, { cost: L.b1F[0], subAmt: L.b1F[1] }) : c) : L.cards).map(card)),
   React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 } },
-    L.extras.map((e, i) => React.createElement("span", {
+    (final ? L.extrasF : L.extras).map((e, i) => React.createElement("span", {
       key: i,
       style: { fontSize: 9.5, background: i === 0 ? "#edfdf5" : C.pale, border: `1px solid ${C.border}`, borderRadius: 100, padding: "3px 10px", color: C.mid, fontWeight: 600 }
     }, e))));
@@ -8706,7 +8714,7 @@ function Step4Vote({
       fontSize: 9,
       color: C.muted
     }
-  }, d))))), React.createElement(FundingSplit, { final: true }), /*#__PURE__*/React.createElement("div", {
+  }, d))))), React.createElement(BuildingOptions, { final: true }), React.createElement(FundingSplit, { final: true }), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 10,
       fontWeight: 700,
