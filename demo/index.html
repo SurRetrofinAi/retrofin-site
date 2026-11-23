@@ -382,9 +382,9 @@ const C = {
 const AI_SYSTEM = `Eres RetroFin AI, un asistente especializado que ayuda a comunidades de propietarios españolas con la financiación de la rehabilitación de edificios.
 Edificio: Calle de Marcelo Usera 51, Madrid (Usera, zona ZETU · APIRU). 24 viviendas, 1972, CEE E, 6 plantas.
 Ingresos anuales: 67.695 €. Fondo de reserva: 31.375 €. Sin deuda bancaria. 22/24 propietarios al corriente.
-Proyecto integral único (sin escenarios): Bloque 1 Eficiencia energética 76.300 € (Plan Rehabilita, Línea Verde ZETU 60% −45.780 €) · Bloque 2 Conservación y accesibilidad IEE 15.700 € (Plan Rehabilita ZETU: forjado 8.400 € al 50%, rampa 4.200 € al 75%, contra incendios 3.100 € al 60% = −9.210 €) · Bloque 3 no subvencionado 7.400 €.
+Proyecto integral único (sin escenarios): Bloque 1 Eficiencia energética 76.300 € (subvención municipal Plan Rehabilita 40% −30.520 € + subvención estatal Plan Estatal 2026 20% −15.260 €) · Bloque 2 Conservación, accesibilidad y remediación IEE 15.700 € (Plan Rehabilita ZETU: recuperación de fachada 8.400 € al 50%, rampa 4.200 € al 75%, retirada de amianto 3.100 € al 60% = −9.210 €) · Bloque 3 no subvencionado 7.400 €.
 Totales: 99.400 € · subvenciones 54.990 € (aprox. 55%) · préstamo 35.210 € (11,60 €/viv/mes, 15 años) · comunidad 9.200 € (383 €/viv) · neto +29 €/viv/mes.
-Subvenciones: el Plan Rehabilita Madrid cubre todo lo subvencionable, más el 75% de honorarios (hasta 12.000 €) y costes indirectos (hasta 3.000 €), no incluidos en las cifras (compatible con el CAE y con ayudas de otras administraciones hasta el coste); Plan Estatal 2026–2030: la CAM no lo ha convocado y lo ha recurrido ante el Supremo, solo complemento opcional; Plan Rehabilita Madrid (convocatoria 2026: 50 M€, por orden de llegada, cerró el 30 sep 2026; la demo asume la siguiente convocatoria); préstamo verde para comunidades con CaixaBank como ejemplo (demo ilustrativa, sin acuerdo), tipo indicativo ilustrativo del 5% TIN. La línea de avales ICO–MIVAU para rehabilitación cerró el 31/12/2025, sin línea sucesora. Mayorías LPH: obras y préstamo por mayoría simple (art. 17.2, coste anual ≤ 12 cuotas ordinarias); renovables 1/3 (art. 17.1, solo pagan quienes votan a favor).
+Subvenciones: el Plan Rehabilita Madrid cubre el 40% del bloque 1 y el bloque 2, más el 75% de honorarios (hasta 12.000 €) y costes indirectos (hasta 3.000 €), no incluidos en las cifras (compatible con el CAE y con ayudas de otras administraciones hasta el coste); Plan Estatal 2026–2030: la demo supone que la CAM lo convoca y que aporta el 20% del bloque 1 (15.260 €); hoy la CAM no lo ha convocado y lo ha recurrido ante el Supremo; Plan Rehabilita Madrid (convocatoria 2026: 50 M€, por orden de llegada, cerró el 30 sep 2026; la demo asume la siguiente convocatoria); préstamo verde para comunidades con CaixaBank como ejemplo (demo ilustrativa, sin acuerdo), tipo indicativo ilustrativo del 5% TIN. La línea de avales ICO–MIVAU para rehabilitación cerró el 31/12/2025, sin línea sucesora. Mayorías LPH: obras y préstamo por mayoría simple (art. 17.2, coste anual ≤ 12 cuotas ordinarias); renovables 1/3 (art. 17.1, solo pagan quienes votan a favor).
 Flujo: 1 datos y paquete borrador · 2 el arquitecto valida in situ e se contrata para la dirección del proyecto · 3 presupuestos de 3 constructoras, selección y negociación, pre-solicitud bancaria (cribado, no negociación) · 4 presentación a la junta y una única votación (obras + constructora + préstamo) · 5 documentos, solicitudes y ejecución.
 El Plan Rehabilita paga la ayuda por anticipado, en un pago único al notificarse la concesión; la certificación final la justifica después. Si la obra empieza antes de la resolución, el préstamo adelanta ese importe.
 Responde en el idioma del usuario. Sé conciso y práctico.`;
@@ -431,12 +431,12 @@ function GreenSelector({ stage, pending }) {
 }
 
 
-function FundingSplit({ final }) {
+function FundingSplit({ final, embedded }) {
   const L = {
     en: false,
-    titleD: "Quién paga la obra · estimación",
-    titleF: "Quién paga la obra · proyecto validado (99.400 €)",
-    sub: "Subvenciones públicas", subS: "Plan Rehabilita Madrid (ZETU) · no se devuelven", subD: "Plan Rehabilita Madrid (ZETU) · no se devuelven · aprox. 2.290 €/viv",
+    titleD: "Cómo se financian las obras de rehabilitación",
+    titleF: "Cómo se financian las obras de rehabilitación",
+    sub: "Subvenciones públicas", subS: "Plan Rehabilita Madrid y Plan Estatal 2026 · no se devuelven", subD: "Plan Rehabilita Madrid y Plan Estatal 2026 · no se devuelven · aprox. 2.290 €/viv",
     loan: "Préstamo verde a la comunidad", loanD: "lo devuelven los propietarios en la cuota · 11,60 €/viv/mes, 15 años",
     own: "Aportación directa de los propietarios", ownD: "pago único · aprox. 383 €/viv", ownDD: "pago único · aprox. 360 €/viv",
     pub: "Ayudas públicas · 55 %",
@@ -452,7 +452,7 @@ function FundingSplit({ final }) {
   ];
   const fmt = s => L.en ? s.replace(/^([\d.]+) €$/, (m, n) => "€"+ n.replace(/\./g, ",")) : s;
   return React.createElement("div", {
-    style: { background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "12px 14px", margin: "10px 0 12px" }
+    style: embedded ? { margin: "8px 0 14px" } : { background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "12px 14px", margin: "10px 0 12px" }
   }, React.createElement("div", {
     style: { fontSize: 11.5, fontWeight: 700, color: C.deep, textTransform: "none", letterSpacing: ".5px", marginBottom: 8 }
   }, final ? L.titleF : L.titleD), React.createElement("div", {
@@ -488,25 +488,23 @@ function FundingSplit({ final }) {
 
 function BuildingOptions({ final }) {
   const L = {
-    title: "Qué se puede hacer con el edificio",
-    badge: "Estimación inicial · IA sobre arquetipo",
-    titleF: "Subvenciones por bloque · proyecto validado", badgeF: "Validado por el arquitecto · 99.400 €",
-    introF: "Cada bloque de obra con la subvención que le corresponde, tal como se presenta a la junta. Las renovables se votan aparte (votación 2).",
+    title: "Paquete de rehabilitación integral: estimación inicial según el arquetipo del edificio",
+    badge: "Borrador",
+    titleF: "Paquete de rehabilitación integral: proyecto validado por el arquitecto", badgeF: "Validado por el arquitecto · 99.400 €",
+    introF: "Cada bloque de obra con la subvención que le corresponde, tal como se presenta a la junta. Las renovables se votan aparte (votación 2). Las mejoras del portal (7.400 €, sin subvención) van incluidas en el total.",
     b1F: ["76.300 €", "−45.780 €"],
-    extrasF: ["Subvenciones: 54.990 € · aprox. 55 % de la obra", "+ CAE tras la obra: aprox. 16.000 € (M16)", "+ Honorarios técnicos: 75 % subvencionable en ZETU (no incluido)"],
-    intro: "Tres bloques de obra, cada uno con la subvención que le corresponde, y un módulo opcional de renovables que se vota aparte. El arquitecto valida y ajusta las cifras en el paso 2.",
+    extrasF: ["Subvenciones municipales y estatales: 54.990 € · aprox. 55 % de la obra", "+ CAE tras la obra: aprox. 16.000 € (M16)", "+ Honorarios técnicos: 75 % subvencionable en ZETU (no incluido)"],
+    intro: "Los bloques de obra con sus subvenciones y un módulo opcional de renovables que se vota aparte. Las mejoras del portal (7.400 €, sin subvención) van incluidas en el total. El arquitecto valida y ajusta las cifras en el paso 2.",
     subs: "Subvencionado", nosub: "Sin subvención", pc: " %",
     cards: [
       { icon: "", tag: "Bloque 1", color: C.mid, title: "Eficiencia energética", cost: "74.900 €", works: "SATE en fachada, ventanas de triple acristalamiento y aislamiento de cubierta. CEE E → B · consumo −48 %.", pct: 60, subAmt: "−44.940 €",
-        lines: [["Plan Rehabilita · Línea Verde ZETU", "60 %"]], foot: "La mayor parte del ahorro energético" },
-      { icon: "", tag: "Bloque 2 · obligatorias (IEE)", color: C.red, title: "Conservación, accesibilidad y seguridad", cost: "15.700 €", works: "Lo que exige la inspección técnica (IEE 2021): hay que hacerlo en cualquier caso.", pct: 59, subAmt: "−9.210 €",
-        lines: [["Forjado · 8.400 € · Conserva", "50 %"], ["Rampa · 4.200 € · Accesible", "75 %"], ["Contra incendios · 3.100 € · Seguridad", "60 %"]], foot: "Plan Rehabilita ZETU, tres líneas combinadas" },
-      { icon: "", tag: "Bloque 3", color: C.muted, title: "Mejoras del portal", cost: "7.400 €", works: "Buzones, videoportero y pintura. Peticiones de los vecinos.", pct: 0, subAmt: "0 €",
-        lines: [["Sin línea de ayuda", "0 %", C.muted]], foot: "Se financia con el préstamo y la aportación" },
-      { icon: "", tag: "Opcional · se vota aparte", color: C.teal, title: "Renovables", cost: null, works: "Fuera del presupuesto principal. RetroFin compara las dos rutas con números antes de la junta.", pct: null, opt: true,
+        lines: [["Subvenciones municipales: Plan Rehabilita", "40 %"], ["Subvenciones estatales: Plan Estatal 2026", "20 %"]], foot: "La mayor parte del ahorro energético" },
+      { icon: "", tag: "Bloque 2 · obligatorias (IEE)", color: C.red, title: "Conservación, accesibilidad y remediación", cost: "15.700 €", works: "Lo que exige la inspección técnica (IEE 2021): hay que hacerlo en cualquier caso.", pct: 59, subAmt: "−9.210 €",
+        lines: [["Recuperación de fachada · 8.400 € · Conserva", "50 %"], ["Rampa · 4.200 € · Accesible", "75 %"], ["Retirada de amianto · 3.100 € · Remediación", "60 %"]], foot: "Plan Rehabilita ZETU, tres líneas combinadas" },
+      { icon: "", tag: "Opcional · se vota aparte", color: C.teal, title: "Instalación de renovables", cost: null, works: "Fuera del presupuesto principal. RetroFin compara las dos rutas con números antes de la junta.", pct: null, opt: true,
         lines: [["Ruta A · autoconsumo colectivo (FV aprox. 28 kWp) · mayoría 1/3, solo pagan quienes votan a favor", "", C.teal], ["Ruta B · comunidad energética (entidad propia)", "90 %", C.teal]], foot: "Ruta B: el Plan Rehabilita subvenciona el 90 %" }
     ],
-    extras: ["Subvenciones: 54.150 € · aprox. 55 % de la obra", "+ CAE tras la obra: aprox. 16.000 € (M16)", "+ Honorarios técnicos: 75 % subvencionable en ZETU (no incluido)"]
+    extras: ["Subvenciones municipales y estatales: 54.150 € · aprox. 55 % de la obra", "+ CAE tras la obra: aprox. 16.000 € (M16)", "+ Honorarios técnicos: 75 % subvencionable en ZETU (no incluido)"]
   };
   const card = (c, i) => React.createElement("div", {
     key: i,
@@ -536,6 +534,7 @@ function BuildingOptions({ final }) {
   }, React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginBottom: 3 } },
     React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep } }, final ? L.titleF : L.title),
     React.createElement("span", { style: { fontSize: 10.5, fontWeight: 700, padding: "2px 8px", borderRadius: 4, background: C.goldL, color: C.gold, border: `1px solid ${final ? C.border : C.goldB}`, ...(final ? { background: C.pale, color: C.mid } : {}) } }, final ? L.badgeF : L.badge)),
+  React.createElement(FundingSplit, { final: final, embedded: true }),
   React.createElement("div", { style: { fontSize: 11.5, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, final ? L.introF : L.intro),
   React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10 } }, (final ? L.cards.map((c, i) => i === 0 ? Object.assign({}, c, { cost: L.b1F[0], subAmt: L.b1F[1] }) : c) : L.cards).map(card)),
   React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 } },
@@ -590,7 +589,7 @@ function DocChecklist({ title, items }) {
       st[i] === "pend" && React.createElement("button", { onClick: () => setSt(st.map((x, j) => j === i ? "tram" : x)), style: { fontSize: 11.5, fontWeight: 700, color: C.deep, background: C.white, border: `1px solid ${C.border}`, borderRadius: 4, padding: "2px 8px", cursor: "pointer", flexShrink: 0 } }, "Iniciar tr\u00e1mite"))));
 }
 function ObraPM() {
-  const rows = [["Licencia y acopio", "AR", 100, "\u2713 hecho", C.mid], ["Andamiaje + SATE fachada", "C2", 45, "en curso", C.gold], ["Ventanas", "C2", 0, "planificado", C.muted], ["Cubierta", "C2", 0, "planificado", C.muted], ["Obras IEE (rampa, forjado, PCI)", "C2", 0, "planificado", C.muted], ["Certificaci\u00f3n final de obra", "AR", 0, "hito M9", C.deep]];
+  const rows = [["Licencia y acopio", "AR", 100, "\u2713 hecho", C.mid], ["Andamiaje + SATE fachada", "C2", 45, "en curso", C.gold], ["Ventanas", "C2", 0, "planificado", C.muted], ["Cubierta", "C2", 0, "planificado", C.muted], ["Obras IEE (fachada, rampa, amianto)", "C2", 0, "planificado", C.muted], ["Certificaci\u00f3n final de obra", "AR", 0, "hito M9", C.deep]];
   return React.createElement("div", { style: { background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "12px 16px", marginBottom: 12 } },
     React.createElement("div", { style: { fontSize: 10.5, fontWeight: 700, color: C.deep, textTransform: "none", letterSpacing: ".4px", marginBottom: 2 } }, "Seguimiento de obra \u00b7 panel de la dirección del proyecto"),
     React.createElement("div", { style: { fontSize: 11.5, color: C.muted, marginBottom: 8 } }, "Vista ilustrativa \u2014 la arquitecta supervisa; cada vecino ve el avance desde su enlace."),
@@ -645,7 +644,7 @@ const BLOQUES = [{
   color: C.bright,
   tint: "#eef2e8",
   title: "Bloque 1 · Eficiencia energética",
-  subsidio: "Plan Rehabilita Madrid · Línea Verde (ZETU)",
+  subsidio: "Plan Rehabilita Madrid 40 % + Plan Estatal 2026 20 %",
   coste: "76.300 €",
   subv: "−45.780 € (60%)",
   items: ["SATE fachada principal y posterior · 1.912 m²", "Ventanas PVC triple acristalamiento · 24 viviendas", "Aislamiento cubierta plana (EPS 10 cm)"]
@@ -653,11 +652,11 @@ const BLOQUES = [{
   id: 2,
   color: C.gold,
   tint: C.goldL,
-  title: "Bloque 2 · Conservación y accesibilidad (IEE)",
-  subsidio: "Plan Rehabilita Madrid · Conserva, Accesible y Seguridad (ZETU)",
+  title: "Bloque 2 · Conservación, accesibilidad y remediación (IEE)",
+  subsidio: "Plan Rehabilita Madrid · Conserva, Accesible y Remediación (ZETU)",
   coste: "15.700 €",
   subv: "−9.210 € (aprox. 59%)",
-  items: ["Reparación grieta forjado planta baja", "Rampa de accesibilidad en portal (RD 505/2007)", "Renovación sistema contra incendios (BIE)"]
+  items: ["Recuperación de fachada", "Rampa de accesibilidad en portal (RD 505/2007)", "Retirada de amianto (RD 396/2006)"]
 }, {
   id: 3,
   color: C.muted,
@@ -1247,8 +1246,8 @@ function Step1Intake({
     }
   }, "Extraído por la IA · IEE 2021"), [{
     icon: "",
-    label: "Estructura",
-    finding: "Fisuras capilares en forjado de planta baja — requiere seguimiento",
+    label: "Fachada",
+    finding: "Desprendimientos y fisuras en fachada — requiere recuperación",
     status: "Requiere actuación",
     sc: C.gold
   }, {
@@ -1259,8 +1258,8 @@ function Step1Intake({
     sc: C.gold
   }, {
     icon: "",
-    label: "Contra incendios",
-    finding: "BIE fuera de vida útil — CTE DB-SI",
+    label: "Amianto",
+    finding: "Elementos de fibrocemento con amianto — retirada obligatoria (RD 396/2006)",
     status: "Obligatorio",
     sc: C.gold
   }, {
@@ -1764,7 +1763,7 @@ function Step1Intake({
     }
   }, "Base obligatoria")), [{
     icon: "",
-    item: "Reparación de grieta en forjado de planta baja",
+    item: "Recuperación de fachada",
     base: "Art. 10 Ley 8/2013",
     coste: "aprox. 8.400 €",
     urgency: "Urgente"
@@ -1776,8 +1775,8 @@ function Step1Intake({
     urgency: "OBLIGATORIA"
   }, {
     icon: "",
-    item: "Renovación del sistema contra incendios (BIE)",
-    base: "CTE db-si",
+    item: "Retirada de amianto",
+    base: "RD 396/2006",
     coste: "aprox. 3.100 €",
     urgency: "OBLIGATORIA"
   }].map((r, i) => /*#__PURE__*/React.createElement("div", {
@@ -1948,7 +1947,7 @@ function Step1Draft({
       color: C.mid,
       fontWeight: 600
     }
-  }, t))), ["SATE fachada + ventanas triple acristalamiento + aislamiento de cubierta", "Obras obligatorias de la IEE: forjado, rampa de accesibilidad, contra incendios", "Mejoras de portal (no subvencionadas): buzones, videoportero, pintura"].map((o, i) => /*#__PURE__*/React.createElement("div", {
+  }, t))), ["SATE fachada + ventanas triple acristalamiento + aislamiento de cubierta", "Obras obligatorias de la IEE: recuperación de fachada, rampa de accesibilidad, retirada de amianto", "Mejoras de portal (no subvencionadas): buzones, videoportero, pintura"].map((o, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
       fontSize: 12,
@@ -1990,7 +1989,7 @@ function Step1Draft({
       fontWeight: 800,
       color: i === 2 ? C.mid : C.deep
     }
-  }, v)))))), React.createElement(BuildingOptions, null), React.createElement(FundingSplit, { final: false })), React.createElement(FinStrip, { title: "Datos financieros — Ejercicio 2024", rows: [["Ingresos anuales", "67.695 €"], ["Gastos anuales", "29.577 €"], ["Superávit", "38.118 €"], ["Fondo de reserva", "31.375 € ✓"], ["Deuda bancaria", "Ninguna ✓"], ["Derramas pendientes", "1.200 €", true], ["Cuota mensual", "55 €/mes"], ["Propietarios al corriente", "22 de 24 ✓"]] }), React.createElement("button", { onClick: onBack, style: { display: "block", width: "100%", marginTop: 12, marginBottom: 8, padding: "10px", borderRadius: 6, border: `1.5px solid ${C.border}`, background: C.white, color: C.deep, fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" } }, "← Volver a los datos del edificio"), /*#__PURE__*/React.createElement("button", {
+  }, v)))))), React.createElement(BuildingOptions, { final: false })), React.createElement(FinStrip, { title: "Datos financieros — Ejercicio 2024", rows: [["Ingresos anuales", "67.695 €"], ["Gastos anuales", "29.577 €"], ["Superávit", "38.118 €"], ["Fondo de reserva", "31.375 € ✓"], ["Deuda bancaria", "Ninguna ✓"], ["Derramas pendientes", "1.200 €", true], ["Cuota mensual", "55 €/mes"], ["Propietarios al corriente", "22 de 24 ✓"]] }), React.createElement("button", { onClick: onBack, style: { display: "block", width: "100%", marginTop: 12, marginBottom: 8, padding: "10px", borderRadius: 6, border: `1.5px solid ${C.border}`, background: C.white, color: C.deep, fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" } }, "← Volver a los datos del edificio"), /*#__PURE__*/React.createElement("button", {
     onClick: onNext,
     style: {
       width: "100%",
@@ -2025,7 +2024,7 @@ function Step2Architect({
   }, {
     icon: "",
     label: "Obras obligatorias del IEE confirmadas",
-    note: "Forjado, rampa de accesibilidad, contra incendios — incluidas en el proyecto"
+    note: "Recuperación de fachada, rampa de accesibilidad y retirada de amianto — incluidas en el proyecto"
   }, {
     icon: "",
     label: "Certificado energético encargado",
@@ -2511,7 +2510,7 @@ function TimelineChart() {
     cost: "10.800 €",
     color: C.teal
   }, {
-    label: "Obras IEE (rampa, forjado, PCI)",
+    label: "Obras IEE (fachada, rampa, amianto)",
     m0: 6,
     m1: 8,
     cost: "15.700 €",
@@ -2547,12 +2546,12 @@ function TimelineChart() {
     m: 0,
     t: "",
     c: C.mid,
-    label: "Cobro anticipado Plan Rehabilita (54.990 €)"
+    label: "Cobro anticipado Plan Rehabilita (39.730 €)"
   }, {
     m: 13,
     t: "",
     c: C.mid,
-    label: "Plan Estatal: complemento si se convoca"
+    label: "Plan Estatal 2026 (15.260 €, supuesto)"
   }];
   const W = 600,
     LX = 162,
@@ -3161,7 +3160,7 @@ function Step3Quotes({
       marginBottom: 10,
       lineHeight: 1.5
     }
-  }, "Lo acuerdan la constructora y el arquitecto — expediente del Plan Rehabilita Madrid (y del Plan Estatal si la CAM convoca)."), /*#__PURE__*/React.createElement("div", {
+  }, "Lo acuerdan la constructora y el arquitecto — expedientes del Plan Rehabilita Madrid y del Plan Estatal 2026 (supuesto: que la CAM convoque)."), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "1fr 1fr",
@@ -3413,7 +3412,7 @@ function RetrofitDiagram() {
     ty: 188,
     color: C.red,
     n: "2",
-    label: "Renovación contra incendios (BIE) · Bloque 2"
+    label: "Retirada de amianto · Bloque 2"
   }, {
     x: 136,
     y: 210,
@@ -3998,7 +3997,7 @@ function Step4Vote({
       fontSize: 10.5,
       color: C.muted
     }
-  }, d))))), React.createElement(BuildingOptions, { final: true }), React.createElement(FundingSplit, { final: true }), /*#__PURE__*/React.createElement("div", {
+  }, d))))), React.createElement(BuildingOptions, { final: true }), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 11.5,
       fontWeight: 700,
@@ -4439,8 +4438,8 @@ function Step5Export() {
   }, {
     id: "estatal",
     icon: "",
-    label: "Plan Estatal 2026–2030 (CAM) · opcional",
-    desc: "Complemento si la CAM convoca · compatible hasta el coste",
+    label: "Plan Estatal 2026–2030 (CAM)",
+    desc: "20 % del bloque 1 (15.260 €) · supuesto de la demo: que la CAM convoque",
     btn: "Solicitud online asistida por IA",
     done: "✓ Expediente preparado · se presenta si hay convocatoria",
     ms: 2200
@@ -4590,7 +4589,7 @@ function Step5Export() {
       cursor: "pointer",
       whiteSpace: "nowrap"
     }
-  }, a.btn))), /*#__PURE__*/React.createElement(ObraPM, null), /*#__PURE__*/React.createElement(DocChecklist, { title: "Expediente del paso 5", items: [{ t: "Expediente de cribado verde (preliminar)", s: "listo", h: "enviado al banco con la pre-solicitud" }, { t: "Solicitud Plan Rehabilita", s: "pend", h: "por orden de llegada · próxima convocatoria" }, { t: "Solicitud Plan Estatal (CAM)", s: "pend", h: "opcional · si la CAM convoca" }, { t: "AEAT / Seg. Social + declaración", s: "pend", h: "certificados vigentes" }, { t: "Expediente bancario", s: "tram", h: "listo para el análisis de la entidad · espera la resolución de la ayuda" }, { t: "Convenio CAE", s: "pend", h: "con sujeto delegado · firmar antes de iniciar la obra" }, { t: "Vía pública + ICIO", s: "pend", h: "antes del inicio de obra" }] }), /*#__PURE__*/React.createElement("div", {
+  }, a.btn))), /*#__PURE__*/React.createElement(ObraPM, null), /*#__PURE__*/React.createElement(DocChecklist, { title: "Expediente del paso 5", items: [{ t: "Expediente de cribado verde (preliminar)", s: "listo", h: "enviado al banco con la pre-solicitud" }, { t: "Solicitud Plan Rehabilita", s: "pend", h: "por orden de llegada · próxima convocatoria" }, { t: "Solicitud Plan Estatal (CAM)", s: "pend", h: "supuesto de la demo · cuando la CAM convoque" }, { t: "AEAT / Seg. Social + declaración", s: "pend", h: "certificados vigentes" }, { t: "Expediente bancario", s: "tram", h: "listo para el análisis de la entidad · espera la resolución de la ayuda" }, { t: "Convenio CAE", s: "pend", h: "con sujeto delegado · firmar antes de iniciar la obra" }, { t: "Vía pública + ICIO", s: "pend", h: "antes del inicio de obra" }] }), /*#__PURE__*/React.createElement("div", {
     style: {
       background: allDone ? "#eef2e8" : C.pale,
       border: `1.5px solid ${allDone ? C.bright : C.border}`,
@@ -4650,19 +4649,19 @@ function App() {
     r: "El Plan Rehabilita en ZETU cubre el **75% de los honorarios técnicos** (hasta 12.000 € por edificio; honorarios de hasta el 10% del coste) y el **75% de los costes indirectos** (hasta 3.000 €; hasta el 4% del coste).\n\nNo están incluidos en las cifras del caso. Si los honorarios de la arquitecta (4,5%) van aparte del presupuesto, serían unos **3.300 € más de subvención** (calculado sobre 99.400 €)."
   }, {
     k: ["plan rehabilita", "rehabilita madrid", "ayuntamiento", "municipal", "zire", "zetu", "50 millones", "subvenci", "ayuda"],
-    r: "**Plan Rehabilita Madrid** es la subvención municipal del Ayuntamiento. La convocatoria 2026 (**50 M€**, **por orden de llegada**) estuvo abierta del 3 de junio al 30 de septiembre de 2026 y ya ha cerrado: la demo asume que la siguiente tendrá condiciones parecidas.\n\nMarcelo Usera 51 está en **zona ZETU** (Área Preferente de Impulso a la Regeneración Urbana, según el visor del geoportal). En ZETU financia **todo lo subvencionable del proyecto**:\n• Bloque 1 · Línea Verde **60%** (con ≥35% menos demanda de calefacción y refrigeración): **−45.780 €**\n• Bloque 2 · forjado (Conserva 50%), rampa (Accesible 75%) y contra incendios (Seguridad 60%): **−9.210 €**\n\nTotal **54.990 € (aprox. 55%)**. Es compatible con el CAE y con ayudas de otras administraciones, siempre que la suma no supere el coste.\n\nAdemás cubre el **75% de los honorarios técnicos** (hasta 12.000 € por edificio) y de los **costes indirectos** (hasta 3.000 €), que no están incluidos en las cifras del caso.\n\nAl ser por orden de llegada, presentar pronto importa — por eso todo el proceso se comprime en semanas, no meses."
+    r: "**Plan Rehabilita Madrid** es la subvención municipal del Ayuntamiento. La convocatoria 2026 (**50 M€**, **por orden de llegada**) estuvo abierta del 3 de junio al 30 de septiembre de 2026 y ya ha cerrado: la demo asume que la siguiente tendrá condiciones parecidas.\n\nMarcelo Usera 51 está en **zona ZETU** (Área Preferente de Impulso a la Regeneración Urbana, según el visor del geoportal). En esta demo financia:\n• Bloque 1 · **40%** de la eficiencia energética: **−30.520 €** (el otro 20%, −15.260 €, lo aporta el Plan Estatal 2026)\n• Bloque 2 · recuperación de fachada (Conserva 50%), rampa (Accesible 75%) y retirada de amianto (Remediación 60%): **−9.210 €**\n\nCon el Plan Estatal, las subvenciones suman **54.990 € (aprox. 55%)**. Es compatible con el CAE y con ayudas de otras administraciones, siempre que la suma no supere el coste.\n\nAdemás cubre el **75% de los honorarios técnicos** (hasta 12.000 € por edificio) y de los **costes indirectos** (hasta 3.000 €), que no están incluidos en las cifras del caso.\n\nAl ser por orden de llegada, presentar pronto importa — por eso todo el proceso se comprime en semanas, no meses."
   }, {
     k: ["plan estatal", "plan nacional", "comunidad de madrid", "cam", "supremo"],
-    r: "**Plan Estatal 2026–2030** (RD 326/2026) lo gestionan las comunidades autónomas. La **Comunidad de Madrid aún no lo ha convocado** y lo ha recurrido ante el Tribunal Supremo (junio de 2026), así que **el caso no cuenta con él**: todo lo subvencionable va al Plan Rehabilita (54.990 €, aprox. 55%).\n\nSi la CAM convoca, sería un **complemento**: el Plan Rehabilita es compatible con ayudas de otras administraciones mientras la suma no supere el coste de la obra."
+    r: "**Plan Estatal 2026–2030** (RD 326/2026) lo gestionan las comunidades autónomas. La **Comunidad de Madrid aún no lo ha convocado** y lo ha recurrido ante el Tribunal Supremo (junio de 2026), pero **la demo supone que la CAM lo convoca** y que aporta el **20% del bloque 1 (15.260 €)**, junto al 40% del Plan Rehabilita: entre los dos, 54.990 € (aprox. 55%).\n\nEs compatible con el Plan Rehabilita mientras la suma no supere el coste de la obra. Si la CAM no convoca, esos 15.260 € tendrían que cubrirse con el préstamo o con otras ayudas."
   }, {
     k: ["bloque", "desglose", "no subvencionad", "portal", "videoportero"],
-    r: "El proyecto integral se organiza en **3 bloques según la subvención aplicable**:\n\n**Bloque 1 · Eficiencia energética** — 76.300 € · Plan Rehabilita, Línea Verde ZETU (60%) −45.780 €\nSATE, ventanas triple acristalamiento, cubierta.\n\n**Bloque 2 · Conservación y accesibilidad (IEE)** — 15.700 € · Plan Rehabilita ZETU (Conserva 50% · Accesible 75% · Seguridad 60%) −9.210 €\nForjado, rampa, contra incendios.\n\n**Bloque 3 · Mejoras no subvencionadas** — 7.400 € · 0 €\nPortal, buzones, videoportero, pintura.\n\n**Total 99.400 € · subvenciones 54.990 € (aprox. 55%)**. Son las cifras validadas en el paso 2. El borrador del paso 1 estimaba 98.000 € (74.900 € en el bloque 1); la visita del arquitecto añadió 72 m² de fachada."
+    r: "El proyecto integral se organiza en **3 bloques según la subvención aplicable**:\n\n**Bloque 1 · Eficiencia energética** — 76.300 € · Plan Rehabilita 40% (−30.520 €) + Plan Estatal 2026 20% (−15.260 €)\nSATE, ventanas triple acristalamiento, cubierta.\n\n**Bloque 2 · Conservación, accesibilidad y remediación (IEE)** — 15.700 € · Plan Rehabilita ZETU (Conserva 50% · Accesible 75% · Remediación 60%) −9.210 €\nRecuperación de fachada, rampa, retirada de amianto.\n\n**Bloque 3 · Mejoras no subvencionadas** — 7.400 € · 0 €\nPortal, buzones, videoportero, pintura.\n\n**Total 99.400 € · subvenciones 54.990 € (aprox. 55%)**. Son las cifras validadas en el paso 2. El borrador del paso 1 estimaba 98.000 € (74.900 € en el bloque 1); la visita del arquitecto añadió 72 m² de fachada."
   }, {
     k: ["ico verde", "ico", "banco", "préstamo", "financiaci", "caixa", "uci", "pre-solicitud", "cribado"],
     r: "**Préstamo verde para la comunidad** (en esta demo, CaixaBank como ejemplo ilustrativo, sin acuerdo).\n\nPara Usera 51:\n• En el paso 3 RetroFin envía una **pre-solicitud** — un **cribado inicial, no una negociación**\n• Tipo indicativo ilustrativo: **5% TIN** · 15 años (supuesto de la demo, no condiciones de CaixaBank)\n• Préstamo: **35.210 €** → cuota estimada **11,60 €/viv/mes**\n• Ahorro energético: 40 €/viv/mes\n• **Beneficio neto tras la obra: +29 €/viv/mes**\n\nNota: la línea de avales ICO–MIVAU para rehabilitación cerró el 31/12/2025 y no tiene línea sucesora; el tipo real dependerá del banco."
   }, {
     k: ["cronograma", "desfase", "fase", "cobro", "cuándo se cobra", "certificaci", "anticip"],
-    r: "El **cronograma** del paso 3 es clave para el banco:\n\n• Obra en 6 fases (M0–M9) que suman **99.400 €**\n• Cobro anticipado del Plan Rehabilita Madrid al notificarse la concesión (54.990 €, pago único)\n• 3 disposiciones del crédito: M1, M4 y M7, para la parte no subvencionada\n• **Certificación final de obra: M9**, y justificación de la ayuda en los 3 meses siguientes\n• Plan Estatal (CAM): solo si se convoca, como complemento\n\nEl Plan Rehabilita paga **por anticipado**: si la comunidad empieza la obra antes de la resolución, el préstamo adelanta ese importe hasta el cobro."
+    r: "El **cronograma** del paso 3 es clave para el banco:\n\n• Obra en 6 fases (M0–M9) que suman **99.400 €**\n• Cobro anticipado del Plan Rehabilita Madrid al notificarse la concesión (39.730 €, pago único)\n• 3 disposiciones del crédito: M1, M4 y M7, para la parte no subvencionada\n• **Certificación final de obra: M9**, y justificación de la ayuda en los 3 meses siguientes\n• Plan Estatal 2026 (CAM): 15.260 €, supuesto de la demo\n\nEl Plan Rehabilita paga **por anticipado**: si la comunidad empieza la obra antes de la resolución, el préstamo adelanta ese importe hasta el cobro."
   }, {
     k: ["arquitect", "project manager", "elena", "visita", "valida"],
     r: "El **arquitecto dirige el proyecto**. En el paso 2:\n\n• RetroFin muestra varios candidatos y **sugiere uno** (Elena Ruiz en esta demo)\n• El elegido **se contrata para la dirección del proyecto**\n• **Visita el edificio y valida el paquete completo** in situ\n• Define el proyecto integral **en bloques por subvención** + un bloque no subvencionado\n• Envía el proyecto validado a **3 constructoras** al inicio del paso 3\n• Acompaña a la comunidad **hasta la entrega**, supervisando la obra\n\nLa IA prepara; el experto valida primero."
@@ -4686,7 +4685,7 @@ function App() {
     r: "El proyecto validado se envió a 3 constructoras **al inicio del paso 3** — misma especificación, mismo plazo:\n\n**EcoRehab Madrid** — 94.800 € · Especificación completa · Garantía 10 años · **elegida y negociada a 93.900 €**\n **Empresa Vidal** — 89.500 € · Doble acristalamiento (la especificación exige triple)\n**RehabiPro** — 98.200 € · Especificación completa · 15–18 semanas\n\nLa constructora y el arquitecto acordaron además **quién gestiona las solicitudes de subvención** (EcoRehab, gestión incluida)."
   }, {
     k: ["coste", "cuánto", "precio", "€", "euro", "dinero", "vend", "piso"],
-    r: "Resumen financiero del **proyecto integral** (validado y negociado):\n\n• Total obras: **99.400 €** (en 3 bloques, incl. obras de la IEE)\n• Plan Rehabilita (ZETU) · Bloque 1, Línea Verde 60%: **−45.780 €**\n• Plan Rehabilita (ZETU) · Bloque 2: **−9.210 €**\n• Préstamo verde: **35.210 €** → 11,60 €/viv/mes\n• Aportación de la comunidad: aprox. **383 €/viv** (única, 9.200 € en total)\n\n**Ahorro 40 €/viv · Cuota 11,60 €/viv → +29 €/viv netos tras la obra**\n\nSi se vende un piso, las cuotas pendientes van con la vivienda, no con la persona."
+    r: "Resumen financiero del **proyecto integral** (validado y negociado):\n\n• Total obras: **99.400 €** (en 3 bloques, incl. obras de la IEE)\n• Bloque 1 · Plan Rehabilita 40%: **−30.520 €** + Plan Estatal 2026 20%: **−15.260 €**\n• Plan Rehabilita (ZETU) · Bloque 2: **−9.210 €**\n• Préstamo verde: **35.210 €** → 11,60 €/viv/mes\n• Aportación de la comunidad: aprox. **383 €/viv** (única, 9.200 € en total)\n\n**Ahorro 40 €/viv · Cuota 11,60 €/viv → +29 €/viv netos tras la obra**\n\nSi se vende un piso, las cuotas pendientes van con la vivienda, no con la persona."
   }, {
     k: ["cae", "certificado de ahorro", "certificados de ahorro", "devoluci"],
     r: "**CAE (Certificados de Ahorro Energético):** el ahorro verificado tras la obra genera certificados (1 CAE = 1 kWh de ahorro anual de energía final) que compra un sujeto delegado (sin índice oficial de precio; referencia sectorial 115–140 €/MWh).\n\nPara Usera 51 (ficha RES010): aprox. 135 MWh/año certificables → **pago único de aprox. 16.000 € brutos** (aprox. 670 €/viv), tras terminar la obra y verificar el ahorro (M16 en la demo), menos la comisión del sujeto delegado.\n\nLa convocatoria del Plan Rehabilita declara el CAE compatible con sus ayudas. Aun así, el convenio CAE debe justificar el efecto incentivador del propio CAE (art. 13 RD 36/2023): se firma antes de iniciar la obra.\n\nSe aplica como **amortización anticipada del préstamo**: con aprox. 14.100 € netos de comisión, la cuota baja de 11,60 € a aprox. 6,70 €/viv/mes y el beneficio neto pasa de +29 € a **+34 €/viv/mes**. *Cifras ilustrativas.*"
@@ -5052,9 +5051,9 @@ const C = {
 const AI_SYSTEM = `You are RetroFin AI, a specialised assistant helping Spanish homeowner communities finance building retrofits.
 Building: Calle de Marcelo Usera 51, Madrid (Usera, ZETU zone · APIRU). 24 homes, 1972, EPC E, 6 floors.
 Annual income: €67,695. Reserve fund: €31,375. No bank debt. 22/24 owners up to date.
-Single whole-building retrofit (no scenarios): Block 1 Energy efficiency €76,300 (Plan Rehabilita, Green line ZETU 60% −€45,780) · Block 2 Conservation & accessibility IEE €15,700 (Plan Rehabilita ZETU: slab €8,400 at 50%, ramp €4,200 at 75%, fire protection €3,100 at 60% = −€9,210) · Block 3 non-subsidised €7,400.
+Single whole-building retrofit (no scenarios): Block 1 Energy efficiency €76,300 (municipal subsidy Plan Rehabilita 40% −€30,520 + national subsidy Plan Estatal 2026 20% −€15,260) · Block 2 Conservation, accessibility & remediation IEE €15,700 (Plan Rehabilita ZETU: façade recovery €8,400 at 50%, ramp €4,200 at 75%, asbestos removal €3,100 at 60% = −€9,210) · Block 3 non-subsidised €7,400.
 Totals: €99,400 · subsidies €54,990 (about 55%) · loan €35,210 (€11.60/home/mo, 15 years) · community €9,200 (€383/home) · net +€29/home/mo.
-Subsidies: Plan Rehabilita Madrid covers everything subsidisable, plus 75% of fees (up to €12,000) and indirect costs (up to €3,000), not included in the figures (compatible with CAE and with other administrations' aid up to cost); State Plan 2026–2030: no CAM call and the CAM has appealed it to the Supreme Court, optional top-up only; Plan Rehabilita Madrid (2026 call: €50M, first come first served, closed 30 Sep 2026; the demo assumes the next call); green community loan with CaixaBank as an example (illustrative demo, no agreement), illustrative indicative rate of 5% fixed. The ICO–MIVAU guarantee line for retrofits closed on 31/12/2025, with no successor line. LPH majorities: works and loan by simple majority (art. 17.2, annual cost ≤ 12 ordinary monthly fees); renewables 1/3 (art. 17.1, only those voting in favour pay).
+Subsidies: Plan Rehabilita Madrid covers 40% of block 1 and block 2, plus 75% of fees (up to €12,000) and indirect costs (up to €3,000), not included in the figures (compatible with CAE and with other administrations' aid up to cost); State Plan 2026–2030: the demo assumes the CAM opens a call and it covers 20% of block 1 (€15,260); today there is no CAM call and the CAM has appealed it to the Supreme Court; Plan Rehabilita Madrid (2026 call: €50M, first come first served, closed 30 Sep 2026; the demo assumes the next call); green community loan with CaixaBank as an example (illustrative demo, no agreement), illustrative indicative rate of 5% fixed. The ICO–MIVAU guarantee line for retrofits closed on 31/12/2025, with no successor line. LPH majorities: works and loan by simple majority (art. 17.2, annual cost ≤ 12 ordinary monthly fees); renewables 1/3 (art. 17.1, only those voting in favour pay).
 Flow: 1 data and draft package · 2 the architect validates on site and starts as project manager · 3 quotes from 3 builders, selection and negotiation, bank pre-application (screening, not negotiation) · 4 assembly presentation and a single vote (works + builder + loan) · 5 documents, applications and execution.
 Plan Rehabilita pays the grant in advance, as a single payment once the award is notified; the final certificate justifies it afterwards. If works start before the award, the loan advances that amount.
 Reply in the user's language. Be concise and practical.`;
@@ -5101,12 +5100,12 @@ function GreenSelector({ stage, pending }) {
 }
 
 
-function FundingSplit({ final }) {
+function FundingSplit({ final, embedded }) {
   const L = {
     en: true,
-    titleD: "Who pays for the works · estimate",
-    titleF: "Who pays for the works · validated project (€99,400)",
-    sub: "Public subsidies", subS: "Plan Rehabilita Madrid (ZETU) · not repaid", subD: "Plan Rehabilita Madrid (ZETU) · not repaid · about €2,290/home",
+    titleD: "How retrofit works are financed",
+    titleF: "How retrofit works are financed",
+    sub: "Public subsidies", subS: "Plan Rehabilita Madrid and Plan Estatal 2026 · not repaid", subD: "Plan Rehabilita Madrid and Plan Estatal 2026 · not repaid · about €2,290/home",
     loan: "Green loan to the community", loanD: "repaid by the owners through the community fee · €11.60/home/mo, 15 years",
     own: "Owners' direct contribution", ownD: "one-off payment · about €383/home", ownDD: "one-off payment · about €360/home",
     pub: "Public subsidies · 55%",
@@ -5122,7 +5121,7 @@ function FundingSplit({ final }) {
   ];
   const fmt = s => L.en ? s.replace(/^([\d.]+) €$/, (m, n) => "€"+ n.replace(/\./g, ",")) : s;
   return React.createElement("div", {
-    style: { background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "12px 14px", margin: "10px 0 12px" }
+    style: embedded ? { margin: "8px 0 14px" } : { background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "12px 14px", margin: "10px 0 12px" }
   }, React.createElement("div", {
     style: { fontSize: 11.5, fontWeight: 700, color: C.deep, textTransform: "none", letterSpacing: ".5px", marginBottom: 8 }
   }, final ? L.titleF : L.titleD), React.createElement("div", {
@@ -5158,25 +5157,23 @@ function FundingSplit({ final }) {
 
 function BuildingOptions({ final }) {
   const L = {
-    title: "What you can do with the building",
-    badge: "Initial estimate · AI on archetype",
-    titleF: "Subsidies by block · validated project", badgeF: "Validated by the architect · €99,400",
-    introF: "Each block of works with the subsidy that applies to it, as presented to the assembly. Renewables are voted separately (vote 2).",
+    title: "Whole-building retrofit package: initial estimate based on the building archetype",
+    badge: "Draft",
+    titleF: "Whole-building retrofit package: validated by the architect", badgeF: "Validated by the architect · €99,400",
+    introF: "Each block of works with the subsidy that applies to it, as presented to the assembly. Renewables are voted separately (vote 2). Entrance improvements (€7,400, no subsidy) are included in the total.",
     b1F: ["€76,300", "−€45,780"],
-    extrasF: ["Subsidies: €54,990 · about 55% of the works", "+ CAE after the works: about €16,000 (M16)", "+ Professional fees: 75% eligible in ZETU (not included)"],
-    intro: "Three blocks of works, each with the subsidy that applies to it, plus an optional renewables module voted separately. The architect validates and adjusts the figures in step 2.",
+    extrasF: ["Municipal and national subsidies: €54,990 · about 55% of the works", "+ CAE after the works: about €16,000 (M16)", "+ Professional fees: 75% eligible in ZETU (not included)"],
+    intro: "The blocks of works with their subsidies, plus an optional renewables module voted separately. Entrance improvements (€7,400, no subsidy) are included in the total. The architect validates and adjusts the figures in step 2.",
     subs: "Subsidised", nosub: "No subsidy", pc: "%",
     cards: [
       { icon: "", tag: "Block 1", color: C.mid, title: "Energy efficiency", cost: "€74,900", works: "External wall insulation (SATE), triple-glazed windows and roof insulation. EPC E → B · consumption −48%.", pct: 60, subAmt: "−€44,940",
-        lines: [["Plan Rehabilita · ZETU Green line", "60%"]], foot: "Most of the energy savings" },
-      { icon: "", tag: "Block 2 · mandatory (IEE)", color: C.red, title: "Conservation, accessibility and safety", cost: "€15,700", works: "What the technical inspection (IEE 2021) requires: needed in any case.", pct: 59, subAmt: "−€9,210",
-        lines: [["Floor slab · €8,400 · Conserva", "50%"], ["Ramp · €4,200 · Accesible", "75%"], ["Fire protection · €3,100 · Seguridad", "60%"]], foot: "Plan Rehabilita ZETU, three lines combined" },
-      { icon: "", tag: "Block 3", color: C.muted, title: "Entrance improvements", cost: "€7,400", works: "Mailboxes, video intercom and painting. Requests from neighbours.", pct: 0, subAmt: "€0",
-        lines: [["No subsidy line", "0%", C.muted]], foot: "Funded by the loan and the owners' contribution" },
-      { icon: "", tag: "Optional · voted separately", color: C.teal, title: "Renewables", cost: null, works: "Outside the main budget. RetroFin compares both routes with figures before the assembly.", pct: null, opt: true,
+        lines: [["Municipal subsidies: Plan Rehabilita", "40%"], ["National subsidies: Plan Estatal 2026", "20%"]], foot: "Most of the energy savings" },
+      { icon: "", tag: "Block 2 · mandatory (IEE)", color: C.red, title: "Conservation, accessibility and remediation", cost: "€15,700", works: "What the technical inspection (IEE 2021) requires: needed in any case.", pct: 59, subAmt: "−€9,210",
+        lines: [["Façade recovery · €8,400 · Conserva", "50%"], ["Ramp · €4,200 · Accesible", "75%"], ["Asbestos removal · €3,100 · Remediation", "60%"]], foot: "Plan Rehabilita ZETU, three lines combined" },
+      { icon: "", tag: "Optional · voted separately", color: C.teal, title: "Installation of renewables", cost: null, works: "Outside the main budget. RetroFin compares both routes with figures before the assembly.", pct: null, opt: true,
         lines: [["Route A · collective self-consumption (PV about 28 kWp) · 1/3 majority, only those voting in favour pay", "", C.teal], ["Route B · energy community (separate legal entity)", "90%", C.teal]], foot: "Route B: Plan Rehabilita subsidises 90%" }
     ],
-    extras: ["Subsidies: €54,150 · about 55% of the works", "+ CAE after the works: about €16,000 (M16)", "+ Professional fees: 75% eligible in ZETU (not included)"]
+    extras: ["Municipal and national subsidies: €54,150 · about 55% of the works", "+ CAE after the works: about €16,000 (M16)", "+ Professional fees: 75% eligible in ZETU (not included)"]
   };
   const card = (c, i) => React.createElement("div", {
     key: i,
@@ -5206,6 +5203,7 @@ function BuildingOptions({ final }) {
   }, React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginBottom: 3 } },
     React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep } }, final ? L.titleF : L.title),
     React.createElement("span", { style: { fontSize: 10.5, fontWeight: 700, padding: "2px 8px", borderRadius: 4, background: C.goldL, color: C.gold, border: `1px solid ${final ? C.border : C.goldB}`, ...(final ? { background: C.pale, color: C.mid } : {}) } }, final ? L.badgeF : L.badge)),
+  React.createElement(FundingSplit, { final: final, embedded: true }),
   React.createElement("div", { style: { fontSize: 11.5, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, final ? L.introF : L.intro),
   React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10 } }, (final ? L.cards.map((c, i) => i === 0 ? Object.assign({}, c, { cost: L.b1F[0], subAmt: L.b1F[1] }) : c) : L.cards).map(card)),
   React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 } },
@@ -5260,7 +5258,7 @@ function DocChecklist({ title, items }) {
       st[i] === "pend" && React.createElement("button", { onClick: () => setSt(st.map((x, j) => j === i ? "tram" : x)), style: { fontSize: 11.5, fontWeight: 700, color: C.deep, background: C.white, border: `1px solid ${C.border}`, borderRadius: 4, padding: "2px 8px", cursor: "pointer", flexShrink: 0 } }, "Start filing"))));
 }
 function ObraPM() {
-  const rows = [["Permit and staging", "AR", 100, "\u2713 done", C.mid], ["Scaffolding + façade SATE", "C2", 45, "in progress", C.gold], ["Windows", "C2", 0, "planned", C.muted], ["Roof", "C2", 0, "planned", C.muted], ["IEE works (ramp, slab, fire)", "C2", 0, "planned", C.muted], ["Final works certification", "AR", 0, "milestone M9", C.deep]];
+  const rows = [["Permit and staging", "AR", 100, "\u2713 done", C.mid], ["Scaffolding + façade SATE", "C2", 45, "in progress", C.gold], ["Windows", "C2", 0, "planned", C.muted], ["Roof", "C2", 0, "planned", C.muted], ["IEE works (façade, ramp, asbestos)", "C2", 0, "planned", C.muted], ["Final works certification", "AR", 0, "milestone M9", C.deep]];
   return React.createElement("div", { style: { background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "12px 16px", marginBottom: 12 } },
     React.createElement("div", { style: { fontSize: 10.5, fontWeight: 700, color: C.deep, textTransform: "none", letterSpacing: ".4px", marginBottom: 2 } }, "Works tracking \u00b7 project manager panel"),
     React.createElement("div", { style: { fontSize: 11.5, color: C.muted, marginBottom: 8 } }, "Illustrative view \u2014 the architect supervises; every neighbour follows progress from their link."),
@@ -5315,7 +5313,7 @@ const BLOQUES = [{
   color: C.bright,
   tint: "#eef2e8",
   title: "Block 1 · Energy efficiency",
-  subsidio: "Plan Rehabilita Madrid · Green line (ZETU)",
+  subsidio: "Plan Rehabilita Madrid 40% + Plan Estatal 2026 20%",
   coste: "€76,300",
   subv: "−€45,780 (60%)",
   items: ["External wall insulation (SATE), front and rear façades · 1,912 m²", "Triple-glazed PVC windows · 24 homes", "Flat-roof insulation (EPS 10 cm)"]
@@ -5323,11 +5321,11 @@ const BLOQUES = [{
   id: 2,
   color: C.gold,
   tint: C.goldL,
-  title: "Block 2 · Conservation & accessibility (IEE)",
-  subsidio: "Plan Rehabilita Madrid · Conserva, Accessible & Safety (ZETU)",
+  title: "Block 2 · Conservation, accessibility & remediation (IEE)",
+  subsidio: "Plan Rehabilita Madrid · Conserva, Accessible & Remediation (ZETU)",
   coste: "€15,700",
   subv: "−€9,210 (about 59%)",
-  items: ["Ground-floor slab crack repair", "Accessibility ramp at entrance (RD 505/2007)", "Fire-protection system renewal (hose reels)"]
+  items: ["Façade recovery", "Accessibility ramp at entrance (RD 505/2007)", "Asbestos removal (RD 396/2006)"]
 }, {
   id: 3,
   color: C.muted,
@@ -5917,8 +5915,8 @@ function Step1Intake({
     }
   }, "Extracted by the AI · IEE 2021"), [{
     icon: "",
-    label: "Structure",
-    finding: "Hairline cracks in the ground-floor slab — requires monitoring",
+    label: "Façade",
+    finding: "Detachments and cracks on the façade — requires recovery",
     status: "Action required",
     sc: C.gold
   }, {
@@ -5929,8 +5927,8 @@ function Step1Intake({
     sc: C.gold
   }, {
     icon: "",
-    label: "Fire protection",
-    finding: "Fire hose reels past service life — CTE DB-SI",
+    label: "Asbestos",
+    finding: "Fibre-cement elements containing asbestos — removal required (RD 396/2006)",
     status: "Mandatory",
     sc: C.gold
   }, {
@@ -6434,7 +6432,7 @@ function Step1Intake({
     }
   }, "Mandatory base")), [{
     icon: "",
-    item: "Ground-floor slab crack repair",
+    item: "Façade recovery",
     base: "Art. 10 Ley 8/2013",
     coste: "about €8,400",
     urgency: "Urgent"
@@ -6446,8 +6444,8 @@ function Step1Intake({
     urgency: "Mandatory"
   }, {
     icon: "",
-    item: "Fire-protection system renewal (hose reels)",
-    base: "CTE db-si",
+    item: "Asbestos removal",
+    base: "RD 396/2006",
     coste: "about €3,100",
     urgency: "Mandatory"
   }].map((r, i) => /*#__PURE__*/React.createElement("div", {
@@ -6618,7 +6616,7 @@ function Step1Draft({
       color: C.mid,
       fontWeight: 600
     }
-  }, t))), ["SATE façade + triple-glazed windows + roof insulation", "Mandatory IEE works: floor slab, accessibility ramp, fire protection", "Entrance improvements (non-subsidised): mailboxes, video intercom, painting"].map((o, i) => /*#__PURE__*/React.createElement("div", {
+  }, t))), ["SATE façade + triple-glazed windows + roof insulation", "Mandatory IEE works: façade recovery, accessibility ramp, asbestos removal", "Entrance improvements (non-subsidised): mailboxes, video intercom, painting"].map((o, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
       fontSize: 12,
@@ -6660,7 +6658,7 @@ function Step1Draft({
       fontWeight: 800,
       color: i === 2 ? C.mid : C.deep
     }
-  }, v)))))), React.createElement(BuildingOptions, null), React.createElement(FundingSplit, { final: false })), React.createElement(FinStrip, { title: "Financial data — FY2024", rows: [["Annual income", "€67,695"], ["Annual expenses", "€29,577"], ["Surplus", "€38,118"], ["Reserve fund", "€31,375 ✓"], ["Bank debt", "None ✓"], ["Pending special levies", "€1,200", true], ["Monthly instalment", "€55/mo"], ["Owners up to date", "22 of 24 ✓"]] }), React.createElement("button", { onClick: onBack, style: { display: "block", width: "100%", marginTop: 12, marginBottom: 8, padding: "10px", borderRadius: 6, border: `1.5px solid ${C.border}`, background: C.white, color: C.deep, fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" } }, "← Back to the building data"), /*#__PURE__*/React.createElement("button", {
+  }, v)))))), React.createElement(BuildingOptions, { final: false })), React.createElement(FinStrip, { title: "Financial data — FY2024", rows: [["Annual income", "€67,695"], ["Annual expenses", "€29,577"], ["Surplus", "€38,118"], ["Reserve fund", "€31,375 ✓"], ["Bank debt", "None ✓"], ["Pending special levies", "€1,200", true], ["Monthly instalment", "€55/mo"], ["Owners up to date", "22 of 24 ✓"]] }), React.createElement("button", { onClick: onBack, style: { display: "block", width: "100%", marginTop: 12, marginBottom: 8, padding: "10px", borderRadius: 6, border: `1.5px solid ${C.border}`, background: C.white, color: C.deep, fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" } }, "← Back to the building data"), /*#__PURE__*/React.createElement("button", {
     onClick: onNext,
     style: {
       width: "100%",
@@ -6695,7 +6693,7 @@ function Step2Architect({
   }, {
     icon: "",
     label: "Mandatory IEE works confirmed",
-    note: "Floor slab, accessibility ramp, fire protection — included in the project"
+    note: "Façade recovery, accessibility ramp and asbestos removal — included in the project"
   }, {
     icon: "",
     label: "Energy certificate commissioned",
@@ -7181,7 +7179,7 @@ function TimelineChart() {
     cost: "€10,800",
     color: C.teal
   }, {
-    label: "IEE works (ramp, slab, fire)",
+    label: "IEE works (façade, ramp, asbestos)",
     m0: 6,
     m1: 8,
     cost: "€15,700",
@@ -7217,12 +7215,12 @@ function TimelineChart() {
     m: 0,
     t: "",
     c: C.mid,
-    label: "Plan Rehabilita advance payout (€54,990)"
+    label: "Plan Rehabilita advance payout (€39,730)"
   }, {
     m: 13,
     t: "",
     c: C.mid,
-    label: "State Plan: top-up if a call opens"
+    label: "Plan Estatal 2026 (€15,260, assumed)"
   }];
   const W = 600,
     LX = 162,
@@ -7831,7 +7829,7 @@ function Step3Quotes({
       marginBottom: 10,
       lineHeight: 1.5
     }
-  }, "Agreed between the builder and the architect — Plan Rehabilita Madrid file (plus the State Plan if the CAM opens a call)."), /*#__PURE__*/React.createElement("div", {
+  }, "Agreed between the builder and the architect — Plan Rehabilita Madrid and Plan Estatal 2026 files (assuming the CAM opens a call)."), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "grid",
       gridTemplateColumns: "1fr 1fr",
@@ -8083,7 +8081,7 @@ function RetrofitDiagram() {
     ty: 188,
     color: C.red,
     n: "2",
-    label: "Fire-protection renewal (BIE) · Block 2"
+    label: "Asbestos removal · Block 2"
   }, {
     x: 136,
     y: 210,
@@ -8668,7 +8666,7 @@ function Step4Vote({
       fontSize: 10.5,
       color: C.muted
     }
-  }, d))))), React.createElement(BuildingOptions, { final: true }), React.createElement(FundingSplit, { final: true }), /*#__PURE__*/React.createElement("div", {
+  }, d))))), React.createElement(BuildingOptions, { final: true }), /*#__PURE__*/React.createElement("div", {
     style: {
       fontSize: 11.5,
       fontWeight: 700,
@@ -9109,8 +9107,8 @@ function Step5Export() {
   }, {
     id: "estatal",
     icon: "",
-    label: "Plan Estatal 2026–2030 (CAM) · optional",
-    desc: "Top-up if the CAM opens a call · compatible up to cost",
+    label: "Plan Estatal 2026–2030 (CAM)",
+    desc: "20% of block 1 (€15,260) · demo assumption: the CAM opens a call",
     btn: "AI-assisted online application",
     done: "✓ File prepared · filed if a call opens",
     ms: 2200
@@ -9320,19 +9318,19 @@ function App() {
     r: "Plan Rehabilita in ZETU covers **75% of professional fees** (up to €12,000 per building; fees up to 10% of cost) and **75% of indirect costs** (up to €3,000; up to 4% of cost).\n\nThese are not included in the case figures. If the architect's fee (4.5%) sits outside the budget, it would add about **€3,300 in subsidy** (calculated on €99,400)."
   }, {
     k: ["plan rehabilita", "rehabilita madrid", "ayuntamiento", "municipal", "zire", "zetu", "50 millones", "subsid", "grant"],
-    r: "**Plan Rehabilita Madrid** is the City of Madrid's municipal subsidy. The 2026 call (**€50M**, **first come, first served**) ran from 3 June to 30 September 2026 and has closed: the demo assumes the next call will have similar terms.\n\nMarcelo Usera 51 is in a **ZETU zone** (a Preferential Urban Regeneration Area, per the city geoportal). In ZETU it funds **everything subsidisable in the project**:\n• Block 1 · Green line **60%** (with ≥35% lower heating and cooling demand): **−€45,780**\n• Block 2 · slab (Conserva 50%), ramp (Accessible 75%) and fire protection (Safety 60%): **−€9,210**\n\nTotal **€54,990 (about 55%)**. It is compatible with CAE and with other administrations' aid, as long as the total does not exceed the cost.\n\nIt also covers **75% of professional fees** (up to €12,000 per building) and of **indirect costs** (up to €3,000), which are not included in the case figures.\n\nBeing first come, first served, filing early matters — which is why the whole process is compressed into weeks, not months."
+    r: "**Plan Rehabilita Madrid** is the City of Madrid's municipal subsidy. The 2026 call (**€50M**, **first come, first served**) ran from 3 June to 30 September 2026 and has closed: the demo assumes the next call will have similar terms.\n\nMarcelo Usera 51 is in a **ZETU zone** (a Preferential Urban Regeneration Area, per the city geoportal). In this demo it funds:\n• Block 1 · **40%** of the energy-efficiency works: **−€30,520** (the other 20%, −€15,260, comes from Plan Estatal 2026)\n• Block 2 · façade recovery (Conserva 50%), ramp (Accessible 75%) and asbestos removal (Remediation 60%): **−€9,210**\n\nWith the State Plan, subsidies total **€54,990 (about 55%)**. It is compatible with CAE and with other administrations' aid, as long as the total does not exceed the cost.\n\nIt also covers **75% of professional fees** (up to €12,000 per building) and of **indirect costs** (up to €3,000), which are not included in the case figures.\n\nBeing first come, first served, filing early matters — which is why the whole process is compressed into weeks, not months."
   }, {
     k: ["plan estatal", "state plan", "plan nacional", "comunidad de madrid", "cam", "supreme"],
-    r: "**Plan Estatal 2026–2030** (RD 326/2026) is run by the regions. The **Comunidad de Madrid has not opened a call** and has appealed the plan to the Supreme Court (June 2026), so **the case does not count on it**: everything subsidisable goes to Plan Rehabilita (€54,990, about 55%).\n\nIf the CAM opens a call, it would be a **top-up**: Plan Rehabilita is compatible with other administrations' aid as long as the total does not exceed the cost."
+    r: "**Plan Estatal 2026–2030** (RD 326/2026) is run by the regions. The **Comunidad de Madrid has not opened a call** and has appealed the plan to the Supreme Court (June 2026), but **the demo assumes the CAM opens a call** and that it covers **20% of block 1 (€15,260)**, alongside Plan Rehabilita's 40%: together, €54,990 (about 55%).\n\nIt is compatible with Plan Rehabilita as long as the total does not exceed the cost. If the CAM does not open a call, that €15,260 would have to come from the loan or other aid."
   }, {
     k: ["block", "desglose", "non-subsidised", "portal", "videoportero"],
-    r: "The whole-building retrofit is organised into **3 blocks by applicable subsidy**:\n\n**Block 1 · Energy efficiency** — €76,300 · Plan Rehabilita, Green line ZETU (60%): −€45,780\n**Block 2 · Conservation / IEE** — €15,700 · Plan Rehabilita ZETU (Conserva 50% · Accessible 75% · Safety 60%): −€9,210\n**Block 3 · Non-subsidised improvements** — €7,400\n\nOne single works contract and one site setup — but each block matched to its funding line, which is what the subsidy files require."
+    r: "The whole-building retrofit is organised into **3 blocks by applicable subsidy**:\n\n**Block 1 · Energy efficiency** — €76,300 · Plan Rehabilita 40% (−€30,520) + Plan Estatal 2026 20% (−€15,260)\n**Block 2 · Conservation, accessibility & remediation / IEE** — €15,700 · Plan Rehabilita ZETU (Conserva 50% · Accessible 75% · Remediation 60%): −€9,210 (façade recovery, ramp, asbestos removal)\n**Block 3 · Non-subsidised improvements** — €7,400\n\nOne single works contract and one site setup — but each block matched to its funding line, which is what the subsidy files require."
   }, {
     k: ["ico verde", "ico", "bank", "loan", "financiaci", "caixa", "uci", "pre-solicitud", "screening"],
     r: "**Green community loan** (in this demo, CaixaBank as an illustrative example, no agreement).\n\nFor Usera 51:\n• Loan: **€35,210** → **€11.60/home/mo**\n• Term: 15 years\n• Illustrative indicative rate: 5% fixed (demo assumption, not CaixaBank terms)\n• Formalised **once the subsidy resolution arrives**\n\nThe CAE rebate then repays part of the loan early once savings are verified.\n\nNote: the ICO–MIVAU guarantee line for retrofits closed on 31/12/2025 and has no successor line; the actual rate depends on the bank."
   }, {
     k: ["cronograma", "desfase", "fase", "cobro", "when is it paid", "certificaci"],
-    r: "The **timeline** from step 3 is key for the bank:\n\n• Works in 6 phases (M0–M9) totalling **€99,400**\n• Plan Rehabilita Madrid pays in advance once the award is notified (€54,990, single payment)\n• 3 loan drawdowns: M1, M4 and M7, for the unsubsidised part\n• Final certification at M9, and justification of the grant within 3 months\n• State Plan (CAM): only as a top-up if a call opens\n\nPlan Rehabilita pays **in advance**: if the community starts works before the award, the loan advances that amount until payout."
+    r: "The **timeline** from step 3 is key for the bank:\n\n• Works in 6 phases (M0–M9) totalling **€99,400**\n• Plan Rehabilita Madrid pays in advance once the award is notified (€39,730, single payment)\n• 3 loan drawdowns: M1, M4 and M7, for the unsubsidised part\n• Final certification at M9, and justification of the grant within 3 months\n• Plan Estatal 2026 (CAM): €15,260, a demo assumption\n\nPlan Rehabilita pays **in advance**: if the community starts works before the award, the loan advances that amount until payout."
   }, {
     k: ["arquitect", "project manager", "elena", "visita", "valida"],
     r: "The **architect is the project manager**. In step 2:\n\n• RetroFin shows several candidates and **suggests one** (Elena Ruiz in this demo)\n• The chosen one **starts their engagement as project manager**\n• **Visits the building and validates the full package** on site\n• Structures the project **into blocks by applicable subsidy** + one non-subsidised block\n• Sends the validated project to **3 builders** at the start of step 3\n• Stays with the community **through handover**, supervising the works\n\nAI prepares; the expert validates first."
@@ -9356,7 +9354,7 @@ function App() {
     r: "The validated project went to 3 builders **at the start of step 3** — same spec, same timeline:\n\n**EcoRehab Madrid** — €94,800 · Full spec · 10-year warranty · **chosen and negotiated to €93,900**\n **Empresa Vidal** — €89,500 · Double glazing (the spec requires triple)\n**RehabiPro** — €98,200 · Full spec · 15–18 weeks\n\nBuilder and architect also agreed **who files the subsidy applications** (EcoRehab, management included)."
   }, {
     k: ["coste", "how much", "price", "€", "euro", "dinero", "vend", "piso"],
-    r: "Financial summary of the **whole-building retrofit** (validated and negotiated):\n\n• Total works: **€99,400** (3 blocks, incl. IEE works)\n• Plan Rehabilita (ZETU) · Block 1, Green line 60%: **−€45,780**\n• Plan Rehabilita (ZETU) · Block 2: **−€9,210**\n• Green loan: **€35,210** → €11.60/home/mo\n• Community contribution: about **€383/home** (one-off, €9,200 total)\n\n**Savings €40/home · Instalment €11.60/home → +€29/home net once works are complete**\n\nIf a flat is sold, outstanding instalments stay with the home, not the person."
+    r: "Financial summary of the **whole-building retrofit** (validated and negotiated):\n\n• Total works: **€99,400** (3 blocks, incl. IEE works)\n• Block 1 · Plan Rehabilita 40%: **−€30,520** + Plan Estatal 2026 20%: **−€15,260**\n• Plan Rehabilita (ZETU) · Block 2: **−€9,210**\n• Green loan: **€35,210** → €11.60/home/mo\n• Community contribution: about **€383/home** (one-off, €9,200 total)\n\n**Savings €40/home · Instalment €11.60/home → +€29/home net once works are complete**\n\nIf a flat is sold, outstanding instalments stay with the home, not the person."
   }, {
     k: ["cae", "energy savings certificate", "energy savings certificates", "refund"],
     r: "**CAE (Energy Savings Certificates):** verified post-works savings generate certificates (1 CAE = 1 kWh of annual final-energy savings) bought by a delegated party (no official price index; sector reference €115–140/MWh).\n\nFor Usera 51 (sheet RES010): about 135 MWh/yr certifiable → **one-off payment of about €16,000 gross** (about €670/home), after the works finish and savings are verified (M16 in the demo), minus the delegated party's fee.\n\nThe Plan Rehabilita call expressly declares CAE compatible with its grants. Even so, the CAE agreement must justify the CAE's own incentive effect (art. 13 RD 36/2023): it is signed before works start.\n\nApplied as **early loan repayment**: with about €14,100 net of fees, the instalment drops from €11.60 to about €6.70/home/mo and the net benefit rises from +€29 to **+€34/home/mo**. *Illustrative figures.*"
