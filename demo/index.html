@@ -496,6 +496,62 @@ function FundingSplit({ final }) {
   }, L.noteD));
 }
 
+
+function BuildingOptions() {
+  const L = {
+    title: "Qué se puede hacer con el edificio",
+    badge: "ESTIMACIÓN INICIAL · IA SOBRE ARQUETIPO",
+    intro: "Tres bloques de obra, cada uno con la subvención que le corresponde, y un módulo opcional de renovables que se vota aparte. El arquitecto valida y ajusta las cifras en el paso 2.",
+    subs: "Subvencionado", nosub: "Sin subvención", pc: " %",
+    cards: [
+      { icon: "🏠", tag: "Bloque 1", color: C.mid, title: "Eficiencia energética", cost: "76.300 €", works: "SATE en fachada, ventanas de triple acristalamiento y aislamiento de cubierta. CEE E → B · consumo −48 %.", pct: 60, subAmt: "−45.780 €",
+        lines: [["Plan Rehabilita · Línea Verde ZETU", "60 %"]], foot: "La mayor parte del ahorro energético" },
+      { icon: "🛠", tag: "Bloque 2 · obligatorias (IEE)", color: C.red, title: "Conservación, accesibilidad y seguridad", cost: "15.700 €", works: "Lo que exige la inspección técnica (IEE 2021): hay que hacerlo en cualquier caso.", pct: 59, subAmt: "−9.210 €",
+        lines: [["Forjado · 8.400 € · Conserva", "50 %"], ["Rampa · 4.200 € · Accesible", "75 %"], ["Contra incendios · 3.100 € · Seguridad", "60 %"]], foot: "Plan Rehabilita ZETU, tres líneas combinadas" },
+      { icon: "🚪", tag: "Bloque 3", color: C.muted, title: "Mejoras del portal", cost: "7.400 €", works: "Buzones, videoportero y pintura. Peticiones de los vecinos.", pct: 0, subAmt: "0 €",
+        lines: [["Sin línea de ayuda", "0 %", C.muted]], foot: "Se financia con el préstamo y la aportación" },
+      { icon: "☀️", tag: "Opcional · se vota aparte", color: C.teal, title: "Renovables", cost: null, works: "Fuera del presupuesto principal. RetroFin compara las dos rutas con números antes de la junta.", pct: null, opt: true,
+        lines: [["Ruta A · autoconsumo colectivo (FV aprox. 28 kWp) · mayoría 1/3, solo pagan quienes votan a favor", "", C.teal], ["Ruta B · comunidad energética (entidad propia)", "90 %", C.teal]], foot: "Ruta B: el Plan Rehabilita subvenciona el 90 %" }
+    ],
+    extras: ["Subvenciones: 54.990 € · aprox. 55 % de la obra", "+ CAE tras la obra: aprox. 16.000 € (M16)", "+ Honorarios técnicos: 75 % subvencionable en ZETU (no incluido)"]
+  };
+  const card = (c, i) => React.createElement("div", {
+    key: i,
+    style: { background: c.opt ? C.tealL : C.white, border: `1.5px ${c.opt ? "dashed" : "solid"} ${c.opt ? C.teal : C.border}`, borderRadius: 11, padding: "11px 12px", display: "flex", flexDirection: "column", gap: 6 }
+  }, React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7 } },
+    React.createElement("span", { style: { fontSize: 18 } }, c.icon),
+    React.createElement("div", { style: { flex: 1 } },
+      React.createElement("div", { style: { fontSize: 9, fontWeight: 800, color: c.color, textTransform: "uppercase", letterSpacing: ".4px" } }, c.tag),
+      React.createElement("div", { style: { fontSize: 11.5, fontWeight: 800, color: C.deep, lineHeight: 1.25 } }, c.title)),
+    c.cost ? React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: C.deep, whiteSpace: "nowrap" } }, c.cost) : null),
+  React.createElement("div", { style: { fontSize: 9.5, color: C.muted, lineHeight: 1.4 } }, c.works),
+  c.pct !== null ? React.createElement("div", null,
+    React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 9, fontWeight: 700, marginBottom: 3 } },
+      React.createElement("span", { style: { color: c.pct ? C.mid : C.muted } }, c.pct ? L.subs + " " + c.pct + L.pc : L.nosub),
+      React.createElement("span", { style: { color: c.pct ? C.mid : C.muted } }, c.subAmt)),
+    React.createElement("div", { style: { height: 9, borderRadius: 5, background: "#e5ece9", overflow: "hidden" } },
+      React.createElement("div", { style: { width: c.pct + "%", height: "100%", background: C.bright } }))) : null,
+  React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 4, marginTop: 2 } },
+    c.lines.map((l, j) => React.createElement("div", {
+      key: j,
+      style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 9.5, background: c.opt ? "#ffffff" : C.pale, border: `1px solid ${c.opt ? C.tealL : C.border}`, borderRadius: 7, padding: "5px 8px" }
+    }, React.createElement("span", { style: { color: C.text } }, l[0]),
+       React.createElement("span", { style: { fontWeight: 800, color: l[2] || C.mid, whiteSpace: "nowrap" } }, l[1])))),
+  c.foot ? React.createElement("div", { style: { fontSize: 9, color: c.opt ? C.teal : C.mid, fontWeight: 700, marginTop: "auto", paddingTop: 2 } }, c.foot) : null);
+  return React.createElement("div", {
+    style: { background: C.white, border: `1.5px solid ${C.bright}`, borderRadius: 12, padding: "12px 14px", margin: "10px 0 0" }
+  }, React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginBottom: 3 } },
+    React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep } }, L.title),
+    React.createElement("span", { style: { fontSize: 8.5, fontWeight: 700, padding: "2px 8px", borderRadius: 100, background: C.goldL, color: C.gold, border: `1px solid ${C.goldB}` } }, L.badge)),
+  React.createElement("div", { style: { fontSize: 10, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, L.intro),
+  React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10 } }, L.cards.map(card)),
+  React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 } },
+    L.extras.map((e, i) => React.createElement("span", {
+      key: i,
+      style: { fontSize: 9.5, background: i === 0 ? "#edfdf5" : C.pale, border: `1px solid ${C.border}`, borderRadius: 100, padding: "3px 10px", color: C.mid, fontWeight: 600 }
+    }, e))));
+}
+
 function DocChecklist({ title, items }) {
   const [st, setSt] = useState(items.map(i => i.s));
   const icon = k => k === "listo" ? "\u2713" : k === "tram" ? "\u23f3" : "\u2192";
@@ -1953,19 +2009,7 @@ function Step1Draft({
       fontWeight: 800,
       color: i === 2 ? C.mid : C.deep
     }
-  }, v)))))), React.createElement(FundingSplit, { final: false }), /*#__PURE__*/React.createElement("div", {
-    style: { marginTop: 2 }
-  }, React.createElement("div", {
-    style: { fontSize: 10, fontWeight: 700, color: C.deep, textTransform: "uppercase", letterSpacing: ".4px", marginBottom: 4 }
-  }, "Desglose borrador por bloques \u00b7 IA sobre arquetipo"), React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 9.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
-  }, React.createElement("span", { style: { color: C.muted } }, "B1 \u00b7 Eficiencia energ\u00e9tica (SATE, ventanas, cubierta)"), React.createElement("span", null, React.createElement("span", { style: { fontWeight: 700, color: C.deep } }, "76.300 \u20ac"), React.createElement("span", { style: { color: "#16a34a", fontWeight: 700, marginLeft: 6 } }, "\u221245.780 \u20ac Rehabilita\u00b7Verde"))), React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 9.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
-  }, React.createElement("span", { style: { color: C.muted } }, "B2 \u00b7 Conservaci\u00f3n / IEE"), React.createElement("span", null, React.createElement("span", { style: { fontWeight: 700, color: C.deep } }, "15.700 \u20ac"), React.createElement("span", { style: { color: "#16a34a", fontWeight: 700, marginLeft: 6 } }, "\u22129.210 \u20ac Rehabilita\u00b7ZETU"))), React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 9.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
-  }, React.createElement("span", { style: { color: C.muted } }, "B3 \u00b7 Mejoras no subvencionadas"), React.createElement("span", null, React.createElement("span", { style: { fontWeight: 700, color: C.deep } }, "7.400 \u20ac"), React.createElement("span", { style: { color: "#94a3b8", fontWeight: 700, marginLeft: 6 } }, "sin ayuda"))), React.createElement("div", { style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 9.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` } }, React.createElement("span", { style: { color: C.muted } }, "CAE \u00b7 venta tras la obra (est.)"), React.createElement("span", null, React.createElement("span", { style: { fontWeight: 700, color: "#0d9488" } }, "\u221216.000 \u20ac"), React.createElement("span", { style: { color: "#0d9488", fontWeight: 700, marginLeft: 6 } }, "M16"))), React.createElement("div", {
-    style: { fontSize: 10, color: C.muted, fontStyle: "italic", marginTop: 5 }
-  }, "Borrador estimado \u2014 el arquitecto lo valida y ajusta en el paso 2."))), /*#__PURE__*/React.createElement("button", {
+  }, v)))))), React.createElement(BuildingOptions, null), React.createElement(FundingSplit, { final: false })), /*#__PURE__*/React.createElement("button", {
     onClick: onNext,
     style: {
       width: "100%",
@@ -5138,6 +5182,62 @@ function FundingSplit({ final }) {
   }, L.noteD));
 }
 
+
+function BuildingOptions() {
+  const L = {
+    title: "What you can do with the building",
+    badge: "INITIAL ESTIMATE · AI ON ARCHETYPE",
+    intro: "Three blocks of works, each with the subsidy that applies to it, plus an optional renewables module voted separately. The architect validates and adjusts the figures in step 2.",
+    subs: "Subsidised", nosub: "No subsidy", pc: "%",
+    cards: [
+      { icon: "🏠", tag: "Block 1", color: C.mid, title: "Energy efficiency", cost: "€76,300", works: "External wall insulation (SATE), triple-glazed windows and roof insulation. EPC E → B · consumption −48%.", pct: 60, subAmt: "−€45,780",
+        lines: [["Plan Rehabilita · ZETU Green line", "60%"]], foot: "Most of the energy savings" },
+      { icon: "🛠", tag: "Block 2 · mandatory (IEE)", color: C.red, title: "Conservation, accessibility and safety", cost: "€15,700", works: "What the technical inspection (IEE 2021) requires: needed in any case.", pct: 59, subAmt: "−€9,210",
+        lines: [["Floor slab · €8,400 · Conserva", "50%"], ["Ramp · €4,200 · Accesible", "75%"], ["Fire protection · €3,100 · Seguridad", "60%"]], foot: "Plan Rehabilita ZETU, three lines combined" },
+      { icon: "🚪", tag: "Block 3", color: C.muted, title: "Entrance improvements", cost: "€7,400", works: "Mailboxes, video intercom and painting. Requests from neighbours.", pct: 0, subAmt: "€0",
+        lines: [["No subsidy line", "0%", C.muted]], foot: "Funded by the loan and the owners' contribution" },
+      { icon: "☀️", tag: "Optional · voted separately", color: C.teal, title: "Renewables", cost: null, works: "Outside the main budget. RetroFin compares both routes with figures before the assembly.", pct: null, opt: true,
+        lines: [["Route A · collective self-consumption (PV about 28 kWp) · 1/3 majority, only those voting in favour pay", "", C.teal], ["Route B · energy community (separate legal entity)", "90%", C.teal]], foot: "Route B: Plan Rehabilita subsidises 90%" }
+    ],
+    extras: ["Subsidies: €54,990 · about 55% of the works", "+ CAE after the works: about €16,000 (M16)", "+ Professional fees: 75% eligible in ZETU (not included)"]
+  };
+  const card = (c, i) => React.createElement("div", {
+    key: i,
+    style: { background: c.opt ? C.tealL : C.white, border: `1.5px ${c.opt ? "dashed" : "solid"} ${c.opt ? C.teal : C.border}`, borderRadius: 11, padding: "11px 12px", display: "flex", flexDirection: "column", gap: 6 }
+  }, React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7 } },
+    React.createElement("span", { style: { fontSize: 18 } }, c.icon),
+    React.createElement("div", { style: { flex: 1 } },
+      React.createElement("div", { style: { fontSize: 9, fontWeight: 800, color: c.color, textTransform: "uppercase", letterSpacing: ".4px" } }, c.tag),
+      React.createElement("div", { style: { fontSize: 11.5, fontWeight: 800, color: C.deep, lineHeight: 1.25 } }, c.title)),
+    c.cost ? React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: C.deep, whiteSpace: "nowrap" } }, c.cost) : null),
+  React.createElement("div", { style: { fontSize: 9.5, color: C.muted, lineHeight: 1.4 } }, c.works),
+  c.pct !== null ? React.createElement("div", null,
+    React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 9, fontWeight: 700, marginBottom: 3 } },
+      React.createElement("span", { style: { color: c.pct ? C.mid : C.muted } }, c.pct ? L.subs + " " + c.pct + L.pc : L.nosub),
+      React.createElement("span", { style: { color: c.pct ? C.mid : C.muted } }, c.subAmt)),
+    React.createElement("div", { style: { height: 9, borderRadius: 5, background: "#e5ece9", overflow: "hidden" } },
+      React.createElement("div", { style: { width: c.pct + "%", height: "100%", background: C.bright } }))) : null,
+  React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 4, marginTop: 2 } },
+    c.lines.map((l, j) => React.createElement("div", {
+      key: j,
+      style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 9.5, background: c.opt ? "#ffffff" : C.pale, border: `1px solid ${c.opt ? C.tealL : C.border}`, borderRadius: 7, padding: "5px 8px" }
+    }, React.createElement("span", { style: { color: C.text } }, l[0]),
+       React.createElement("span", { style: { fontWeight: 800, color: l[2] || C.mid, whiteSpace: "nowrap" } }, l[1])))),
+  c.foot ? React.createElement("div", { style: { fontSize: 9, color: c.opt ? C.teal : C.mid, fontWeight: 700, marginTop: "auto", paddingTop: 2 } }, c.foot) : null);
+  return React.createElement("div", {
+    style: { background: C.white, border: `1.5px solid ${C.bright}`, borderRadius: 12, padding: "12px 14px", margin: "10px 0 0" }
+  }, React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginBottom: 3 } },
+    React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep } }, L.title),
+    React.createElement("span", { style: { fontSize: 8.5, fontWeight: 700, padding: "2px 8px", borderRadius: 100, background: C.goldL, color: C.gold, border: `1px solid ${C.goldB}` } }, L.badge)),
+  React.createElement("div", { style: { fontSize: 10, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, L.intro),
+  React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10 } }, L.cards.map(card)),
+  React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 } },
+    L.extras.map((e, i) => React.createElement("span", {
+      key: i,
+      style: { fontSize: 9.5, background: i === 0 ? "#edfdf5" : C.pale, border: `1px solid ${C.border}`, borderRadius: 100, padding: "3px 10px", color: C.mid, fontWeight: 600 }
+    }, e))));
+}
+
 function DocChecklist({ title, items }) {
   const [st, setSt] = useState(items.map(i => i.s));
   const icon = k => k === "listo" ? "\u2713" : k === "tram" ? "\u23f3" : "\u2192";
@@ -6595,19 +6695,7 @@ function Step1Draft({
       fontWeight: 800,
       color: i === 2 ? C.mid : C.deep
     }
-  }, v)))))), React.createElement(FundingSplit, { final: false }), /*#__PURE__*/React.createElement("div", {
-    style: { marginTop: 2 }
-  }, React.createElement("div", {
-    style: { fontSize: 10, fontWeight: 700, color: C.deep, textTransform: "uppercase", letterSpacing: ".4px", marginBottom: 4 }
-  }, "Draft breakdown by blocks \u00b7 AI on archetype"), React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 9.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
-  }, React.createElement("span", { style: { color: C.muted } }, "B1 \u00b7 Energy efficiency (SATE, windows, roof)"), React.createElement("span", null, React.createElement("span", { style: { fontWeight: 700, color: C.deep } }, "\u20ac76,300"), React.createElement("span", { style: { color: "#16a34a", fontWeight: 700, marginLeft: 6 } }, "\u2212\u20ac45,780 Rehabilita\u00b7Green"))), React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 9.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
-  }, React.createElement("span", { style: { color: C.muted } }, "B2 \u00b7 Conservation / IEE"), React.createElement("span", null, React.createElement("span", { style: { fontWeight: 700, color: C.deep } }, "\u20ac15,700"), React.createElement("span", { style: { color: "#16a34a", fontWeight: 700, marginLeft: 6 } }, "\u2212\u20ac9,210 Rehabilita\u00b7ZETU"))), React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 9.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
-  }, React.createElement("span", { style: { color: C.muted } }, "B3 \u00b7 Non-subsidised improvements"), React.createElement("span", null, React.createElement("span", { style: { fontWeight: 700, color: C.deep } }, "\u20ac7,400"), React.createElement("span", { style: { color: "#94a3b8", fontWeight: 700, marginLeft: 6 } }, "no subsidy"))), React.createElement("div", { style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 9.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` } }, React.createElement("span", { style: { color: C.muted } }, "CAE \u00b7 post-works sale (est.)"), React.createElement("span", null, React.createElement("span", { style: { fontWeight: 700, color: "#0d9488" } }, "\u2212\u20ac16,000"), React.createElement("span", { style: { color: "#0d9488", fontWeight: 700, marginLeft: 6 } }, "M16"))), React.createElement("div", {
-    style: { fontSize: 10, color: C.muted, fontStyle: "italic", marginTop: 5 }
-  }, "Estimated draft \u2014 the architect validates and adjusts it in step 2."))), /*#__PURE__*/React.createElement("button", {
+  }, v)))))), React.createElement(BuildingOptions, null), React.createElement(FundingSplit, { final: false })), /*#__PURE__*/React.createElement("button", {
     onClick: onNext,
     style: {
       width: "100%",
