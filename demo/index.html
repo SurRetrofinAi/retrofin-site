@@ -8,6 +8,7 @@
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;600&display=swap" rel="stylesheet">
 <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
 * { box-sizing: border-box; margin: 0; padding: 0; }
 body { margin: 0; font-family: 'IBM Plex Sans', sans-serif; }
@@ -378,6 +379,28 @@ const C = {
   teal: "#0e8c8c",
   tealL: "#e0f4f4"
 };
+const C0 = C;
+const C1 = {
+  deep: "#1e4a3d",
+  mid: "#2f6b56",
+  bright: "#3d8f66",
+  pale: "#f6f3ec",
+  border: "#ddd5c5",
+  text: "#1d211e",
+  muted: "#6c6e66",
+  white: "#fff",
+  bg: "#efe9de",
+  gold: "#b5722b",
+  goldL: "#f6ebdb",
+  goldB: "#e0bf92",
+  red: "#a9492f",
+  redL: "#f5e2da",
+  purple: "#5b6886",
+  purpleL: "#e5e8ef",
+  purpleB: "#bcc3d4",
+  teal: "#3b7a76",
+  tealL: "#e2eeec"
+};
 const AI_SYSTEM = `Eres RetroFin AI, un asistente especializado que ayuda a comunidades de propietarios españolas con la financiación de la rehabilitación de edificios.
 Edificio: Calle de Marcelo Usera 51, Madrid (Usera, zona ZETU · APIRU). 24 viviendas, 1972, CEE E, 6 plantas.
 Ingresos anuales: 67.695 €. Fondo de reserva: 31.375 €. Sin deuda bancaria. 22/24 propietarios al corriente.
@@ -410,6 +433,7 @@ const WORKFLOW_STEPS = [{
 }];
 
 function GreenSelector({ stage, pending }) {
+  const C = stage === 1 ? C1 : C0;
   const T = {"t1": "Selector Verde · estimación", "t3": "Expediente de cribado verde · adjunto a la pre-solicitud", "r1": [["Ruta probable", "Edificio completo · Green Checker del BEI: Renovation of existing buildings", ""], ["Criterio verde", "Taxonomía UE 7.2 · ≥30% menos energía primaria", ""], ["Estado", "Pendiente del certificado energético del arquitecto", "p"], ["Anexo · fuente de devolución", "CAE aprox. 135 MWh/año (RES010) · 15.700–19.100 € brutos, pago único", ""]], "r3": [["2. Vía", "Edificio completo · Green Checker del BEI: Renovation of existing buildings", ""], ["3. Criterio técnico", "Taxonomía 7.2 · ≥30% menos energía primaria según CEE antes/después", "p"], ["4. DNSH", "Riesgos climáticos · residuos ≥70% · materiales · medidas en obra", "p"], ["5. Expediente", "Obra elegible 76.300 € de 99.400 € · datos listos para el Green Checker del BEI", ""], ["6. Validación del banco (lado del banco)", "Según sus criterios de financiación verde", "p"], ["Anexo · fuentes de devolución", "Subvenciones 54.990 € · CAE RES010 aprox. 135 MWh/año, cobro único (efecto incentivador: art. 13 RD 36/2023)", ""]], "n1": "El Selector se recalcula con el CEE real en el paso 2. Herramienta completa: retrofin.es/greenselector", "n3": "Documento preliminar: la elegibilidad la decide la entidad financiadora. Herramienta completa: retrofin.es/greenselector", "pend": "pendiente", "k": "SELECTOR VERDE", "h1": "¿Cuenta como préstamo verde?", "h3": "Expediente de cribado verde", "s1": "Comprobación automática de lo que pide el banco para un préstamo verde: vía, criterio de la Taxonomía UE y DNSH. Las ayudas y los CAE van en un anexo, como fuentes de devolución.", "s3": "Se adjunta a la pre-solicitud a CaixaBank para que el banco pueda clasificar el préstamo como verde.", "b1": "Estimación", "b3p": "Se adjunta al enviar", "b3d": "Adjunto a la pre-solicitud", "np": "Se genera al enviar la pre-solicitud a CaixaBank."};
   const rows = stage === 1 ? T.r1 : T.r3;
   const pill = stage === 1 ? T.b1 : (pending ? T.b3p : T.b3d);
@@ -431,6 +455,7 @@ function GreenSelector({ stage, pending }) {
 
 
 function FundingSplit({ final }) {
+  const C = final ? C0 : C1;
   const L = {
     en: false,
     titleD: "Quién paga la obra · estimación",
@@ -449,19 +474,19 @@ function FundingSplit({ final }) {
     { pct: 36, amt: "35.210 €", color: C.gold, label: L.loan, sub: L.loanD },
     { pct: 9, amt: "9.200 €", color: C.purple, label: L.own, sub: final ? L.ownD : L.ownDD }
   ];
-  const fmt = s => L.en ? s.replace(/^([\d.]+) €$/, (m, n) => "€" + n.replace(/\./g, ",")) : s;
+  const fmt = s => L.en ? s.replace(/^([\d.]+) €$/, (m, n) => "€"+ n.replace(/\./g, ",")) : s;
   return React.createElement("div", {
-    style: { background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 12, padding: "12px 14px", margin: "10px 0 12px" }
+    style: { background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "12px 14px", margin: "10px 0 12px" }
   }, React.createElement("div", {
-    style: { fontSize: 10, fontWeight: 700, color: C.deep, textTransform: "uppercase", letterSpacing: ".5px", marginBottom: 8 }
+    style: { fontSize: 11.5, fontWeight: 700, color: C.deep, textTransform: "none", letterSpacing: ".5px", marginBottom: 8 }
   }, final ? L.titleF : L.titleD), React.createElement("div", {
-    style: { display: "flex", height: 28, borderRadius: 7, overflow: "hidden", border: `1px solid ${C.border}` }
+    style: { display: "flex", height: 28, borderRadius: 6, overflow: "hidden", border: `1px solid ${C.border}` }
   }, segs.map((s, i) => React.createElement("div", {
     key: i,
     title: s.label,
-    style: { flex: `0 0 ${s.pct}%`, background: s.color, color: "#fff", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", borderLeft: i ? "2px solid #fff" : "none" }
+    style: { flex: `0 0 ${s.pct}%`, background: s.color, color: "#fff", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", borderLeft: i ? "2px solid #fff" : "none" }
   }, s.pct + " %"))), React.createElement("div", {
-    style: { display: "flex", marginTop: 5, fontSize: 9.5, fontWeight: 700 }
+    style: { display: "flex", marginTop: 5, fontSize: 11.5, fontWeight: 700 }
   }, React.createElement("div", {
     style: { flex: "0 0 55%", color: C.bright, borderTop: `2px solid ${C.bright}`, paddingTop: 3, paddingRight: 6 }
   }, L.pub), React.createElement("div", {
@@ -474,93 +499,96 @@ function FundingSplit({ final }) {
   }, React.createElement("span", {
     style: { width: 10, height: 10, borderRadius: 3, background: s.color, flexShrink: 0, marginTop: 2 }
   }), React.createElement("div", null, React.createElement("div", {
-    style: { fontSize: 10, fontWeight: 700, color: C.text }
-  }, s.label, final ? React.createElement("span", { style: { color: C.deep } }, " · " + fmt(s.amt)) : null), React.createElement("div", {
-    style: { fontSize: 9, color: C.muted, lineHeight: 1.4 }
+    style: { fontSize: 11.5, fontWeight: 700, color: C.text }
+  }, s.label, final ? React.createElement("span", { style: { color: C.deep } }, " · "+ fmt(s.amt)) : null), React.createElement("div", {
+    style: { fontSize: 10.5, color: C.muted, lineHeight: 1.4 }
   }, s.sub))))), React.createElement("div", {
-    style: { marginTop: 10, fontSize: 9.5, color: C.mid, background: C.pale, border: `1px dashed ${C.border}`, borderRadius: 8, padding: "7px 10px", lineHeight: 1.5 }
+    style: { marginTop: 10, fontSize: 11.5, color: C.mid, background: C.pale, border: `1px dashed ${C.border}`, borderRadius: 6, padding: "7px 10px", lineHeight: 1.5 }
   }, final ? L.caeF : L.caeD), final ? null : React.createElement("div", {
-    style: { fontSize: 9, color: C.muted, fontStyle: "italic", marginTop: 6 }
+    style: { fontSize: 10.5, color: C.muted, fontStyle: "italic", marginTop: 6 }
   }, L.noteD));
 }
 
 
 function BuildingOptions({ final }) {
+  const C = final ? C0 : C1;
   const L = {
     title: "Qué se puede hacer con el edificio",
-    badge: "ESTIMACIÓN INICIAL · IA SOBRE ARQUETIPO",
-    titleF: "Subvenciones por bloque · proyecto validado", badgeF: "VALIDADO POR EL ARQUITECTO · 99.400 €",
+    badge: "Estimación inicial · IA sobre arquetipo",
+    titleF: "Subvenciones por bloque · proyecto validado", badgeF: "Validado por el arquitecto · 99.400 €",
     introF: "Cada bloque de obra con la subvención que le corresponde, tal como se presenta a la junta. Las renovables se votan aparte (votación 2).",
     b1F: ["76.300 €", "−45.780 €"],
     extrasF: ["Subvenciones: 54.990 € · aprox. 55 % de la obra", "+ CAE tras la obra: aprox. 16.000 € (M16)", "+ Honorarios técnicos: 75 % subvencionable en ZETU (no incluido)"],
     intro: "Tres bloques de obra, cada uno con la subvención que le corresponde, y un módulo opcional de renovables que se vota aparte. El arquitecto valida y ajusta las cifras en el paso 2.",
     subs: "Subvencionado", nosub: "Sin subvención", pc: " %",
     cards: [
-      { icon: "🏠", tag: "Bloque 1", color: C.mid, title: "Eficiencia energética", cost: "74.900 €", works: "SATE en fachada, ventanas de triple acristalamiento y aislamiento de cubierta. CEE E → B · consumo −48 %.", pct: 60, subAmt: "−44.940 €",
+      { icon: "", tag: "Bloque 1", color: C.mid, title: "Eficiencia energética", cost: "74.900 €", works: "SATE en fachada, ventanas de triple acristalamiento y aislamiento de cubierta. CEE E → B · consumo −48 %.", pct: 60, subAmt: "−44.940 €",
         lines: [["Plan Rehabilita · Línea Verde ZETU", "60 %"]], foot: "La mayor parte del ahorro energético" },
-      { icon: "🛠", tag: "Bloque 2 · obligatorias (IEE)", color: C.red, title: "Conservación, accesibilidad y seguridad", cost: "15.700 €", works: "Lo que exige la inspección técnica (IEE 2021): hay que hacerlo en cualquier caso.", pct: 59, subAmt: "−9.210 €",
+      { icon: "", tag: "Bloque 2 · obligatorias (IEE)", color: C.red, title: "Conservación, accesibilidad y seguridad", cost: "15.700 €", works: "Lo que exige la inspección técnica (IEE 2021): hay que hacerlo en cualquier caso.", pct: 59, subAmt: "−9.210 €",
         lines: [["Forjado · 8.400 € · Conserva", "50 %"], ["Rampa · 4.200 € · Accesible", "75 %"], ["Contra incendios · 3.100 € · Seguridad", "60 %"]], foot: "Plan Rehabilita ZETU, tres líneas combinadas" },
-      { icon: "🚪", tag: "Bloque 3", color: C.muted, title: "Mejoras del portal", cost: "7.400 €", works: "Buzones, videoportero y pintura. Peticiones de los vecinos.", pct: 0, subAmt: "0 €",
+      { icon: "", tag: "Bloque 3", color: C.muted, title: "Mejoras del portal", cost: "7.400 €", works: "Buzones, videoportero y pintura. Peticiones de los vecinos.", pct: 0, subAmt: "0 €",
         lines: [["Sin línea de ayuda", "0 %", C.muted]], foot: "Se financia con el préstamo y la aportación" },
-      { icon: "☀️", tag: "Opcional · se vota aparte", color: C.teal, title: "Renovables", cost: null, works: "Fuera del presupuesto principal. RetroFin compara las dos rutas con números antes de la junta.", pct: null, opt: true,
+      { icon: "", tag: "Opcional · se vota aparte", color: C.teal, title: "Renovables", cost: null, works: "Fuera del presupuesto principal. RetroFin compara las dos rutas con números antes de la junta.", pct: null, opt: true,
         lines: [["Ruta A · autoconsumo colectivo (FV aprox. 28 kWp) · mayoría 1/3, solo pagan quienes votan a favor", "", C.teal], ["Ruta B · comunidad energética (entidad propia)", "90 %", C.teal]], foot: "Ruta B: el Plan Rehabilita subvenciona el 90 %" }
     ],
     extras: ["Subvenciones: 54.150 € · aprox. 55 % de la obra", "+ CAE tras la obra: aprox. 16.000 € (M16)", "+ Honorarios técnicos: 75 % subvencionable en ZETU (no incluido)"]
   };
   const card = (c, i) => React.createElement("div", {
     key: i,
-    style: { background: c.opt ? C.tealL : C.white, border: `1.5px ${c.opt ? "dashed" : "solid"} ${c.opt ? C.teal : C.border}`, borderRadius: 11, padding: "11px 12px", display: "flex", flexDirection: "column", gap: 6 }
+    style: { background: c.opt ? C.tealL : C.white, border: `1.5px ${c.opt ? "dashed" : "solid"} ${c.opt ? C.teal : C.border}`, borderRadius: 6, padding: "11px 12px", display: "flex", flexDirection: "column", gap: 6 }
   }, React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7 } },
     React.createElement("span", { style: { fontSize: 18 } }, c.icon),
     React.createElement("div", { style: { flex: 1 } },
-      React.createElement("div", { style: { fontSize: 9, fontWeight: 800, color: c.color, textTransform: "uppercase", letterSpacing: ".4px" } }, c.tag),
-      React.createElement("div", { style: { fontSize: 11.5, fontWeight: 800, color: C.deep, lineHeight: 1.25 } }, c.title)),
-    c.cost ? React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: C.deep, whiteSpace: "nowrap" } }, c.cost) : null),
-  React.createElement("div", { style: { fontSize: 9.5, color: C.muted, lineHeight: 1.4 } }, c.works),
+      React.createElement("div", { style: { fontSize: 10.5, fontWeight: 800, color: c.color, textTransform: "none", letterSpacing: ".4px" } }, c.tag),
+      React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep, lineHeight: 1.25 } }, c.title)),
+    c.cost ? React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep, whiteSpace: "nowrap" } }, c.cost) : null),
+  React.createElement("div", { style: { fontSize: 11.5, color: C.muted, lineHeight: 1.4 } }, c.works),
   c.pct !== null ? React.createElement("div", null,
-    React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 9, fontWeight: 700, marginBottom: 3 } },
-      React.createElement("span", { style: { color: c.pct ? C.mid : C.muted } }, c.pct ? L.subs + " " + c.pct + L.pc : L.nosub),
+    React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 10.5, fontWeight: 700, marginBottom: 3 } },
+      React.createElement("span", { style: { color: c.pct ? C.mid : C.muted } }, c.pct ? L.subs + " "+ c.pct + L.pc : L.nosub),
       React.createElement("span", { style: { color: c.pct ? C.mid : C.muted } }, c.subAmt)),
-    React.createElement("div", { style: { height: 9, borderRadius: 5, background: "#e5ece9", overflow: "hidden" } },
+    React.createElement("div", { style: { height: 9, borderRadius: 5, background: "#e6e1d6", overflow: "hidden" } },
       React.createElement("div", { style: { width: c.pct + "%", height: "100%", background: C.bright } }))) : null,
   React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 4, marginTop: 2 } },
     c.lines.map((l, j) => React.createElement("div", {
       key: j,
-      style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 9.5, background: c.opt ? "#ffffff" : C.pale, border: `1px solid ${c.opt ? C.tealL : C.border}`, borderRadius: 7, padding: "5px 8px" }
+      style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 11.5, background: c.opt ? "#ffffff" : C.pale, border: `1px solid ${c.opt ? C.tealL : C.border}`, borderRadius: 6, padding: "5px 8px" }
     }, React.createElement("span", { style: { color: C.text } }, l[0]),
        React.createElement("span", { style: { fontWeight: 800, color: l[2] || C.mid, whiteSpace: "nowrap" } }, l[1])))),
-  c.foot ? React.createElement("div", { style: { fontSize: 9, color: c.opt ? C.teal : C.mid, fontWeight: 700, marginTop: "auto", paddingTop: 2 } }, c.foot) : null);
+  c.foot ? React.createElement("div", { style: { fontSize: 10.5, color: c.opt ? C.teal : C.mid, fontWeight: 700, marginTop: "auto", paddingTop: 2 } }, c.foot) : null);
   return React.createElement("div", {
-    style: { background: C.white, border: `1.5px solid ${C.bright}`, borderRadius: 12, padding: "12px 14px", margin: "10px 0 0" }
+    style: { background: C.white, border: `1.5px solid ${C.bright}`, borderRadius: 6, padding: "12px 14px", margin: "10px 0 0" }
   }, React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginBottom: 3 } },
     React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep } }, final ? L.titleF : L.title),
-    React.createElement("span", { style: { fontSize: 8.5, fontWeight: 700, padding: "2px 8px", borderRadius: 100, background: C.goldL, color: C.gold, border: `1px solid ${final ? C.border : C.goldB}`, ...(final ? { background: C.pale, color: C.mid } : {}) } }, final ? L.badgeF : L.badge)),
-  React.createElement("div", { style: { fontSize: 10, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, final ? L.introF : L.intro),
+    React.createElement("span", { style: { fontSize: 10.5, fontWeight: 700, padding: "2px 8px", borderRadius: 4, background: C.goldL, color: C.gold, border: `1px solid ${final ? C.border : C.goldB}`, ...(final ? { background: C.pale, color: C.mid } : {}) } }, final ? L.badgeF : L.badge)),
+  React.createElement("div", { style: { fontSize: 11.5, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, final ? L.introF : L.intro),
   React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10 } }, (final ? L.cards.map((c, i) => i === 0 ? Object.assign({}, c, { cost: L.b1F[0], subAmt: L.b1F[1] }) : c) : L.cards).map(card)),
   React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 } },
     (final ? L.extrasF : L.extras).map((e, i) => React.createElement("span", {
       key: i,
-      style: { fontSize: 9.5, background: i === 0 ? "#edfdf5" : C.pale, border: `1px solid ${C.border}`, borderRadius: 100, padding: "3px 10px", color: C.mid, fontWeight: 600 }
+      style: { fontSize: 11.5, background: i === 0 ? "#eef2e8" : C.pale, border: `1px solid ${C.border}`, borderRadius: 4, padding: "3px 10px", color: C.mid, fontWeight: 600 }
     }, e))));
 }
 
 
 function FinStrip({ title, rows }) {
+  const C = C1;
   return React.createElement("div", {
-    style: { background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, padding: "8px 12px", marginTop: 4, marginBottom: 4 }
+    style: { background: C.white, border: `1px solid ${C.border}`, borderRadius: 6, padding: "8px 12px", marginTop: 4, marginBottom: 4 }
   }, React.createElement("div", {
-    style: { fontSize: 9.5, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: ".4px", marginBottom: 6 }
+    style: { fontSize: 11.5, fontWeight: 700, color: C.muted, textTransform: "none", letterSpacing: ".4px", marginBottom: 6 }
   }, title), React.createElement("div", {
     style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(118px, 1fr))", gap: "6px 12px" }
   }, rows.map(([l, v, w], i) => React.createElement("div", { key: i },
-    React.createElement("div", { style: { fontSize: 9, color: C.muted } }, l),
-    React.createElement("div", { style: { fontSize: 11.5, fontWeight: 700, color: w ? C.gold : C.mid } }, v)))));
+    React.createElement("div", { style: { fontSize: 10.5, color: C.muted } }, l),
+    React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: w ? C.gold : C.mid } }, v)))));
 }
 
 function Step1SubNav({ phase, ready, onGo }) {
+  const C = C1;
   const tabs = [[1, "1a · Datos del edificio"], [2, "1b · Paquete borrador"]];
   return React.createElement("div", {
-    style: { display: "flex", gap: 0, marginBottom: 14, border: `1.5px solid ${C.border}`, borderRadius: 10, overflow: "hidden", background: C.white, maxWidth: 520 }
+    style: { display: "flex", gap: 0, marginBottom: 14, border: `1.5px solid ${C.border}`, borderRadius: 6, overflow: "hidden", background: C.white, maxWidth: 520 }
   }, tabs.map(([p, label]) => {
     const on = phase === p, dis = p === 2 && !ready;
     return React.createElement("button", {
@@ -568,12 +596,13 @@ function Step1SubNav({ phase, ready, onGo }) {
       onClick: () => { if (!dis) onGo(p); },
       title: dis ? "Se genera con «Generar paquete borrador»" : "",
       disabled: dis,
-      style: { flex: 1, padding: "9px 12px", border: "none", borderLeft: p === 2 ? `1.5px solid ${C.border}` : "none", background: on ? C.deep : "transparent", color: on ? "#fff" : dis ? "#b5c4be" : C.deep, fontSize: 11.5, fontWeight: 700, cursor: dis ? "not-allowed" : "pointer", fontFamily: "inherit" }
+      style: { flex: 1, padding: "9px 12px", border: "none", borderLeft: p === 2 ? `1.5px solid ${C.border}` : "none", background: on ? C.deep : "transparent", color: on ? "#fff" : dis ? "#bdb8ad" : C.deep, fontSize: 13, fontWeight: 700, cursor: dis ? "not-allowed" : "pointer", fontFamily: "inherit" }
     }, label);
   }));
 }
 
 function DocChecklist({ title, items }) {
+  const C = /paso 1|step 1/i.test(title) ? C1 : C0;
   const [st, setSt] = useState(items.map(i => i.s));
   const icon = k => k === "listo" ? "\u2713" : k === "tram" ? "\u23f3" : "\u2192";
   const col = k => k === "listo" ? C.mid : k === "tram" ? C.gold : C.muted;
@@ -789,6 +818,7 @@ function Step1Intake({
   onUpload,
   onNext
 }) {
+  const C = C1;
   const FORM = [["Dirección", "C/ de Marcelo Usera, 51", "Distrito", "Usera, Madrid"], ["Año de construcción", "1972 (est)", "Nº de plantas", "6"], ["Nº de viviendas", "24 + 1 local", "Superficie", "1.840 m² (IA)"], ["Calificación CEE", "E (est)", "Calefacción", "Gas centralizada"], ["Administrador", "Fincas Usera S.L.", "CIF", "H-28-445566"]];
   const [addrState, setAddrState] = useState("idle");
   const [addrVal, setAddrVal] = useState("Calle de Marcelo Usera, 51, 28026 Madrid");
@@ -832,19 +862,19 @@ function Step1Intake({
     style: {
       background: C.white,
       border: `1.5px solid ${addrState === "done" ? C.bright : C.border}`,
-      borderRadius: 12,
+      borderRadius: 6,
       padding: "12px 14px",
       marginBottom: 14,
       transition: "border-color .3s"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9.5,
+      fontSize: 11.5,
       fontWeight: 600,
       color: C.deep,
       marginBottom: 6
     }
-  }, "DIRECCIÓN DEL EDIFICIO"), /*#__PURE__*/React.createElement("div", {
+  }, "Dirección del edificio"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 8,
@@ -863,7 +893,7 @@ function Step1Intake({
       transform: "translateY(-50%)",
       fontSize: 14
     }
-  }, "📍"), /*#__PURE__*/React.createElement("input", {
+  }, ""), /*#__PURE__*/React.createElement("input", {
     value: addrVal,
     onChange: e => {
       setAddrVal(e.target.value);
@@ -874,9 +904,9 @@ function Step1Intake({
       height: 36,
       background: C.pale,
       border: `1.5px solid ${C.border}`,
-      borderRadius: 8,
+      borderRadius: 6,
       padding: "0 10px 0 32px",
-      fontSize: 12,
+      fontSize: 13,
       color: C.text,
       fontFamily: "inherit",
       outline: "none"
@@ -887,11 +917,11 @@ function Step1Intake({
     style: {
       height: 36,
       padding: "0 14px",
-      borderRadius: 8,
+      borderRadius: 6,
       background: addrState === "done" ? C.pale : C.deep,
       color: addrState === "done" ? C.mid : "#fff",
       border: `1.5px solid ${addrState === "done" ? C.bright : C.deep}`,
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 700,
       cursor: addrState === "searching" ? "not-allowed" : "pointer",
       whiteSpace: "nowrap",
@@ -912,7 +942,7 @@ function Step1Intake({
     }
   }), addrState === "idle" && "Buscar en Catastro →", addrState === "searching" && "Buscando…", addrState === "done" && "✓ Datos cargados")), addrState === "searching" && /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.muted,
       marginTop: 8,
       display: "flex",
@@ -931,7 +961,7 @@ function Step1Intake({
     }
   }), "Consultando Catastro + geoportal de Madrid…"), addrState === "done" && /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.mid,
       marginTop: 8,
       display: "flex",
@@ -939,12 +969,12 @@ function Step1Intake({
       gap: 5,
       flexWrap: "wrap"
     }
-  }, /*#__PURE__*/React.createElement("span", null, "✓"), " Ref. catastral: ", /*#__PURE__*/React.createElement("strong", null, "5612708VK4751A0001PW"), " · verificada vía API del Catastro", /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", null, "✓"), "Ref. catastral: ", /*#__PURE__*/React.createElement("strong", null, "5612708VK4751A0001PW"), " · verificada vía API del Catastro", /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 8px",
-      borderRadius: 100,
+      borderRadius: 4,
       background: C.tealL,
       color: C.teal,
       border: `1px solid ${C.teal}40`
@@ -953,7 +983,7 @@ function Step1Intake({
     style: {
       background: C.white,
       border: `1px solid ${addrState === "done" ? C.bright : C.border}`,
-      borderRadius: 12,
+      borderRadius: 6,
       padding: "14px 16px",
       marginBottom: 16,
       transition: "border-color .3s",
@@ -966,37 +996,37 @@ function Step1Intake({
       right: 14,
       background: C.bright,
       color: "#fff",
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 10px",
-      borderRadius: 100,
+      borderRadius: 4,
       letterSpacing: ".4px"
     }
-  }, "CATASTRO + IA"), addrState === "idle" && /*#__PURE__*/React.createElement("div", {
+  }, "Catastro + IA"), addrState === "idle" && /*#__PURE__*/React.createElement("div", {
     style: {
       position: "absolute",
       top: -9,
       right: 14,
       background: C.pale,
       color: C.muted,
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 10px",
-      borderRadius: 100,
+      borderRadius: 4,
       border: `1px solid ${C.border}`,
       letterSpacing: ".4px"
     }
-  }, "DATOS PRECARGADOS"), addrState === "searching" && /*#__PURE__*/React.createElement("div", {
+  }, "Datos precargados"), addrState === "searching" && /*#__PURE__*/React.createElement("div", {
     style: {
       position: "absolute",
       top: -9,
       right: 14,
       background: C.goldL,
       color: C.gold,
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 10px",
-      borderRadius: 100,
+      borderRadius: 4,
       border: `1px solid ${C.goldB}`,
       letterSpacing: ".4px"
     }
@@ -1012,7 +1042,7 @@ function Step1Intake({
     key: j
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9.5,
+      fontSize: 11.5,
       fontWeight: 600,
       color: C.deep,
       marginBottom: 3
@@ -1020,11 +1050,11 @@ function Step1Intake({
   }, l), /*#__PURE__*/React.createElement("div", {
     style: {
       height: 29,
-      background: addrState === "done" ? "#edfdf5" : C.pale,
+      background: addrState === "done" ? "#eef2e8" : C.pale,
       border: `1.5px solid ${addrState === "done" ? C.bright : C.border}`,
-      borderRadius: 7,
+      borderRadius: 6,
       padding: "0 10px",
-      fontSize: 11,
+      fontSize: 12,
       color: addrState === "done" ? C.mid : "transparent",
       display: "flex",
       alignItems: "center",
@@ -1035,7 +1065,7 @@ function Step1Intake({
     style: {
       background: C.pale,
       border: `1px solid ${C.border}`,
-      borderRadius: 12,
+      borderRadius: 6,
       padding: "12px 16px",
       marginBottom: 14
     }
@@ -1050,26 +1080,26 @@ function Step1Intake({
     style: {
       fontSize: 14
     }
-  }, "🤖"), /*#__PURE__*/React.createElement("div", {
+  }, ""), /*#__PURE__*/React.createElement("div", {
     style: {
       fontWeight: 700,
-      fontSize: 12,
+      fontSize: 13,
       color: C.deep
     }
   }, "Análisis de arquetipo · IA"), /*#__PURE__*/React.createElement("div", {
     style: {
       marginLeft: "auto",
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 8px",
-      borderRadius: 100,
+      borderRadius: 4,
       background: `${C.mid}20`,
       border: `1px solid ${C.mid}50`,
       color: C.mid
     }
-  }, "USERA 51 · 1972 · CEE E")), /*#__PURE__*/React.createElement("div", {
+  }, "Usera 51 · 1972 · CEE E")), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: C.muted,
       lineHeight: 1.6,
       marginBottom: 12
@@ -1083,15 +1113,15 @@ function Step1Intake({
       color: C.deep
     }
   }, "arquetipo B3-Med"), "."), /*#__PURE__*/React.createElement("div", { style: { marginTop: 8 } }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 10, fontWeight: 700, color: C.deep, textTransform: "uppercase", letterSpacing: ".4px", marginBottom: 4 }
+    style: { fontSize: 11.5, fontWeight: 700, color: C.deep, textTransform: "none", letterSpacing: ".4px", marginBottom: 4 }
   }, "Actuaciones m\u00e1s probables para este arquetipo"), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.deep, fontWeight: 600 } }, "\u2713 SATE en fachada"), /*#__PURE__*/React.createElement("span", { style: { color: C.muted, textAlign: "right" } }, "la actuación de mayor ahorro en este arquetipo")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.deep, fontWeight: 600 } }, "\u2713 Ventanas de altas prestaciones"), /*#__PURE__*/React.createElement("span", { style: { color: C.muted, textAlign: "right" } }, "sustitución de carpinterías originales")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.deep, fontWeight: 600 } }, "\u2713 Aislamiento de cubierta"), /*#__PURE__*/React.createElement("span", { style: { color: C.muted, textAlign: "right" } }, "cierre de la envolvente térmica")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.deep, fontWeight: 600 } }, "\u2713 FV en cubierta / aerotermia"), /*#__PURE__*/React.createElement("span", { style: { color: C.muted, textAlign: "right" } }, "módulo opcional · se vota aparte (1/3)")))), /*#__PURE__*/React.createElement(StepBadge, {
     n: "2",
     title: "Documentación"
@@ -1099,7 +1129,7 @@ function Step1Intake({
     onClick: handleIeeUpload,
     style: {
       border: `2px dashed ${C.border}`,
-      borderRadius: 10,
+      borderRadius: 6,
       background: C.pale,
       padding: "18px 16px",
       textAlign: "center",
@@ -1113,16 +1143,16 @@ function Step1Intake({
       fontSize: 28,
       marginBottom: 6
     }
-  }, "📋"), /*#__PURE__*/React.createElement("div", {
+  }, ""), /*#__PURE__*/React.createElement("div", {
     style: {
       fontWeight: 600,
-      fontSize: 12,
+      fontSize: 13,
       color: C.deep,
       marginBottom: 3
     }
   }, "Subir informe IEE"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.muted,
       marginBottom: 12
     }
@@ -1133,15 +1163,15 @@ function Step1Intake({
       gap: 7,
       background: C.mid,
       color: "#fff",
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 600,
       padding: "7px 18px",
-      borderRadius: 100
+      borderRadius: 4
     }
   }, "Demo: cargar IEE_Usera51_2021.pdf")), ieeState === "uploading" && /*#__PURE__*/React.createElement("div", {
     style: {
       border: `1.5px solid ${C.border}`,
-      borderRadius: 10,
+      borderRadius: 6,
       background: C.pale,
       padding: 14,
       textAlign: "center",
@@ -1149,7 +1179,7 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: C.muted,
       marginBottom: 8
     }
@@ -1169,8 +1199,8 @@ function Step1Intake({
   }))), (ieeState === "parsing" || ieeState === "done") && /*#__PURE__*/React.createElement("div", {
     style: {
       border: `1.5px solid ${ieeState === "done" ? C.bright : C.goldB}`,
-      borderRadius: 10,
-      background: ieeState === "done" ? "#edfdf5" : C.goldL,
+      borderRadius: 6,
+      background: ieeState === "done" ? "#eef2e8" : C.goldL,
       marginBottom: 10,
       overflow: "hidden",
       transition: "all .4s"
@@ -1186,8 +1216,8 @@ function Step1Intake({
     style: {
       width: 32,
       height: 32,
-      borderRadius: 7,
-      background: ieeState === "done" ? "#dff2e7" : C.goldL,
+      borderRadius: 6,
+      background: ieeState === "done" ? "#e4ebdc" : C.goldL,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -1204,27 +1234,27 @@ function Step1Intake({
       animation: "spin .7s linear infinite",
       display: "inline-block"
     }
-  }) : "📋"), /*#__PURE__*/React.createElement("div", {
+  }) : "PDF"), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 12,
+      fontSize: 13,
       fontWeight: 500,
       color: C.text
     }
   }, "IEE_Usera51_2021.pdf"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.muted
     }
   }, "1,2 MB · Informe IEE 2021")), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       fontWeight: 700,
       padding: "3px 10px",
-      borderRadius: 100,
+      borderRadius: 4,
       background: ieeState === "parsing" ? C.goldL : C.pale,
       color: ieeState === "parsing" ? C.gold : C.mid,
       border: `1px solid ${ieeState === "parsing" ? C.goldB : C.border}`
@@ -1233,43 +1263,43 @@ function Step1Intake({
     style: {
       borderTop: `1px solid ${C.border}`,
       padding: "10px 14px",
-      background: "#f8fdfb"
+      background: "#faf8f3"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       color: C.deep,
-      textTransform: "uppercase",
+      textTransform: "none",
       letterSpacing: ".4px",
       marginBottom: 8
     }
   }, "Extraído por la IA · IEE 2021"), [{
-    icon: "🏗",
+    icon: "",
     label: "Estructura",
     finding: "Fisuras capilares en forjado de planta baja — requiere seguimiento",
-    status: "⚠ Requiere actuación",
+    status: "Requiere actuación",
     sc: C.gold
   }, {
-    icon: "♿",
+    icon: "",
     label: "Accesibilidad",
     finding: "Sin rampa en el portal — incumple RD 505/2007",
-    status: "⚠ Obligatorio",
+    status: "Obligatorio",
     sc: C.gold
   }, {
-    icon: "🔥",
+    icon: "",
     label: "Contra incendios",
     finding: "BIE fuera de vida útil — CTE DB-SI",
-    status: "⚠ Obligatorio",
+    status: "Obligatorio",
     sc: C.gold
   }, {
-    icon: "🌡",
+    icon: "",
     label: "Envolvente térmica",
     finding: "Fachada sin aislar · ventanas originales de un solo vidrio · CEE E",
-    status: "ℹ Mejorable con subvención",
+    status: "Mejorable con subvención",
     sc: C.mid
   }, {
-    icon: "🔧",
+    icon: "",
     label: "Servicios comunes",
     finding: "Caldera de gas centralizada de 21 años — dentro de vida útil",
     status: "✓ OK",
@@ -1295,19 +1325,19 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       fontWeight: 700,
       color: C.deep
     }
   }, r.label), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9.5,
+      fontSize: 11.5,
       color: C.muted,
       lineHeight: 1.4
     }
   }, r.finding)), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       color: r.sc,
       flexShrink: 0,
@@ -1324,12 +1354,12 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       color: C.muted
     }
   }, "3 obligatorias · 1 mejorable · 1 OK"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       color: C.gold
     }
@@ -1337,7 +1367,7 @@ function Step1Intake({
     onClick: onUpload,
     style: {
       border: `2px dashed ${C.border}`,
-      borderRadius: 10,
+      borderRadius: 6,
       background: C.pale,
       padding: "24px 16px",
       textAlign: "center",
@@ -1351,7 +1381,7 @@ function Step1Intake({
       fontSize: 36,
       marginBottom: 8
     }
-  }, "📎"), /*#__PURE__*/React.createElement("div", {
+  }, ""), /*#__PURE__*/React.createElement("div", {
     style: {
       fontWeight: 600,
       fontSize: 13,
@@ -1360,7 +1390,7 @@ function Step1Intake({
     }
   }, "Adjuntar documentación"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: C.muted,
       marginBottom: 14
     }
@@ -1371,15 +1401,15 @@ function Step1Intake({
       gap: 7,
       background: C.deep,
       color: "#fff",
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 600,
       padding: "8px 20px",
-      borderRadius: 100
+      borderRadius: 4
     }
   }, "Demo: cargar cuentas_comunidad_2024.xlsx")), uploadState === "uploading" && /*#__PURE__*/React.createElement("div", {
     style: {
       border: `1.5px solid ${C.border}`,
-      borderRadius: 10,
+      borderRadius: 6,
       background: C.pale,
       padding: 18,
       textAlign: "center",
@@ -1387,7 +1417,7 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 12,
+      fontSize: 13,
       color: C.muted,
       marginBottom: 10
     }
@@ -1410,7 +1440,7 @@ function Step1Intake({
       alignItems: "center",
       gap: 10,
       padding: "10px 14px",
-      borderRadius: 9,
+      borderRadius: 6,
       border: `1px solid ${C.border}`,
       background: C.white,
       marginBottom: 8
@@ -1419,34 +1449,34 @@ function Step1Intake({
     style: {
       width: 32,
       height: 32,
-      borderRadius: 7,
-      background: "#dff2e7",
+      borderRadius: 6,
+      background: "#e4ebdc",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       fontSize: 16
     }
-  }, "📊"), /*#__PURE__*/React.createElement("div", {
+  }, ""), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 12,
+      fontSize: 13,
       fontWeight: 500,
       color: C.text
     }
   }, "cuentas_comunidad_2024.xlsx"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.muted
     }
   }, "28 KB · Ejercicio 2024")), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       fontWeight: 700,
       padding: "3px 10px",
-      borderRadius: 100,
+      borderRadius: 4,
       background: uploadState === "analyzing" ? C.goldL : C.pale,
       color: uploadState === "analyzing" ? C.gold : C.mid,
       border: `1px solid ${uploadState === "analyzing" ? C.goldB : C.border}`
@@ -1457,9 +1487,9 @@ function Step1Intake({
       alignItems: "center",
       gap: 10,
       padding: "10px 14px",
-      borderRadius: 9,
+      borderRadius: 6,
       border: `1.5px solid ${uploadState === "done" ? C.bright : C.border}`,
-      background: uploadState === "done" ? "#edfdf5" : C.pale,
+      background: uploadState === "done" ? "#eef2e8" : C.pale,
       marginBottom: 8,
       transition: "all .5s"
     }
@@ -1467,27 +1497,27 @@ function Step1Intake({
     style: {
       width: 32,
       height: 32,
-      borderRadius: 7,
-      background: uploadState === "done" ? "#0066cc15" : "#eee",
+      borderRadius: 6,
+      background: uploadState === "done" ? "#2f6b5615" : "#eee",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       fontSize: 18,
       flexShrink: 0
     }
-  }, uploadState === "done" ? "🏦" : "⏳"), /*#__PURE__*/React.createElement("div", {
+  }, uploadState === "done" ? "€" : "⏳"), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.muted,
       marginBottom: 1
     }
   }, "Entidad de financiación"), uploadState === "analyzing" ? /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: C.gold,
       fontWeight: 600
     }
@@ -1499,23 +1529,23 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 12,
+      fontSize: 13,
       fontWeight: 700,
       color: C.deep
     }
   }, "CaixaBank (ejemplo)"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 7px",
-      borderRadius: 100,
-      background: "#0066cc15",
-      color: "#0066cc",
-      border: "1px solid #0066cc30"
+      borderRadius: 4,
+      background: "#2f6b5615",
+      color: "#2f6b56",
+      border: "1px solid #2f6b5630"
     }
-  }, "PROPUESTA POR RETROFIN")), uploadState === "done" && /*#__PURE__*/React.createElement("div", {
+  }, "Propuesta por RetroFin")), uploadState === "done" && /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.mid,
       marginTop: 2
     }
@@ -1526,48 +1556,48 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       color: C.bright,
       fontWeight: 700,
       marginBottom: 2
     }
   }, "✓ Préstamo para comunidades de propietarios"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       color: C.muted
     }
-  }, "Pre-solicitud en el paso 3"))), /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 10 } }, /*#__PURE__*/React.createElement("div", { style: { background: C.white, border: `1px solid ${C.border}`, borderRadius: 9, padding: "9px 12px" } }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: C.deep, textTransform: "uppercase", letterSpacing: ".4px", marginBottom: 4 } }, "Opciones de financiación (mercado)"), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+  }, "Pre-solicitud en el paso 3"))), /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 10 } }, /*#__PURE__*/React.createElement("div", { style: { background: C.white, border: `1px solid ${C.border}`, borderRadius: 6, padding: "9px 12px" } }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11.5, fontWeight: 700, color: C.deep, textTransform: "none", letterSpacing: ".4px", marginBottom: 4 } }, "Opciones de financiación (mercado)"), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Pr\u00e9stamo verde para rehabilitaci\u00f3n"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: C.mid, textAlign: "right" } }, "el del caso \u2713 \u00b7 tipo ilustrativo")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Pr\u00e9stamo comunidad est\u00e1ndar"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "sin criterio verde \u00b7 tipo superior")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
-  }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Adelanto de la ayuda"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "solo si la obra empieza antes de la concesi\u00f3n"))), /*#__PURE__*/React.createElement("div", { style: { background: C.white, border: `1px solid ${C.border}`, borderRadius: 9, padding: "9px 12px" } }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: C.deep, textTransform: "uppercase", letterSpacing: ".4px", marginBottom: 4 } }, "Resumen financiero \u00b7 ejercicio 2024"), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+  }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Adelanto de la ayuda"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "solo si la obra empieza antes de la concesi\u00f3n"))), /*#__PURE__*/React.createElement("div", { style: { background: C.white, border: `1px solid ${C.border}`, borderRadius: 6, padding: "9px 12px" } }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11.5, fontWeight: 700, color: C.deep, textTransform: "none", letterSpacing: ".4px", marginBottom: 4 } }, "Resumen financiero \u00b7 ejercicio 2024"), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Ingresos anuales"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "67.695 \u20ac")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Fondo de reserva"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "31.375 \u20ac")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Deuda bancaria"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "ninguna")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
-  }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Propietarios al corriente"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "22/24 (92%)")), /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: C.mid, fontWeight: 600, marginTop: 5 } }, "Perfil compatible con el pr\u00e9stamo del caso (35.210 \u20ac)"))), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+  }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Propietarios al corriente"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "22/24 (92%)")), /*#__PURE__*/React.createElement("div", { style: { fontSize: 11.5, color: C.mid, fontWeight: 600, marginTop: 5 } }, "Perfil compatible con el pr\u00e9stamo del caso (35.210 \u20ac)"))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 6,
       background: C.redL,
-      border: `1px solid #f0b0b0`,
-      borderRadius: 8,
+      border: `1px solid #dcae9e`,
+      borderRadius: 6,
       padding: "9px 12px",
-      fontSize: 11,
+      fontSize: 12,
       color: C.red,
       lineHeight: 1.5,
       marginBottom: 12
     }
-  }, /*#__PURE__*/React.createElement("span", null, "⚠"), /*#__PURE__*/React.createElement("span", null, "Documentos pendientes: ", /*#__PURE__*/React.createElement("strong", null, "certificado de eficiencia energética"), ". IEE subido ✓ · El arquitecto lo gestiona en el paso 2."))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, ""), /*#__PURE__*/React.createElement("span", null, "Documentos pendientes: ", /*#__PURE__*/React.createElement("strong", null, "certificado de eficiencia energética"), ". IEE subido ✓ · El arquitecto lo gestiona en el paso 2."))), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.white,
       border: `1.5px solid ${C.border}`,
-      borderRadius: 14,
+      borderRadius: 6,
       overflow: "hidden",
       marginBottom: 12
     }
@@ -1579,19 +1609,19 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10.5,
+      fontSize: 12,
       fontWeight: 700,
       color: C.deep,
-      textTransform: "uppercase",
+      textTransform: "none",
       letterSpacing: ".5px"
     }
-  }, "\ud83d\ude4b Solicitudes adicionales de vecinos")), /*#__PURE__*/React.createElement("div", {
+  }, "Solicitudes adicionales de vecinos")), /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "14px 16px"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: C.muted,
       marginBottom: 10,
       lineHeight: 1.5
@@ -1607,16 +1637,16 @@ function Step1Intake({
     key: i2,
     onClick: () => addReq(sg.t, sg.tag),
     style: {
-      fontSize: 10.5,
+      fontSize: 12,
       padding: "5px 10px",
-      borderRadius: 100,
+      borderRadius: 4,
       border: `1px dashed ${C.border}`,
       background: C.white,
       color: C.mid,
       cursor: "pointer",
       fontFamily: "inherit"
     }
-  }, "+ " + sg.t))), /*#__PURE__*/React.createElement("div", {
+  }, "+ "+ sg.t))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 6,
@@ -1632,9 +1662,9 @@ function Step1Intake({
     style: {
       flex: 1,
       border: `1px solid ${C.border}`,
-      borderRadius: 8,
+      borderRadius: 6,
       padding: "8px 11px",
-      fontSize: 11.5,
+      fontSize: 13,
       fontFamily: "inherit"
     }
   }), /*#__PURE__*/React.createElement("button", {
@@ -1643,9 +1673,9 @@ function Step1Intake({
       background: C.deep,
       color: "#fff",
       border: "none",
-      borderRadius: 8,
+      borderRadius: 6,
       padding: "0 14px",
-      fontSize: 11.5,
+      fontSize: 13,
       fontWeight: 600,
       cursor: "pointer",
       fontFamily: "inherit"
@@ -1658,7 +1688,7 @@ function Step1Intake({
       alignItems: "center",
       gap: 8,
       padding: "7px 10px",
-      borderRadius: 8,
+      borderRadius: 6,
       background: C.pale,
       border: `1px solid ${C.border}`,
       marginBottom: 6,
@@ -1666,27 +1696,27 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 11.5,
+      fontSize: 13,
       color: C.text
     }
-  }, "\u2713 " + r.t), /*#__PURE__*/React.createElement("span", {
+  }, "\u2713 "+ r.t), /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 9.5,
+      fontSize: 11.5,
       color: r.tag.indexOf("1/3") !== -1 ? C.gold : C.mid,
       fontWeight: 600,
       flexShrink: 0
     }
   }, r.tag))), reqs.length > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.muted,
       marginTop: 4
     }
-  }, reqs.length + " petici\u00f3n(es) incorporada(s) al paquete borrador \u2014 la junta votar\u00e1 cada bloque con su umbral"))), uploadState === "analyzing" && /*#__PURE__*/React.createElement("div", {
+  }, reqs.length + "petici\u00f3n(es) incorporada(s) al paquete borrador \u2014 la junta votar\u00e1 cada bloque con su umbral"))), uploadState === "analyzing" && /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.white,
       border: `1px solid ${C.border}`,
-      borderRadius: 12,
+      borderRadius: 6,
       padding: "22px 20px",
       textAlign: "center"
     }
@@ -1709,7 +1739,7 @@ function Step1Intake({
     }
   }, "Analizando cuentas anuales…"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: C.muted
     }
   }, "Extrayendo datos · Calculando score · Generando paquete borrador")), uploadState === "done" && /*#__PURE__*/React.createElement("div", {
@@ -1718,9 +1748,9 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      background: "#fffbeb",
+      background: "#fbf4e6",
       border: `1.5px solid ${C.goldB}`,
-      borderRadius: 12,
+      borderRadius: 6,
       padding: "12px 14px",
       marginBottom: 12
     }
@@ -1735,48 +1765,48 @@ function Step1Intake({
     style: {
       fontSize: 16
     }
-  }, "⚠"), /*#__PURE__*/React.createElement("div", {
+  }, ""), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       fontWeight: 700,
-      fontSize: 12,
-      color: "#92400e"
+      fontSize: 13,
+      color: "#8a4b1c"
     }
   }, "Reparaciones obligatorias detectadas · IEE 2021"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.gold
     }
   }, "Exigibles en cualquier caso — incluidas en el proyecto integral")), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 8px",
-      borderRadius: 100,
+      borderRadius: 4,
       background: C.goldL,
       border: `1px solid ${C.goldB}`,
       color: C.gold,
       flexShrink: 0
     }
-  }, "BASE OBLIGATORIA")), [{
-    icon: "🏗",
+  }, "Base obligatoria")), [{
+    icon: "",
     item: "Reparación de grieta en forjado de planta baja",
     base: "Art. 10 Ley 8/2013",
     coste: "aprox. 8.400 €",
     urgency: "URGENTE"
   }, {
-    icon: "♿",
+    icon: "",
     item: "Instalación de rampa de accesibilidad en el portal",
     base: "RD 505/2007",
     coste: "aprox. 4.200 €",
     urgency: "OBLIGATORIA"
   }, {
-    icon: "🔥",
+    icon: "",
     item: "Renovación del sistema contra incendios (BIE)",
-    base: "CTE DB-SI",
+    base: "Cte db-si",
     coste: "aprox. 3.100 €",
     urgency: "OBLIGATORIA"
   }].map((r, i) => /*#__PURE__*/React.createElement("div", {
@@ -1800,13 +1830,13 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10.5,
+      fontSize: 12,
       fontWeight: 600,
       color: C.deep
     }
   }, r.item), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       color: C.muted
     }
   }, r.base)), /*#__PURE__*/React.createElement("div", {
@@ -1816,13 +1846,13 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       fontWeight: 700,
-      color: "#92400e"
+      color: "#8a4b1c"
     }
   }, r.coste), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 8,
+      fontSize: 10.5,
       fontWeight: 700,
       color: C.gold
     }
@@ -1837,18 +1867,18 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.muted
     }
   }, "Coste total de las obras obligatorias"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontWeight: 700,
       fontSize: 13,
-      color: "#92400e"
+      color: "#8a4b1c"
     }
   }, "aprox. 15.700 € ", /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       color: C.muted,
       fontWeight: 400
     }
@@ -1857,7 +1887,7 @@ function Step1Intake({
     style: {
       width: "100%",
       padding: "13px",
-      borderRadius: 9,
+      borderRadius: 6,
       background: C.deep,
       color: "#fff",
       border: "none",
@@ -1874,17 +1904,18 @@ function Step1Draft({
   onNext,
   onBack
 }) {
+  const C = C1;
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(StepBadge, {
     n: "1",
     title: "Paquete borrador del proyecto",
-    badge: "BORRADOR IA",
+    badge: "Borrador IA",
     badgeBg: `${C.mid}25`,
     badgeC: C.mid
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.pale,
       border: `1px solid ${C.border}`,
-      borderRadius: 12,
+      borderRadius: 6,
       padding: "12px 16px",
       marginBottom: 14
     }
@@ -1892,13 +1923,13 @@ function Step1Draft({
     style: {
       background: C.white,
       border: `1.5px solid ${C.bright}`,
-      borderRadius: 10,
+      borderRadius: 6,
       overflow: "hidden",
       marginBottom: 10
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      background: "#edfdf5",
+      background: "#eef2e8",
       borderBottom: `1px solid ${C.border}`,
       padding: "9px 14px",
       display: "flex",
@@ -1909,23 +1940,23 @@ function Step1Draft({
     style: {
       fontSize: 16
     }
-  }, "🧱"), /*#__PURE__*/React.createElement("div", {
+  }, ""), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1,
       fontWeight: 700,
-      fontSize: 12,
+      fontSize: 13,
       color: C.deep
     }
   }, "Proyecto integral · Envolvente + obras IEE + mejoras"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 8px",
-      borderRadius: 100,
+      borderRadius: 4,
       background: C.bright,
       color: "#fff"
     }
-  }, "BORRADOR")), /*#__PURE__*/React.createElement("div", {
+  }, "Borrador")), /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "11px 14px"
     }
@@ -1939,10 +1970,10 @@ function Step1Draft({
   }, ["CEE E → B", "Consumo −48%", "Demanda calef./refr. −50% (est.)", "Coste bruto 98.000 € (est.)", "aprox. 55% subvencionado"].map((t, i) => /*#__PURE__*/React.createElement("span", {
     key: i,
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       background: C.pale,
       border: `1px solid ${C.border}`,
-      borderRadius: 100,
+      borderRadius: 4,
       padding: "2px 9px",
       color: C.mid,
       fontWeight: 600
@@ -1950,7 +1981,7 @@ function Step1Draft({
   }, t))), ["SATE fachada + ventanas triple acristalamiento + aislamiento de cubierta", "Obras obligatorias de la IEE: forjado, rampa de accesibilidad, contra incendios", "Mejoras de portal (no subvencionadas): buzones, videoportero, pintura"].map((o, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
-      fontSize: 10.5,
+      fontSize: 12,
       color: C.muted,
       marginBottom: 4,
       display: "flex",
@@ -1971,15 +2002,15 @@ function Step1Draft({
   }, [["Cuota préstamo est.", "11,60 €/viv/mes"], ["Ahorro energético est.", "40 €/viv/mes"], ["Beneficio neto est.", "+29 €/viv/mes"]].map(([l, v], i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
-      background: i === 2 ? "#edfdf5" : C.pale,
+      background: i === 2 ? "#eef2e8" : C.pale,
       border: `1px solid ${C.border}`,
-      borderRadius: 8,
+      borderRadius: 6,
       padding: "8px 10px",
       textAlign: "center"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 8.5,
+      fontSize: 10.5,
       color: C.muted,
       marginBottom: 2
     }
@@ -1989,12 +2020,12 @@ function Step1Draft({
       fontWeight: 800,
       color: i === 2 ? C.mid : C.deep
     }
-  }, v)))))), React.createElement(BuildingOptions, null), React.createElement(FundingSplit, { final: false })), React.createElement(FinStrip, { title: "Datos financieros — Ejercicio 2024", rows: [["Ingresos anuales", "67.695 €"], ["Gastos anuales", "29.577 €"], ["Superávit", "38.118 €"], ["Fondo de reserva", "31.375 € ✓"], ["Deuda bancaria", "Ninguna ✓"], ["Derramas pendientes", "1.200 €", true], ["Cuota mensual", "55 €/mes"], ["Propietarios al corriente", "22 de 24 ✓"]] }), React.createElement("button", { onClick: onBack, style: { display: "block", width: "100%", marginTop: 12, marginBottom: 8, padding: "10px", borderRadius: 10, border: `1.5px solid ${C.border}`, background: C.white, color: C.deep, fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" } }, "← Volver a los datos del edificio"), /*#__PURE__*/React.createElement("button", {
+  }, v)))))), React.createElement(BuildingOptions, null), React.createElement(FundingSplit, { final: false })), React.createElement(FinStrip, { title: "Datos financieros — Ejercicio 2024", rows: [["Ingresos anuales", "67.695 €"], ["Gastos anuales", "29.577 €"], ["Superávit", "38.118 €"], ["Fondo de reserva", "31.375 € ✓"], ["Deuda bancaria", "Ninguna ✓"], ["Derramas pendientes", "1.200 €", true], ["Cuota mensual", "55 €/mes"], ["Propietarios al corriente", "22 de 24 ✓"]] }), React.createElement("button", { onClick: onBack, style: { display: "block", width: "100%", marginTop: 12, marginBottom: 8, padding: "10px", borderRadius: 6, border: `1.5px solid ${C.border}`, background: C.white, color: C.deep, fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" } }, "← Volver a los datos del edificio"), /*#__PURE__*/React.createElement("button", {
     onClick: onNext,
     style: {
       width: "100%",
       padding: "13px",
-      borderRadius: 9,
+      borderRadius: 6,
       background: C.deep,
       color: "#fff",
       border: "none",
@@ -4804,7 +4835,9 @@ function App() {
     style: {
       flex: 1,
       overflowY: "auto",
-      padding: "18px 20px 48px"
+      padding: "18px 20px 48px",
+      background: step === 1 ? C1.bg : undefined,
+      fontFamily: step === 1 ? "'Public Sans', sans-serif" : undefined
     },
     "data-rf-main": "1"
   }, step === 1 && React.createElement(Step1SubNav, { phase: intakePhase, ready: draftReady, onGo: goPhase }), step === 1 && React.createElement("div", { style: { display: intakePhase === 1 ? "block" : "none" } }, /*#__PURE__*/React.createElement(Step1Intake, {
@@ -5045,6 +5078,28 @@ const C = {
   teal: "#0e8c8c",
   tealL: "#e0f4f4"
 };
+const C0 = C;
+const C1 = {
+  deep: "#1e4a3d",
+  mid: "#2f6b56",
+  bright: "#3d8f66",
+  pale: "#f6f3ec",
+  border: "#ddd5c5",
+  text: "#1d211e",
+  muted: "#6c6e66",
+  white: "#fff",
+  bg: "#efe9de",
+  gold: "#b5722b",
+  goldL: "#f6ebdb",
+  goldB: "#e0bf92",
+  red: "#a9492f",
+  redL: "#f5e2da",
+  purple: "#5b6886",
+  purpleL: "#e5e8ef",
+  purpleB: "#bcc3d4",
+  teal: "#3b7a76",
+  tealL: "#e2eeec"
+};
 const AI_SYSTEM = `You are RetroFin AI, a specialised assistant helping Spanish homeowner communities finance building retrofits.
 Building: Calle de Marcelo Usera 51, Madrid (Usera, ZETU zone · APIRU). 24 homes, 1972, EPC E, 6 floors.
 Annual income: €67,695. Reserve fund: €31,375. No bank debt. 22/24 owners up to date.
@@ -5077,6 +5132,7 @@ const WORKFLOW_STEPS = [{
 }];
 
 function GreenSelector({ stage, pending }) {
+  const C = stage === 1 ? C1 : C0;
   const T = {"t1": "Green Selector · estimate", "t3": "Green screening file · attached to the pre-application", "r1": [["Likely route", "Whole building · EIB Green Checker: Renovation of existing buildings", ""], ["Green criterion", "EU taxonomy 7.2 · ≥30% less primary energy", ""], ["Status", "Pending the architect's energy certificate", "p"], ["Annex · repayment source", "CAE about 135 MWh/yr (RES010) · €15.7–19.1k gross, one-off", ""]], "r3": [["2. Route", "Whole building · EIB Green Checker: Renovation of existing buildings", ""], ["3. Technical criterion", "Taxonomy 7.2 · ≥30% less primary energy per EPC before/after", "p"], ["4. DNSH", "Climate risks · waste ≥70% · materials · on-site measures", "p"], ["5. File", "Eligible works €76,300 of €99,400 · data ready for the EIB Green Checker", ""], ["6. Bank validation (bank's side)", "Per the lender's own green-finance criteria", "p"], ["Annex · repayment sources", "Subsidies €54,990 · CAE RES010 about 135 MWh/yr, paid once (incentive effect: art. 13 RD 36/2023)", ""]], "n1": "The Selector is recomputed with the real EPC in step 2. Full tool: retrofin.es/greenselector", "n3": "Preliminary document: eligibility is decided by the lender. Full tool: retrofin.es/greenselector", "pend": "pending", "k": "GREEN SELECTOR", "h1": "Does it qualify as a green loan?", "h3": "Green screening file", "s1": "Automatic check of what the bank needs for a green loan: route, EU taxonomy criterion and DNSH. Subsidies and CAE go in an annex, as repayment sources.", "s3": "Attached to the CaixaBank pre-application so the bank can classify the loan as green.", "b1": "Estimate", "b3p": "Attached on sending", "b3d": "Attached to the pre-application", "np": "Generated when you send the pre-application to CaixaBank."};
   const rows = stage === 1 ? T.r1 : T.r3;
   const pill = stage === 1 ? T.b1 : (pending ? T.b3p : T.b3d);
@@ -5098,6 +5154,7 @@ function GreenSelector({ stage, pending }) {
 
 
 function FundingSplit({ final }) {
+  const C = final ? C0 : C1;
   const L = {
     en: true,
     titleD: "Who pays for the works · estimate",
@@ -5116,19 +5173,19 @@ function FundingSplit({ final }) {
     { pct: 36, amt: "35.210 €", color: C.gold, label: L.loan, sub: L.loanD },
     { pct: 9, amt: "9.200 €", color: C.purple, label: L.own, sub: final ? L.ownD : L.ownDD }
   ];
-  const fmt = s => L.en ? s.replace(/^([\d.]+) €$/, (m, n) => "€" + n.replace(/\./g, ",")) : s;
+  const fmt = s => L.en ? s.replace(/^([\d.]+) €$/, (m, n) => "€"+ n.replace(/\./g, ",")) : s;
   return React.createElement("div", {
-    style: { background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 12, padding: "12px 14px", margin: "10px 0 12px" }
+    style: { background: C.white, border: `1.5px solid ${C.border}`, borderRadius: 6, padding: "12px 14px", margin: "10px 0 12px" }
   }, React.createElement("div", {
-    style: { fontSize: 10, fontWeight: 700, color: C.deep, textTransform: "uppercase", letterSpacing: ".5px", marginBottom: 8 }
+    style: { fontSize: 11.5, fontWeight: 700, color: C.deep, textTransform: "none", letterSpacing: ".5px", marginBottom: 8 }
   }, final ? L.titleF : L.titleD), React.createElement("div", {
-    style: { display: "flex", height: 28, borderRadius: 7, overflow: "hidden", border: `1px solid ${C.border}` }
+    style: { display: "flex", height: 28, borderRadius: 6, overflow: "hidden", border: `1px solid ${C.border}` }
   }, segs.map((s, i) => React.createElement("div", {
     key: i,
     title: s.label,
-    style: { flex: `0 0 ${s.pct}%`, background: s.color, color: "#fff", fontSize: 11, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", borderLeft: i ? "2px solid #fff" : "none" }
+    style: { flex: `0 0 ${s.pct}%`, background: s.color, color: "#fff", fontSize: 12, fontWeight: 800, display: "flex", alignItems: "center", justifyContent: "center", borderLeft: i ? "2px solid #fff" : "none" }
   }, s.pct + " %"))), React.createElement("div", {
-    style: { display: "flex", marginTop: 5, fontSize: 9.5, fontWeight: 700 }
+    style: { display: "flex", marginTop: 5, fontSize: 11.5, fontWeight: 700 }
   }, React.createElement("div", {
     style: { flex: "0 0 55%", color: C.bright, borderTop: `2px solid ${C.bright}`, paddingTop: 3, paddingRight: 6 }
   }, L.pub), React.createElement("div", {
@@ -5141,93 +5198,96 @@ function FundingSplit({ final }) {
   }, React.createElement("span", {
     style: { width: 10, height: 10, borderRadius: 3, background: s.color, flexShrink: 0, marginTop: 2 }
   }), React.createElement("div", null, React.createElement("div", {
-    style: { fontSize: 10, fontWeight: 700, color: C.text }
-  }, s.label, final ? React.createElement("span", { style: { color: C.deep } }, " · " + fmt(s.amt)) : null), React.createElement("div", {
-    style: { fontSize: 9, color: C.muted, lineHeight: 1.4 }
+    style: { fontSize: 11.5, fontWeight: 700, color: C.text }
+  }, s.label, final ? React.createElement("span", { style: { color: C.deep } }, " · "+ fmt(s.amt)) : null), React.createElement("div", {
+    style: { fontSize: 10.5, color: C.muted, lineHeight: 1.4 }
   }, s.sub))))), React.createElement("div", {
-    style: { marginTop: 10, fontSize: 9.5, color: C.mid, background: C.pale, border: `1px dashed ${C.border}`, borderRadius: 8, padding: "7px 10px", lineHeight: 1.5 }
+    style: { marginTop: 10, fontSize: 11.5, color: C.mid, background: C.pale, border: `1px dashed ${C.border}`, borderRadius: 6, padding: "7px 10px", lineHeight: 1.5 }
   }, final ? L.caeF : L.caeD), final ? null : React.createElement("div", {
-    style: { fontSize: 9, color: C.muted, fontStyle: "italic", marginTop: 6 }
+    style: { fontSize: 10.5, color: C.muted, fontStyle: "italic", marginTop: 6 }
   }, L.noteD));
 }
 
 
 function BuildingOptions({ final }) {
+  const C = final ? C0 : C1;
   const L = {
     title: "What you can do with the building",
-    badge: "INITIAL ESTIMATE · AI ON ARCHETYPE",
-    titleF: "Subsidies by block · validated project", badgeF: "VALIDATED BY THE ARCHITECT · €99,400",
+    badge: "Initial estimate · AI on archetype",
+    titleF: "Subsidies by block · validated project", badgeF: "Validated by the architect · €99,400",
     introF: "Each block of works with the subsidy that applies to it, as presented to the assembly. Renewables are voted separately (vote 2).",
     b1F: ["€76,300", "−€45,780"],
     extrasF: ["Subsidies: €54,990 · about 55% of the works", "+ CAE after the works: about €16,000 (M16)", "+ Professional fees: 75% eligible in ZETU (not included)"],
     intro: "Three blocks of works, each with the subsidy that applies to it, plus an optional renewables module voted separately. The architect validates and adjusts the figures in step 2.",
     subs: "Subsidised", nosub: "No subsidy", pc: "%",
     cards: [
-      { icon: "🏠", tag: "Block 1", color: C.mid, title: "Energy efficiency", cost: "€74,900", works: "External wall insulation (SATE), triple-glazed windows and roof insulation. EPC E → B · consumption −48%.", pct: 60, subAmt: "−€44,940",
+      { icon: "", tag: "Block 1", color: C.mid, title: "Energy efficiency", cost: "€74,900", works: "External wall insulation (SATE), triple-glazed windows and roof insulation. EPC E → B · consumption −48%.", pct: 60, subAmt: "−€44,940",
         lines: [["Plan Rehabilita · ZETU Green line", "60%"]], foot: "Most of the energy savings" },
-      { icon: "🛠", tag: "Block 2 · mandatory (IEE)", color: C.red, title: "Conservation, accessibility and safety", cost: "€15,700", works: "What the technical inspection (IEE 2021) requires: needed in any case.", pct: 59, subAmt: "−€9,210",
+      { icon: "", tag: "Block 2 · mandatory (IEE)", color: C.red, title: "Conservation, accessibility and safety", cost: "€15,700", works: "What the technical inspection (IEE 2021) requires: needed in any case.", pct: 59, subAmt: "−€9,210",
         lines: [["Floor slab · €8,400 · Conserva", "50%"], ["Ramp · €4,200 · Accesible", "75%"], ["Fire protection · €3,100 · Seguridad", "60%"]], foot: "Plan Rehabilita ZETU, three lines combined" },
-      { icon: "🚪", tag: "Block 3", color: C.muted, title: "Entrance improvements", cost: "€7,400", works: "Mailboxes, video intercom and painting. Requests from neighbours.", pct: 0, subAmt: "€0",
+      { icon: "", tag: "Block 3", color: C.muted, title: "Entrance improvements", cost: "€7,400", works: "Mailboxes, video intercom and painting. Requests from neighbours.", pct: 0, subAmt: "€0",
         lines: [["No subsidy line", "0%", C.muted]], foot: "Funded by the loan and the owners' contribution" },
-      { icon: "☀️", tag: "Optional · voted separately", color: C.teal, title: "Renewables", cost: null, works: "Outside the main budget. RetroFin compares both routes with figures before the assembly.", pct: null, opt: true,
+      { icon: "", tag: "Optional · voted separately", color: C.teal, title: "Renewables", cost: null, works: "Outside the main budget. RetroFin compares both routes with figures before the assembly.", pct: null, opt: true,
         lines: [["Route A · collective self-consumption (PV about 28 kWp) · 1/3 majority, only those voting in favour pay", "", C.teal], ["Route B · energy community (separate legal entity)", "90%", C.teal]], foot: "Route B: Plan Rehabilita subsidises 90%" }
     ],
     extras: ["Subsidies: €54,150 · about 55% of the works", "+ CAE after the works: about €16,000 (M16)", "+ Professional fees: 75% eligible in ZETU (not included)"]
   };
   const card = (c, i) => React.createElement("div", {
     key: i,
-    style: { background: c.opt ? C.tealL : C.white, border: `1.5px ${c.opt ? "dashed" : "solid"} ${c.opt ? C.teal : C.border}`, borderRadius: 11, padding: "11px 12px", display: "flex", flexDirection: "column", gap: 6 }
+    style: { background: c.opt ? C.tealL : C.white, border: `1.5px ${c.opt ? "dashed" : "solid"} ${c.opt ? C.teal : C.border}`, borderRadius: 6, padding: "11px 12px", display: "flex", flexDirection: "column", gap: 6 }
   }, React.createElement("div", { style: { display: "flex", alignItems: "center", gap: 7 } },
     React.createElement("span", { style: { fontSize: 18 } }, c.icon),
     React.createElement("div", { style: { flex: 1 } },
-      React.createElement("div", { style: { fontSize: 9, fontWeight: 800, color: c.color, textTransform: "uppercase", letterSpacing: ".4px" } }, c.tag),
-      React.createElement("div", { style: { fontSize: 11.5, fontWeight: 800, color: C.deep, lineHeight: 1.25 } }, c.title)),
-    c.cost ? React.createElement("div", { style: { fontSize: 12, fontWeight: 800, color: C.deep, whiteSpace: "nowrap" } }, c.cost) : null),
-  React.createElement("div", { style: { fontSize: 9.5, color: C.muted, lineHeight: 1.4 } }, c.works),
+      React.createElement("div", { style: { fontSize: 10.5, fontWeight: 800, color: c.color, textTransform: "none", letterSpacing: ".4px" } }, c.tag),
+      React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep, lineHeight: 1.25 } }, c.title)),
+    c.cost ? React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep, whiteSpace: "nowrap" } }, c.cost) : null),
+  React.createElement("div", { style: { fontSize: 11.5, color: C.muted, lineHeight: 1.4 } }, c.works),
   c.pct !== null ? React.createElement("div", null,
-    React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 9, fontWeight: 700, marginBottom: 3 } },
-      React.createElement("span", { style: { color: c.pct ? C.mid : C.muted } }, c.pct ? L.subs + " " + c.pct + L.pc : L.nosub),
+    React.createElement("div", { style: { display: "flex", justifyContent: "space-between", fontSize: 10.5, fontWeight: 700, marginBottom: 3 } },
+      React.createElement("span", { style: { color: c.pct ? C.mid : C.muted } }, c.pct ? L.subs + " "+ c.pct + L.pc : L.nosub),
       React.createElement("span", { style: { color: c.pct ? C.mid : C.muted } }, c.subAmt)),
-    React.createElement("div", { style: { height: 9, borderRadius: 5, background: "#e5ece9", overflow: "hidden" } },
+    React.createElement("div", { style: { height: 9, borderRadius: 5, background: "#e6e1d6", overflow: "hidden" } },
       React.createElement("div", { style: { width: c.pct + "%", height: "100%", background: C.bright } }))) : null,
   React.createElement("div", { style: { display: "flex", flexDirection: "column", gap: 4, marginTop: 2 } },
     c.lines.map((l, j) => React.createElement("div", {
       key: j,
-      style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 9.5, background: c.opt ? "#ffffff" : C.pale, border: `1px solid ${c.opt ? C.tealL : C.border}`, borderRadius: 7, padding: "5px 8px" }
+      style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 11.5, background: c.opt ? "#ffffff" : C.pale, border: `1px solid ${c.opt ? C.tealL : C.border}`, borderRadius: 6, padding: "5px 8px" }
     }, React.createElement("span", { style: { color: C.text } }, l[0]),
        React.createElement("span", { style: { fontWeight: 800, color: l[2] || C.mid, whiteSpace: "nowrap" } }, l[1])))),
-  c.foot ? React.createElement("div", { style: { fontSize: 9, color: c.opt ? C.teal : C.mid, fontWeight: 700, marginTop: "auto", paddingTop: 2 } }, c.foot) : null);
+  c.foot ? React.createElement("div", { style: { fontSize: 10.5, color: c.opt ? C.teal : C.mid, fontWeight: 700, marginTop: "auto", paddingTop: 2 } }, c.foot) : null);
   return React.createElement("div", {
-    style: { background: C.white, border: `1.5px solid ${C.bright}`, borderRadius: 12, padding: "12px 14px", margin: "10px 0 0" }
+    style: { background: C.white, border: `1.5px solid ${C.bright}`, borderRadius: 6, padding: "12px 14px", margin: "10px 0 0" }
   }, React.createElement("div", { style: { display: "flex", alignItems: "baseline", gap: 8, flexWrap: "wrap", marginBottom: 3 } },
     React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep } }, final ? L.titleF : L.title),
-    React.createElement("span", { style: { fontSize: 8.5, fontWeight: 700, padding: "2px 8px", borderRadius: 100, background: C.goldL, color: C.gold, border: `1px solid ${final ? C.border : C.goldB}`, ...(final ? { background: C.pale, color: C.mid } : {}) } }, final ? L.badgeF : L.badge)),
-  React.createElement("div", { style: { fontSize: 10, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, final ? L.introF : L.intro),
+    React.createElement("span", { style: { fontSize: 10.5, fontWeight: 700, padding: "2px 8px", borderRadius: 4, background: C.goldL, color: C.gold, border: `1px solid ${final ? C.border : C.goldB}`, ...(final ? { background: C.pale, color: C.mid } : {}) } }, final ? L.badgeF : L.badge)),
+  React.createElement("div", { style: { fontSize: 11.5, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, final ? L.introF : L.intro),
   React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10 } }, (final ? L.cards.map((c, i) => i === 0 ? Object.assign({}, c, { cost: L.b1F[0], subAmt: L.b1F[1] }) : c) : L.cards).map(card)),
   React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 } },
     (final ? L.extrasF : L.extras).map((e, i) => React.createElement("span", {
       key: i,
-      style: { fontSize: 9.5, background: i === 0 ? "#edfdf5" : C.pale, border: `1px solid ${C.border}`, borderRadius: 100, padding: "3px 10px", color: C.mid, fontWeight: 600 }
+      style: { fontSize: 11.5, background: i === 0 ? "#eef2e8" : C.pale, border: `1px solid ${C.border}`, borderRadius: 4, padding: "3px 10px", color: C.mid, fontWeight: 600 }
     }, e))));
 }
 
 
 function FinStrip({ title, rows }) {
+  const C = C1;
   return React.createElement("div", {
-    style: { background: C.white, border: `1px solid ${C.border}`, borderRadius: 10, padding: "8px 12px", marginTop: 4, marginBottom: 4 }
+    style: { background: C.white, border: `1px solid ${C.border}`, borderRadius: 6, padding: "8px 12px", marginTop: 4, marginBottom: 4 }
   }, React.createElement("div", {
-    style: { fontSize: 9.5, fontWeight: 700, color: C.muted, textTransform: "uppercase", letterSpacing: ".4px", marginBottom: 6 }
+    style: { fontSize: 11.5, fontWeight: 700, color: C.muted, textTransform: "none", letterSpacing: ".4px", marginBottom: 6 }
   }, title), React.createElement("div", {
     style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(118px, 1fr))", gap: "6px 12px" }
   }, rows.map(([l, v, w], i) => React.createElement("div", { key: i },
-    React.createElement("div", { style: { fontSize: 9, color: C.muted } }, l),
-    React.createElement("div", { style: { fontSize: 11.5, fontWeight: 700, color: w ? C.gold : C.mid } }, v)))));
+    React.createElement("div", { style: { fontSize: 10.5, color: C.muted } }, l),
+    React.createElement("div", { style: { fontSize: 13, fontWeight: 700, color: w ? C.gold : C.mid } }, v)))));
 }
 
 function Step1SubNav({ phase, ready, onGo }) {
+  const C = C1;
   const tabs = [[1, "1a · Building data"], [2, "1b · Draft package"]];
   return React.createElement("div", {
-    style: { display: "flex", gap: 0, marginBottom: 14, border: `1.5px solid ${C.border}`, borderRadius: 10, overflow: "hidden", background: C.white, maxWidth: 520 }
+    style: { display: "flex", gap: 0, marginBottom: 14, border: `1.5px solid ${C.border}`, borderRadius: 6, overflow: "hidden", background: C.white, maxWidth: 520 }
   }, tabs.map(([p, label]) => {
     const on = phase === p, dis = p === 2 && !ready;
     return React.createElement("button", {
@@ -5235,12 +5295,13 @@ function Step1SubNav({ phase, ready, onGo }) {
       onClick: () => { if (!dis) onGo(p); },
       title: dis ? "Generated with «Generate draft package»" : "",
       disabled: dis,
-      style: { flex: 1, padding: "9px 12px", border: "none", borderLeft: p === 2 ? `1.5px solid ${C.border}` : "none", background: on ? C.deep : "transparent", color: on ? "#fff" : dis ? "#b5c4be" : C.deep, fontSize: 11.5, fontWeight: 700, cursor: dis ? "not-allowed" : "pointer", fontFamily: "inherit" }
+      style: { flex: 1, padding: "9px 12px", border: "none", borderLeft: p === 2 ? `1.5px solid ${C.border}` : "none", background: on ? C.deep : "transparent", color: on ? "#fff" : dis ? "#bdb8ad" : C.deep, fontSize: 13, fontWeight: 700, cursor: dis ? "not-allowed" : "pointer", fontFamily: "inherit" }
     }, label);
   }));
 }
 
 function DocChecklist({ title, items }) {
+  const C = /paso 1|step 1/i.test(title) ? C1 : C0;
   const [st, setSt] = useState(items.map(i => i.s));
   const icon = k => k === "listo" ? "\u2713" : k === "tram" ? "\u23f3" : "\u2192";
   const col = k => k === "listo" ? C.mid : k === "tram" ? C.gold : C.muted;
@@ -5456,6 +5517,7 @@ function Step1Intake({
   onUpload,
   onNext
 }) {
+  const C = C1;
   const FORM = [["Address", "C/ de Marcelo Usera, 51", "District", "Usera, Madrid"], ["Year built", "1972 (est)", "Floors", "6"], ["Homes", "24 + 1 unit", "Floor area", "1,840 m² (AI)"], ["EPC rating", "E (est)", "Heating", "Central gas"], ["Property manager", "Fincas Usera S.L.", "Tax ID", "H-28-445566"]];
   const [addrState, setAddrState] = useState("idle");
   const [addrVal, setAddrVal] = useState("Calle de Marcelo Usera, 51, 28026 Madrid");
@@ -5499,19 +5561,19 @@ function Step1Intake({
     style: {
       background: C.white,
       border: `1.5px solid ${addrState === "done" ? C.bright : C.border}`,
-      borderRadius: 12,
+      borderRadius: 6,
       padding: "12px 14px",
       marginBottom: 14,
       transition: "border-color .3s"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9.5,
+      fontSize: 11.5,
       fontWeight: 600,
       color: C.deep,
       marginBottom: 6
     }
-  }, "BUILDING ADDRESS"), /*#__PURE__*/React.createElement("div", {
+  }, "Building address"), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 8,
@@ -5530,7 +5592,7 @@ function Step1Intake({
       transform: "translateY(-50%)",
       fontSize: 14
     }
-  }, "📍"), /*#__PURE__*/React.createElement("input", {
+  }, ""), /*#__PURE__*/React.createElement("input", {
     value: addrVal,
     onChange: e => {
       setAddrVal(e.target.value);
@@ -5541,9 +5603,9 @@ function Step1Intake({
       height: 36,
       background: C.pale,
       border: `1.5px solid ${C.border}`,
-      borderRadius: 8,
+      borderRadius: 6,
       padding: "0 10px 0 32px",
-      fontSize: 12,
+      fontSize: 13,
       color: C.text,
       fontFamily: "inherit",
       outline: "none"
@@ -5554,11 +5616,11 @@ function Step1Intake({
     style: {
       height: 36,
       padding: "0 14px",
-      borderRadius: 8,
+      borderRadius: 6,
       background: addrState === "done" ? C.pale : C.deep,
       color: addrState === "done" ? C.mid : "#fff",
       border: `1.5px solid ${addrState === "done" ? C.bright : C.deep}`,
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 700,
       cursor: addrState === "searching" ? "not-allowed" : "pointer",
       whiteSpace: "nowrap",
@@ -5579,7 +5641,7 @@ function Step1Intake({
     }
   }), addrState === "idle" && "Search the Cadastre →", addrState === "searching" && "Searching…", addrState === "done" && "✓ Data loaded")), addrState === "searching" && /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.muted,
       marginTop: 8,
       display: "flex",
@@ -5598,7 +5660,7 @@ function Step1Intake({
     }
   }), "Querying the Cadastre + Madrid geoportal…"), addrState === "done" && /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.mid,
       marginTop: 8,
       display: "flex",
@@ -5606,12 +5668,12 @@ function Step1Intake({
       gap: 5,
       flexWrap: "wrap"
     }
-  }, /*#__PURE__*/React.createElement("span", null, "✓"), " Ref. catastral: ", /*#__PURE__*/React.createElement("strong", null, "5612708VK4751A0001PW"), " · verified via the Cadastre API", /*#__PURE__*/React.createElement("span", {
+  }, /*#__PURE__*/React.createElement("span", null, "✓"), "Ref. catastral: ", /*#__PURE__*/React.createElement("strong", null, "5612708VK4751A0001PW"), " · verified via the Cadastre API", /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 8px",
-      borderRadius: 100,
+      borderRadius: 4,
       background: C.tealL,
       color: C.teal,
       border: `1px solid ${C.teal}40`
@@ -5620,7 +5682,7 @@ function Step1Intake({
     style: {
       background: C.white,
       border: `1px solid ${addrState === "done" ? C.bright : C.border}`,
-      borderRadius: 12,
+      borderRadius: 6,
       padding: "14px 16px",
       marginBottom: 16,
       transition: "border-color .3s",
@@ -5633,37 +5695,37 @@ function Step1Intake({
       right: 14,
       background: C.bright,
       color: "#fff",
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 10px",
-      borderRadius: 100,
+      borderRadius: 4,
       letterSpacing: ".4px"
     }
-  }, "CADASTRE + AI"), addrState === "idle" && /*#__PURE__*/React.createElement("div", {
+  }, "Cadastre + AI"), addrState === "idle" && /*#__PURE__*/React.createElement("div", {
     style: {
       position: "absolute",
       top: -9,
       right: 14,
       background: C.pale,
       color: C.muted,
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 10px",
-      borderRadius: 100,
+      borderRadius: 4,
       border: `1px solid ${C.border}`,
       letterSpacing: ".4px"
     }
-  }, "PRELOADED DATA"), addrState === "searching" && /*#__PURE__*/React.createElement("div", {
+  }, "Preloaded data"), addrState === "searching" && /*#__PURE__*/React.createElement("div", {
     style: {
       position: "absolute",
       top: -9,
       right: 14,
       background: C.goldL,
       color: C.gold,
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 10px",
-      borderRadius: 100,
+      borderRadius: 4,
       border: `1px solid ${C.goldB}`,
       letterSpacing: ".4px"
     }
@@ -5679,7 +5741,7 @@ function Step1Intake({
     key: j
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9.5,
+      fontSize: 11.5,
       fontWeight: 600,
       color: C.deep,
       marginBottom: 3
@@ -5687,11 +5749,11 @@ function Step1Intake({
   }, l), /*#__PURE__*/React.createElement("div", {
     style: {
       height: 29,
-      background: addrState === "done" ? "#edfdf5" : C.pale,
+      background: addrState === "done" ? "#eef2e8" : C.pale,
       border: `1.5px solid ${addrState === "done" ? C.bright : C.border}`,
-      borderRadius: 7,
+      borderRadius: 6,
       padding: "0 10px",
-      fontSize: 11,
+      fontSize: 12,
       color: addrState === "done" ? C.mid : "transparent",
       display: "flex",
       alignItems: "center",
@@ -5702,7 +5764,7 @@ function Step1Intake({
     style: {
       background: C.pale,
       border: `1px solid ${C.border}`,
-      borderRadius: 12,
+      borderRadius: 6,
       padding: "12px 16px",
       marginBottom: 14
     }
@@ -5717,26 +5779,26 @@ function Step1Intake({
     style: {
       fontSize: 14
     }
-  }, "🤖"), /*#__PURE__*/React.createElement("div", {
+  }, ""), /*#__PURE__*/React.createElement("div", {
     style: {
       fontWeight: 700,
-      fontSize: 12,
+      fontSize: 13,
       color: C.deep
     }
   }, "Archetype analysis · AI"), /*#__PURE__*/React.createElement("div", {
     style: {
       marginLeft: "auto",
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 8px",
-      borderRadius: 100,
+      borderRadius: 4,
       background: `${C.mid}20`,
       border: `1px solid ${C.mid}50`,
       color: C.mid
     }
-  }, "USERA 51 · 1972 · EPC E")), /*#__PURE__*/React.createElement("div", {
+  }, "Usera 51 · 1972 · EPC E")), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: C.muted,
       lineHeight: 1.6,
       marginBottom: 12
@@ -5750,15 +5812,15 @@ function Step1Intake({
       color: C.deep
     }
   }, "B3-Med archetype"), "."), /*#__PURE__*/React.createElement("div", { style: { marginTop: 8 } }, /*#__PURE__*/React.createElement("div", {
-    style: { fontSize: 10, fontWeight: 700, color: C.deep, textTransform: "uppercase", letterSpacing: ".4px", marginBottom: 4 }
+    style: { fontSize: 11.5, fontWeight: 700, color: C.deep, textTransform: "none", letterSpacing: ".4px", marginBottom: 4 }
   }, "Most likely actions for this archetype"), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.deep, fontWeight: 600 } }, "\u2713 External wall insulation (SATE)"), /*#__PURE__*/React.createElement("span", { style: { color: C.muted, textAlign: "right" } }, "the highest-saving measure in this archetype")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.deep, fontWeight: 600 } }, "\u2713 High-performance windows"), /*#__PURE__*/React.createElement("span", { style: { color: C.muted, textAlign: "right" } }, "replacing the original frames")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.deep, fontWeight: 600 } }, "\u2713 Roof insulation"), /*#__PURE__*/React.createElement("span", { style: { color: C.muted, textAlign: "right" } }, "completes the thermal envelope")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.deep, fontWeight: 600 } }, "\u2713 Rooftop PV / heat pump"), /*#__PURE__*/React.createElement("span", { style: { color: C.muted, textAlign: "right" } }, "optional module · voted separately (1/3)")))), /*#__PURE__*/React.createElement(StepBadge, {
     n: "2",
     title: "Documentation"
@@ -5766,7 +5828,7 @@ function Step1Intake({
     onClick: handleIeeUpload,
     style: {
       border: `2px dashed ${C.border}`,
-      borderRadius: 10,
+      borderRadius: 6,
       background: C.pale,
       padding: "18px 16px",
       textAlign: "center",
@@ -5780,16 +5842,16 @@ function Step1Intake({
       fontSize: 28,
       marginBottom: 6
     }
-  }, "📋"), /*#__PURE__*/React.createElement("div", {
+  }, ""), /*#__PURE__*/React.createElement("div", {
     style: {
       fontWeight: 600,
-      fontSize: 12,
+      fontSize: 13,
       color: C.deep,
       marginBottom: 3
     }
   }, "Upload IEE report"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.muted,
       marginBottom: 12
     }
@@ -5800,15 +5862,15 @@ function Step1Intake({
       gap: 7,
       background: C.mid,
       color: "#fff",
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 600,
       padding: "7px 18px",
-      borderRadius: 100
+      borderRadius: 4
     }
   }, "Demo: load IEE_Usera51_2021.pdf")), ieeState === "uploading" && /*#__PURE__*/React.createElement("div", {
     style: {
       border: `1.5px solid ${C.border}`,
-      borderRadius: 10,
+      borderRadius: 6,
       background: C.pale,
       padding: 14,
       textAlign: "center",
@@ -5816,7 +5878,7 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: C.muted,
       marginBottom: 8
     }
@@ -5836,8 +5898,8 @@ function Step1Intake({
   }))), (ieeState === "parsing" || ieeState === "done") && /*#__PURE__*/React.createElement("div", {
     style: {
       border: `1.5px solid ${ieeState === "done" ? C.bright : C.goldB}`,
-      borderRadius: 10,
-      background: ieeState === "done" ? "#edfdf5" : C.goldL,
+      borderRadius: 6,
+      background: ieeState === "done" ? "#eef2e8" : C.goldL,
       marginBottom: 10,
       overflow: "hidden",
       transition: "all .4s"
@@ -5853,8 +5915,8 @@ function Step1Intake({
     style: {
       width: 32,
       height: 32,
-      borderRadius: 7,
-      background: ieeState === "done" ? "#dff2e7" : C.goldL,
+      borderRadius: 6,
+      background: ieeState === "done" ? "#e4ebdc" : C.goldL,
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
@@ -5871,27 +5933,27 @@ function Step1Intake({
       animation: "spin .7s linear infinite",
       display: "inline-block"
     }
-  }) : "📋"), /*#__PURE__*/React.createElement("div", {
+  }) : "PDF"), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 12,
+      fontSize: 13,
       fontWeight: 500,
       color: C.text
     }
   }, "IEE_Usera51_2021.pdf"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.muted
     }
   }, "1.2 MB · IEE 2021 report")), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       fontWeight: 700,
       padding: "3px 10px",
-      borderRadius: 100,
+      borderRadius: 4,
       background: ieeState === "parsing" ? C.goldL : C.pale,
       color: ieeState === "parsing" ? C.gold : C.mid,
       border: `1px solid ${ieeState === "parsing" ? C.goldB : C.border}`
@@ -5900,43 +5962,43 @@ function Step1Intake({
     style: {
       borderTop: `1px solid ${C.border}`,
       padding: "10px 14px",
-      background: "#f8fdfb"
+      background: "#faf8f3"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       color: C.deep,
-      textTransform: "uppercase",
+      textTransform: "none",
       letterSpacing: ".4px",
       marginBottom: 8
     }
   }, "Extracted by the AI · IEE 2021"), [{
-    icon: "🏗",
+    icon: "",
     label: "Structure",
     finding: "Hairline cracks in the ground-floor slab — requires monitoring",
-    status: "⚠ Action required",
+    status: "Action required",
     sc: C.gold
   }, {
-    icon: "♿",
+    icon: "",
     label: "Accessibility",
     finding: "No ramp at the entrance — non-compliant with RD 505/2007",
-    status: "⚠ Mandatory",
+    status: "Mandatory",
     sc: C.gold
   }, {
-    icon: "🔥",
+    icon: "",
     label: "Fire protection",
     finding: "Fire hose reels past service life — CTE DB-SI",
-    status: "⚠ Mandatory",
+    status: "Mandatory",
     sc: C.gold
   }, {
-    icon: "🌡",
+    icon: "",
     label: "Thermal envelope",
     finding: "Uninsulated façade · original single-glazed windows · EPC E",
-    status: "ℹ Upgradable with subsidy",
+    status: "Upgradable with subsidy",
     sc: C.mid
   }, {
-    icon: "🔧",
+    icon: "",
     label: "Common services",
     finding: "21-year-old central gas boiler — within service life",
     status: "✓ OK",
@@ -5962,19 +6024,19 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       fontWeight: 700,
       color: C.deep
     }
   }, r.label), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9.5,
+      fontSize: 11.5,
       color: C.muted,
       lineHeight: 1.4
     }
   }, r.finding)), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       color: r.sc,
       flexShrink: 0,
@@ -5991,12 +6053,12 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       color: C.muted
     }
   }, "3 mandatory · 1 improvable · 1 OK"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       color: C.gold
     }
@@ -6004,7 +6066,7 @@ function Step1Intake({
     onClick: onUpload,
     style: {
       border: `2px dashed ${C.border}`,
-      borderRadius: 10,
+      borderRadius: 6,
       background: C.pale,
       padding: "24px 16px",
       textAlign: "center",
@@ -6018,7 +6080,7 @@ function Step1Intake({
       fontSize: 36,
       marginBottom: 8
     }
-  }, "📎"), /*#__PURE__*/React.createElement("div", {
+  }, ""), /*#__PURE__*/React.createElement("div", {
     style: {
       fontWeight: 600,
       fontSize: 13,
@@ -6027,7 +6089,7 @@ function Step1Intake({
     }
   }, "Attach documents"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: C.muted,
       marginBottom: 14
     }
@@ -6038,15 +6100,15 @@ function Step1Intake({
       gap: 7,
       background: C.deep,
       color: "#fff",
-      fontSize: 11,
+      fontSize: 12,
       fontWeight: 600,
       padding: "8px 20px",
-      borderRadius: 100
+      borderRadius: 4
     }
   }, "Demo: load community_accounts_2024.xlsx")), uploadState === "uploading" && /*#__PURE__*/React.createElement("div", {
     style: {
       border: `1.5px solid ${C.border}`,
-      borderRadius: 10,
+      borderRadius: 6,
       background: C.pale,
       padding: 18,
       textAlign: "center",
@@ -6054,7 +6116,7 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 12,
+      fontSize: 13,
       color: C.muted,
       marginBottom: 10
     }
@@ -6077,7 +6139,7 @@ function Step1Intake({
       alignItems: "center",
       gap: 10,
       padding: "10px 14px",
-      borderRadius: 9,
+      borderRadius: 6,
       border: `1px solid ${C.border}`,
       background: C.white,
       marginBottom: 8
@@ -6086,34 +6148,34 @@ function Step1Intake({
     style: {
       width: 32,
       height: 32,
-      borderRadius: 7,
-      background: "#dff2e7",
+      borderRadius: 6,
+      background: "#e4ebdc",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       fontSize: 16
     }
-  }, "📊"), /*#__PURE__*/React.createElement("div", {
+  }, ""), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 12,
+      fontSize: 13,
       fontWeight: 500,
       color: C.text
     }
   }, "community_accounts_2024.xlsx"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.muted
     }
-  }, "28 KB · FY 2024")), /*#__PURE__*/React.createElement("div", {
+  }, "28 Kb · fy 2024")), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       fontWeight: 700,
       padding: "3px 10px",
-      borderRadius: 100,
+      borderRadius: 4,
       background: uploadState === "analyzing" ? C.goldL : C.pale,
       color: uploadState === "analyzing" ? C.gold : C.mid,
       border: `1px solid ${uploadState === "analyzing" ? C.goldB : C.border}`
@@ -6124,9 +6186,9 @@ function Step1Intake({
       alignItems: "center",
       gap: 10,
       padding: "10px 14px",
-      borderRadius: 9,
+      borderRadius: 6,
       border: `1.5px solid ${uploadState === "done" ? C.bright : C.border}`,
-      background: uploadState === "done" ? "#edfdf5" : C.pale,
+      background: uploadState === "done" ? "#eef2e8" : C.pale,
       marginBottom: 8,
       transition: "all .5s"
     }
@@ -6134,27 +6196,27 @@ function Step1Intake({
     style: {
       width: 32,
       height: 32,
-      borderRadius: 7,
-      background: uploadState === "done" ? "#0066cc15" : "#eee",
+      borderRadius: 6,
+      background: uploadState === "done" ? "#2f6b5615" : "#eee",
       display: "flex",
       alignItems: "center",
       justifyContent: "center",
       fontSize: 18,
       flexShrink: 0
     }
-  }, uploadState === "done" ? "🏦" : "⏳"), /*#__PURE__*/React.createElement("div", {
+  }, uploadState === "done" ? "€" : "⏳"), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.muted,
       marginBottom: 1
     }
   }, "Lender"), uploadState === "analyzing" ? /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: C.gold,
       fontWeight: 600
     }
@@ -6166,23 +6228,23 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 12,
+      fontSize: 13,
       fontWeight: 700,
       color: C.deep
     }
   }, "CaixaBank (example)"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 7px",
-      borderRadius: 100,
-      background: "#0066cc15",
-      color: "#0066cc",
-      border: "1px solid #0066cc30"
+      borderRadius: 4,
+      background: "#2f6b5615",
+      color: "#2f6b56",
+      border: "1px solid #2f6b5630"
     }
-  }, "PROPOSED BY RETROFIN")), uploadState === "done" && /*#__PURE__*/React.createElement("div", {
+  }, "Proposed by RetroFin")), uploadState === "done" && /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.mid,
       marginTop: 2
     }
@@ -6193,48 +6255,48 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       color: C.bright,
       fontWeight: 700,
       marginBottom: 2
     }
   }, "✓ Loans for homeowner communities"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       color: C.muted
     }
-  }, "Pre-application in step 3"))), /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 10 } }, /*#__PURE__*/React.createElement("div", { style: { background: C.white, border: `1px solid ${C.border}`, borderRadius: 9, padding: "9px 12px" } }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: C.deep, textTransform: "uppercase", letterSpacing: ".4px", marginBottom: 4 } }, "Financing options (market)"), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+  }, "Pre-application in step 3"))), /*#__PURE__*/React.createElement("div", { style: { display: "grid", gridTemplateColumns: "1fr 1fr", gap: 10, marginTop: 10 } }, /*#__PURE__*/React.createElement("div", { style: { background: C.white, border: `1px solid ${C.border}`, borderRadius: 6, padding: "9px 12px" } }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11.5, fontWeight: 700, color: C.deep, textTransform: "none", letterSpacing: ".4px", marginBottom: 4 } }, "Financing options (market)"), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Green renovation loan"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 700, color: C.mid, textAlign: "right" } }, "this case \u2713 \u00b7 illustrative rate")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Standard community loan"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "no green criteria \u00b7 higher rate")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
-  }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Grant advance"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "only if works start before the award"))), /*#__PURE__*/React.createElement("div", { style: { background: C.white, border: `1px solid ${C.border}`, borderRadius: 9, padding: "9px 12px" } }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, fontWeight: 700, color: C.deep, textTransform: "uppercase", letterSpacing: ".4px", marginBottom: 4 } }, "Financial summary \u00b7 2024 accounts"), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+  }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Grant advance"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "only if works start before the award"))), /*#__PURE__*/React.createElement("div", { style: { background: C.white, border: `1px solid ${C.border}`, borderRadius: 6, padding: "9px 12px" } }, /*#__PURE__*/React.createElement("div", { style: { fontSize: 11.5, fontWeight: 700, color: C.deep, textTransform: "none", letterSpacing: ".4px", marginBottom: 4 } }, "Financial summary \u00b7 2024 accounts"), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Annual income"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "\u20ac67,695")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Reserve fund"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "\u20ac31,375")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
   }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Bank debt"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "none")), /*#__PURE__*/React.createElement("div", {
-    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 10.5, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
-  }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Owners up to date"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "22/24 (92%)")), /*#__PURE__*/React.createElement("div", { style: { fontSize: 10, color: C.mid, fontWeight: 600, marginTop: 5 } }, "Profile compatible with the case loan (\u20ac35,210)"))), /*#__PURE__*/React.createElement("div", {
+    style: { display: "flex", justifyContent: "space-between", gap: 8, fontSize: 12, padding: "3px 0", borderBottom: `1px dashed ${C.border}` }
+  }, /*#__PURE__*/React.createElement("span", { style: { color: C.muted } }, "Owners up to date"), /*#__PURE__*/React.createElement("span", { style: { fontWeight: 600, color: C.deep, textAlign: "right" } }, "22/24 (92%)")), /*#__PURE__*/React.createElement("div", { style: { fontSize: 11.5, color: C.mid, fontWeight: 600, marginTop: 5 } }, "Profile compatible with the case loan (\u20ac35,210)"))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 6,
       background: C.redL,
-      border: `1px solid #f0b0b0`,
-      borderRadius: 8,
+      border: `1px solid #dcae9e`,
+      borderRadius: 6,
       padding: "9px 12px",
-      fontSize: 11,
+      fontSize: 12,
       color: C.red,
       lineHeight: 1.5,
       marginBottom: 12
     }
-  }, /*#__PURE__*/React.createElement("span", null, "⚠"), /*#__PURE__*/React.createElement("span", null, "Pending documents: ", /*#__PURE__*/React.createElement("strong", null, "energy performance certificate"), ". IEE uploaded ✓ · The architect handles it in step 2."))), /*#__PURE__*/React.createElement("div", {
+  }, /*#__PURE__*/React.createElement("span", null, ""), /*#__PURE__*/React.createElement("span", null, "Pending documents: ", /*#__PURE__*/React.createElement("strong", null, "energy performance certificate"), ". IEE uploaded ✓ · The architect handles it in step 2."))), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.white,
       border: `1.5px solid ${C.border}`,
-      borderRadius: 14,
+      borderRadius: 6,
       overflow: "hidden",
       marginBottom: 12
     }
@@ -6246,19 +6308,19 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10.5,
+      fontSize: 12,
       fontWeight: 700,
       color: C.deep,
-      textTransform: "uppercase",
+      textTransform: "none",
       letterSpacing: ".5px"
     }
-  }, "\ud83d\ude4b Additional requests from neighbours")), /*#__PURE__*/React.createElement("div", {
+  }, "Additional requests from neighbours")), /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "14px 16px"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: C.muted,
       marginBottom: 10,
       lineHeight: 1.5
@@ -6274,16 +6336,16 @@ function Step1Intake({
     key: i2,
     onClick: () => addReq(sg.t, sg.tag),
     style: {
-      fontSize: 10.5,
+      fontSize: 12,
       padding: "5px 10px",
-      borderRadius: 100,
+      borderRadius: 4,
       border: `1px dashed ${C.border}`,
       background: C.white,
       color: C.mid,
       cursor: "pointer",
       fontFamily: "inherit"
     }
-  }, "+ " + sg.t))), /*#__PURE__*/React.createElement("div", {
+  }, "+ "+ sg.t))), /*#__PURE__*/React.createElement("div", {
     style: {
       display: "flex",
       gap: 6,
@@ -6299,9 +6361,9 @@ function Step1Intake({
     style: {
       flex: 1,
       border: `1px solid ${C.border}`,
-      borderRadius: 8,
+      borderRadius: 6,
       padding: "8px 11px",
-      fontSize: 11.5,
+      fontSize: 13,
       fontFamily: "inherit"
     }
   }), /*#__PURE__*/React.createElement("button", {
@@ -6310,9 +6372,9 @@ function Step1Intake({
       background: C.deep,
       color: "#fff",
       border: "none",
-      borderRadius: 8,
+      borderRadius: 6,
       padding: "0 14px",
-      fontSize: 11.5,
+      fontSize: 13,
       fontWeight: 600,
       cursor: "pointer",
       fontFamily: "inherit"
@@ -6325,7 +6387,7 @@ function Step1Intake({
       alignItems: "center",
       gap: 8,
       padding: "7px 10px",
-      borderRadius: 8,
+      borderRadius: 6,
       background: C.pale,
       border: `1px solid ${C.border}`,
       marginBottom: 6,
@@ -6333,27 +6395,27 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 11.5,
+      fontSize: 13,
       color: C.text
     }
-  }, "\u2713 " + r.t), /*#__PURE__*/React.createElement("span", {
+  }, "\u2713 "+ r.t), /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 9.5,
+      fontSize: 11.5,
       color: r.tag.indexOf("1/3") !== -1 ? C.gold : C.mid,
       fontWeight: 600,
       flexShrink: 0
     }
   }, r.tag))), reqs.length > 0 && /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.muted,
       marginTop: 4
     }
-  }, reqs.length + " request(s) added to the draft package \u2014 the assembly will vote each block at its own threshold"))), uploadState === "analyzing" && /*#__PURE__*/React.createElement("div", {
+  }, reqs.length + "request(s) added to the draft package \u2014 the assembly will vote each block at its own threshold"))), uploadState === "analyzing" && /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.white,
       border: `1px solid ${C.border}`,
-      borderRadius: 12,
+      borderRadius: 6,
       padding: "22px 20px",
       textAlign: "center"
     }
@@ -6376,7 +6438,7 @@ function Step1Intake({
     }
   }, "Analysing annual accounts…"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 11,
+      fontSize: 12,
       color: C.muted
     }
   }, "Extracting data · Computing score · Generating draft package")), uploadState === "done" && /*#__PURE__*/React.createElement("div", {
@@ -6385,9 +6447,9 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      background: "#fffbeb",
+      background: "#fbf4e6",
       border: `1.5px solid ${C.goldB}`,
-      borderRadius: 12,
+      borderRadius: 6,
       padding: "12px 14px",
       marginBottom: 12
     }
@@ -6402,48 +6464,48 @@ function Step1Intake({
     style: {
       fontSize: 16
     }
-  }, "⚠"), /*#__PURE__*/React.createElement("div", {
+  }, ""), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
       fontWeight: 700,
-      fontSize: 12,
-      color: "#92400e"
+      fontSize: 13,
+      color: "#8a4b1c"
     }
   }, "Mandatory repairs detected · IEE 2021"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.gold
     }
   }, "Required in any case — included in the whole-building retrofit")), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 8px",
-      borderRadius: 100,
+      borderRadius: 4,
       background: C.goldL,
       border: `1px solid ${C.goldB}`,
       color: C.gold,
       flexShrink: 0
     }
-  }, "MANDATORY BASE")), [{
-    icon: "🏗",
+  }, "Mandatory base")), [{
+    icon: "",
     item: "Ground-floor slab crack repair",
     base: "Art. 10 Ley 8/2013",
     coste: "about €8,400",
     urgency: "URGENT"
   }, {
-    icon: "♿",
+    icon: "",
     item: "Accessibility ramp installed at the entrance",
     base: "RD 505/2007",
     coste: "about €4,200",
     urgency: "MANDATORY"
   }, {
-    icon: "🔥",
+    icon: "",
     item: "Fire-protection system renewal (hose reels)",
-    base: "CTE DB-SI",
+    base: "Cte db-si",
     coste: "about €3,100",
     urgency: "MANDATORY"
   }].map((r, i) => /*#__PURE__*/React.createElement("div", {
@@ -6467,13 +6529,13 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10.5,
+      fontSize: 12,
       fontWeight: 600,
       color: C.deep
     }
   }, r.item), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       color: C.muted
     }
   }, r.base)), /*#__PURE__*/React.createElement("div", {
@@ -6483,13 +6545,13 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       fontWeight: 700,
-      color: "#92400e"
+      color: "#8a4b1c"
     }
   }, r.coste), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 8,
+      fontSize: 10.5,
       fontWeight: 700,
       color: C.gold
     }
@@ -6504,18 +6566,18 @@ function Step1Intake({
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       color: C.muted
     }
   }, "Total cost of the mandatory works"), /*#__PURE__*/React.createElement("div", {
     style: {
       fontWeight: 700,
       fontSize: 13,
-      color: "#92400e"
+      color: "#8a4b1c"
     }
   }, "about €15,700 ", /*#__PURE__*/React.createElement("span", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       color: C.muted,
       fontWeight: 400
     }
@@ -6524,7 +6586,7 @@ function Step1Intake({
     style: {
       width: "100%",
       padding: "13px",
-      borderRadius: 9,
+      borderRadius: 6,
       background: C.deep,
       color: "#fff",
       border: "none",
@@ -6541,17 +6603,18 @@ function Step1Draft({
   onNext,
   onBack
 }) {
+  const C = C1;
   return /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(StepBadge, {
     n: "1",
     title: "Draft project package",
-    badge: "AI DRAFT",
+    badge: "AI draft",
     badgeBg: `${C.mid}25`,
     badgeC: C.mid
   }), /*#__PURE__*/React.createElement("div", {
     style: {
       background: C.pale,
       border: `1px solid ${C.border}`,
-      borderRadius: 12,
+      borderRadius: 6,
       padding: "12px 16px",
       marginBottom: 14
     }
@@ -6559,13 +6622,13 @@ function Step1Draft({
     style: {
       background: C.white,
       border: `1.5px solid ${C.bright}`,
-      borderRadius: 10,
+      borderRadius: 6,
       overflow: "hidden",
       marginBottom: 10
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      background: "#edfdf5",
+      background: "#eef2e8",
       borderBottom: `1px solid ${C.border}`,
       padding: "9px 14px",
       display: "flex",
@@ -6576,23 +6639,23 @@ function Step1Draft({
     style: {
       fontSize: 16
     }
-  }, "🧱"), /*#__PURE__*/React.createElement("div", {
+  }, ""), /*#__PURE__*/React.createElement("div", {
     style: {
       flex: 1,
       fontWeight: 700,
-      fontSize: 12,
+      fontSize: 13,
       color: C.deep
     }
   }, "Whole-building retrofit · Envelope + IEE works + upgrades"), /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 9,
+      fontSize: 10.5,
       fontWeight: 700,
       padding: "2px 8px",
-      borderRadius: 100,
+      borderRadius: 4,
       background: C.bright,
       color: "#fff"
     }
-  }, "DRAFT")), /*#__PURE__*/React.createElement("div", {
+  }, "Draft")), /*#__PURE__*/React.createElement("div", {
     style: {
       padding: "11px 14px"
     }
@@ -6606,10 +6669,10 @@ function Step1Draft({
   }, ["EPC E → B", "Consumption −48%", "Heating/cooling demand −50% (est.)", "Gross cost €98,000 (est.)", "about 55% subsidised"].map((t, i) => /*#__PURE__*/React.createElement("span", {
     key: i,
     style: {
-      fontSize: 10,
+      fontSize: 11.5,
       background: C.pale,
       border: `1px solid ${C.border}`,
-      borderRadius: 100,
+      borderRadius: 4,
       padding: "2px 9px",
       color: C.mid,
       fontWeight: 600
@@ -6617,7 +6680,7 @@ function Step1Draft({
   }, t))), ["SATE façade + triple-glazed windows + roof insulation", "Mandatory IEE works: floor slab, accessibility ramp, fire protection", "Entrance improvements (non-subsidised): mailboxes, video intercom, painting"].map((o, i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
-      fontSize: 10.5,
+      fontSize: 12,
       color: C.muted,
       marginBottom: 4,
       display: "flex",
@@ -6638,15 +6701,15 @@ function Step1Draft({
   }, [["Est. loan instalment", "€11.60/home/mo"], ["Est. energy savings", "€40/home/mo"], ["Est. net benefit", "+€29/home/mo"]].map(([l, v], i) => /*#__PURE__*/React.createElement("div", {
     key: i,
     style: {
-      background: i === 2 ? "#edfdf5" : C.pale,
+      background: i === 2 ? "#eef2e8" : C.pale,
       border: `1px solid ${C.border}`,
-      borderRadius: 8,
+      borderRadius: 6,
       padding: "8px 10px",
       textAlign: "center"
     }
   }, /*#__PURE__*/React.createElement("div", {
     style: {
-      fontSize: 8.5,
+      fontSize: 10.5,
       color: C.muted,
       marginBottom: 2
     }
@@ -6656,12 +6719,12 @@ function Step1Draft({
       fontWeight: 800,
       color: i === 2 ? C.mid : C.deep
     }
-  }, v)))))), React.createElement(BuildingOptions, null), React.createElement(FundingSplit, { final: false })), React.createElement(FinStrip, { title: "Financial data — FY2024", rows: [["Annual income", "€67,695"], ["Annual expenses", "€29,577"], ["Surplus", "€38,118"], ["Reserve fund", "€31,375 ✓"], ["Bank debt", "None ✓"], ["Pending special levies", "€1,200", true], ["Monthly instalment", "€55/mo"], ["Owners up to date", "22 of 24 ✓"]] }), React.createElement("button", { onClick: onBack, style: { display: "block", width: "100%", marginTop: 12, marginBottom: 8, padding: "10px", borderRadius: 10, border: `1.5px solid ${C.border}`, background: C.white, color: C.deep, fontSize: 12, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" } }, "← Back to the building data"), /*#__PURE__*/React.createElement("button", {
+  }, v)))))), React.createElement(BuildingOptions, null), React.createElement(FundingSplit, { final: false })), React.createElement(FinStrip, { title: "Financial data — FY2024", rows: [["Annual income", "€67,695"], ["Annual expenses", "€29,577"], ["Surplus", "€38,118"], ["Reserve fund", "€31,375 ✓"], ["Bank debt", "None ✓"], ["Pending special levies", "€1,200", true], ["Monthly instalment", "€55/mo"], ["Owners up to date", "22 of 24 ✓"]] }), React.createElement("button", { onClick: onBack, style: { display: "block", width: "100%", marginTop: 12, marginBottom: 8, padding: "10px", borderRadius: 6, border: `1.5px solid ${C.border}`, background: C.white, color: C.deep, fontSize: 13, fontWeight: 700, cursor: "pointer", fontFamily: "inherit" } }, "← Back to the building data"), /*#__PURE__*/React.createElement("button", {
     onClick: onNext,
     style: {
       width: "100%",
       padding: "13px",
-      borderRadius: 9,
+      borderRadius: 6,
       background: C.deep,
       color: "#fff",
       border: "none",
@@ -9471,7 +9534,9 @@ function App() {
     style: {
       flex: 1,
       overflowY: "auto",
-      padding: "18px 20px 48px"
+      padding: "18px 20px 48px",
+      background: step === 1 ? C1.bg : undefined,
+      fontFamily: step === 1 ? "'Public Sans', sans-serif" : undefined
     },
     "data-rf-main": "1"
   }, step === 1 && React.createElement(Step1SubNav, { phase: intakePhase, ready: draftReady, onGo: goPhase }), step === 1 && React.createElement("div", { style: { display: intakePhase === 1 ? "block" : "none" } }, /*#__PURE__*/React.createElement(Step1Intake, {
