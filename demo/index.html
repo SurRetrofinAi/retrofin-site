@@ -443,7 +443,7 @@ function FundingSplit({ final, embedded }) {
     ownersD: "Financiación de los propietarios · 45 %", ownersF: "Financiación de los propietarios · 45 % · 44.410 €",
     caeD: "Después de la obra, la venta de los certificados de ahorro energético (CAE) amortiza parte del préstamo: la parte que pagan los propietarios baja a aprox. 28 %.",
     caeF: "Después de la obra (M16), la venta de los certificados de ahorro energético (CAE, aprox. 16.000 €) amortiza parte del préstamo: la cuota baja a aprox. 6,70 €/viv/mes y lo que pagan los propietarios queda en aprox. 28.400 € (29 %).",
-    noteD: "Porcentajes sobre el borrador · el arquitecto valida las cifras en el paso 2."
+    noteD: "Porcentajes según las estimaciones del arquetipo · el arquitecto valida las cifras en el paso 2."
   };
   const segs = [
     { pct: 55, amt: "54.990 €", color: C.bright, label: L.sub, sub: final ? L.subD : L.subS },
@@ -478,9 +478,9 @@ function FundingSplit({ final, embedded }) {
     style: { fontSize: 11.5, fontWeight: 700, color: C.text }
   }, s.label, final ? React.createElement("span", { style: { color: C.deep } }, " · "+ fmt(s.amt)) : null), React.createElement("div", {
     style: { fontSize: 10.5, color: C.muted, lineHeight: 1.4 }
-  }, s.sub))))), React.createElement("div", {
+  }, s.sub))))), final ? React.createElement("div", {
     style: { marginTop: 10, fontSize: 11.5, color: C.mid, background: C.pale, border: `1px dashed ${C.border}`, borderRadius: 6, padding: "7px 10px", lineHeight: 1.5 }
-  }, final ? L.caeF : L.caeD), final ? null : React.createElement("div", {
+  }, L.caeF) : null, final ? null : React.createElement("div", {
     style: { fontSize: 10.5, color: C.muted, fontStyle: "italic", marginTop: 6 }
   }, L.noteD));
 }
@@ -495,6 +495,7 @@ function BuildingOptions({ final }) {
     b1F: ["76.300 €", "−45.780 €"],
     extrasF: ["Subvenciones municipales y estatales: 54.990 € · aprox. 55 % de la obra", "+ CAE tras la obra: aprox. 16.000 € (M16)", "+ Honorarios técnicos: 75 % subvencionable en ZETU (no incluido)"],
     intro: "Los bloques de obra con sus subvenciones y un módulo opcional de renovables que se vota aparte. Las mejoras del portal (7.400 €, sin subvención) van incluidas en el total. El arquitecto valida y ajusta las cifras en el paso 2.",
+    boxes: "Desglose de las actuaciones de la rehabilitación integral",
     subs: "Subvencionado", nosub: "Sin subvención", pc: " %",
     cards: [
       { icon: "", tag: "Bloque 1", color: C.mid, title: "Eficiencia energética", cost: "74.900 €", works: "SATE en fachada, ventanas de triple acristalamiento y aislamiento de cubierta. CEE E → B · consumo −48 %.", pct: 60, subAmt: "−44.940 €",
@@ -535,7 +536,8 @@ function BuildingOptions({ final }) {
     React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep } }, final ? L.titleF : L.title),
     React.createElement("span", { style: { fontSize: 10.5, fontWeight: 700, padding: "2px 8px", borderRadius: 4, background: C.goldL, color: C.gold, border: `1px solid ${final ? C.border : C.goldB}`, ...(final ? { background: C.pale, color: C.mid } : {}) } }, final ? L.badgeF : L.badge)),
   React.createElement(FundingSplit, { final: final, embedded: true }),
-  React.createElement("div", { style: { fontSize: 11.5, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, final ? L.introF : L.intro),
+  final ? React.createElement("div", { style: { fontSize: 11.5, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, L.introF) : null,
+  React.createElement("div", { style: { fontSize: 12.5, fontWeight: 700, color: C.deep, margin: "6px 0 8px" } }, L.boxes),
   React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10 } }, (final ? L.cards.map((c, i) => i === 0 ? Object.assign({}, c, { cost: L.b1F[0], subAmt: L.b1F[1] }) : c) : L.cards).map(card)),
   React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 } },
     (final ? L.extrasF : L.extras).map((e, i) => React.createElement("span", {
@@ -5112,7 +5114,7 @@ function FundingSplit({ final, embedded }) {
     ownersD: "Owner financing · 45%", ownersF: "Owner financing · 45% · €44,410",
     caeD: "After the works, the sale of the energy-savings certificates (CAE) repays part of the loan: the owners' share falls to about 28%.",
     caeF: "After the works (M16), the sale of the energy-savings certificates (CAE, about €16,000) repays part of the loan: the instalment falls to about €6.70/home/mo and what the owners pay comes to about €28,400 (29%).",
-    noteD: "Shares based on the draft · the architect validates the figures in step 2."
+    noteD: "Shares based on the archetype estimates · the architect validates the figures in step 2."
   };
   const segs = [
     { pct: 55, amt: "54.990 €", color: C.bright, label: L.sub, sub: final ? L.subD : L.subS },
@@ -5147,9 +5149,9 @@ function FundingSplit({ final, embedded }) {
     style: { fontSize: 11.5, fontWeight: 700, color: C.text }
   }, s.label, final ? React.createElement("span", { style: { color: C.deep } }, " · "+ fmt(s.amt)) : null), React.createElement("div", {
     style: { fontSize: 10.5, color: C.muted, lineHeight: 1.4 }
-  }, s.sub))))), React.createElement("div", {
+  }, s.sub))))), final ? React.createElement("div", {
     style: { marginTop: 10, fontSize: 11.5, color: C.mid, background: C.pale, border: `1px dashed ${C.border}`, borderRadius: 6, padding: "7px 10px", lineHeight: 1.5 }
-  }, final ? L.caeF : L.caeD), final ? null : React.createElement("div", {
+  }, L.caeF) : null, final ? null : React.createElement("div", {
     style: { fontSize: 10.5, color: C.muted, fontStyle: "italic", marginTop: 6 }
   }, L.noteD));
 }
@@ -5164,6 +5166,7 @@ function BuildingOptions({ final }) {
     b1F: ["€76,300", "−€45,780"],
     extrasF: ["Municipal and national subsidies: €54,990 · about 55% of the works", "+ CAE after the works: about €16,000 (M16)", "+ Professional fees: 75% eligible in ZETU (not included)"],
     intro: "The blocks of works with their subsidies, plus an optional renewables module voted separately. Entrance improvements (€7,400, no subsidy) are included in the total. The architect validates and adjusts the figures in step 2.",
+    boxes: "Breakdown of whole-building retrofit interventions",
     subs: "Subsidised", nosub: "No subsidy", pc: "%",
     cards: [
       { icon: "", tag: "Block 1", color: C.mid, title: "Energy efficiency", cost: "€74,900", works: "External wall insulation (SATE), triple-glazed windows and roof insulation. EPC E → B · consumption −48%.", pct: 60, subAmt: "−€44,940",
@@ -5204,7 +5207,8 @@ function BuildingOptions({ final }) {
     React.createElement("div", { style: { fontSize: 13, fontWeight: 800, color: C.deep } }, final ? L.titleF : L.title),
     React.createElement("span", { style: { fontSize: 10.5, fontWeight: 700, padding: "2px 8px", borderRadius: 4, background: C.goldL, color: C.gold, border: `1px solid ${final ? C.border : C.goldB}`, ...(final ? { background: C.pale, color: C.mid } : {}) } }, final ? L.badgeF : L.badge)),
   React.createElement(FundingSplit, { final: final, embedded: true }),
-  React.createElement("div", { style: { fontSize: 11.5, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, final ? L.introF : L.intro),
+  final ? React.createElement("div", { style: { fontSize: 11.5, color: C.muted, marginBottom: 10, lineHeight: 1.45 } }, L.introF) : null,
+  React.createElement("div", { style: { fontSize: 12.5, fontWeight: 700, color: C.deep, margin: "6px 0 8px" } }, L.boxes),
   React.createElement("div", { style: { display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(210px, 1fr))", gap: 10 } }, (final ? L.cards.map((c, i) => i === 0 ? Object.assign({}, c, { cost: L.b1F[0], subAmt: L.b1F[1] }) : c) : L.cards).map(card)),
   React.createElement("div", { style: { display: "flex", flexWrap: "wrap", gap: 6, marginTop: 10 } },
     (final ? L.extrasF : L.extras).map((e, i) => React.createElement("span", {
