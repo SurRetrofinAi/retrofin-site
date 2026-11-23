@@ -449,17 +449,17 @@ function FundingSplit({ final }) {
     titleF: "Quién paga la obra · proyecto validado (99.400 €)",
     sub: "Subvenciones públicas", subS: "Plan Rehabilita Madrid (ZETU) · no se devuelven", subD: "Plan Rehabilita Madrid (ZETU) · no se devuelven · aprox. 2.290 €/viv",
     loan: "Préstamo verde a la comunidad", loanD: "lo devuelven los propietarios en la cuota · 11,60 €/viv/mes, 15 años",
-    own: "Aportación directa de los propietarios", ownD: "pago único · aprox. 383 €/viv",
+    own: "Aportación directa de los propietarios", ownD: "pago único · aprox. 383 €/viv", ownDD: "pago único · aprox. 360 €/viv",
     pub: "Ayudas públicas · 55 %",
     ownersD: "Financiación de los propietarios · 45 %", ownersF: "Financiación de los propietarios · 45 % · 44.410 €",
-    caeD: "Después de la obra, la venta de los certificados de ahorro energético (CAE) amortiza parte del préstamo: la parte que pagan los propietarios baja a aprox. 29 %.",
+    caeD: "Después de la obra, la venta de los certificados de ahorro energético (CAE) amortiza parte del préstamo: la parte que pagan los propietarios baja a aprox. 28 %.",
     caeF: "Después de la obra (M16), la venta de los certificados de ahorro energético (CAE, aprox. 16.000 €) amortiza parte del préstamo: la cuota baja a aprox. 6,70 €/viv/mes y lo que pagan los propietarios queda en aprox. 28.400 € (29 %).",
     noteD: "Porcentajes sobre el borrador · el arquitecto valida las cifras en el paso 2."
   };
   const segs = [
     { pct: 55, amt: "54.990 €", color: C.bright, label: L.sub, sub: final ? L.subD : L.subS },
     { pct: 36, amt: "35.210 €", color: C.gold, label: L.loan, sub: L.loanD },
-    { pct: 9, amt: "9.200 €", color: C.purple, label: L.own, sub: L.ownD }
+    { pct: 9, amt: "9.200 €", color: C.purple, label: L.own, sub: final ? L.ownD : L.ownDD }
   ];
   const fmt = s => L.en ? s.replace(/^([\d.]+) €$/, (m, n) => "€" + n.replace(/\./g, ",")) : s;
   return React.createElement("div", {
@@ -504,7 +504,7 @@ function BuildingOptions() {
     intro: "Tres bloques de obra, cada uno con la subvención que le corresponde, y un módulo opcional de renovables que se vota aparte. El arquitecto valida y ajusta las cifras en el paso 2.",
     subs: "Subvencionado", nosub: "Sin subvención", pc: " %",
     cards: [
-      { icon: "🏠", tag: "Bloque 1", color: C.mid, title: "Eficiencia energética", cost: "76.300 €", works: "SATE en fachada, ventanas de triple acristalamiento y aislamiento de cubierta. CEE E → B · consumo −48 %.", pct: 60, subAmt: "−45.780 €",
+      { icon: "🏠", tag: "Bloque 1", color: C.mid, title: "Eficiencia energética", cost: "74.900 €", works: "SATE en fachada, ventanas de triple acristalamiento y aislamiento de cubierta. CEE E → B · consumo −48 %.", pct: 60, subAmt: "−44.940 €",
         lines: [["Plan Rehabilita · Línea Verde ZETU", "60 %"]], foot: "La mayor parte del ahorro energético" },
       { icon: "🛠", tag: "Bloque 2 · obligatorias (IEE)", color: C.red, title: "Conservación, accesibilidad y seguridad", cost: "15.700 €", works: "Lo que exige la inspección técnica (IEE 2021): hay que hacerlo en cualquier caso.", pct: 59, subAmt: "−9.210 €",
         lines: [["Forjado · 8.400 € · Conserva", "50 %"], ["Rampa · 4.200 € · Accesible", "75 %"], ["Contra incendios · 3.100 € · Seguridad", "60 %"]], foot: "Plan Rehabilita ZETU, tres líneas combinadas" },
@@ -513,7 +513,7 @@ function BuildingOptions() {
       { icon: "☀️", tag: "Opcional · se vota aparte", color: C.teal, title: "Renovables", cost: null, works: "Fuera del presupuesto principal. RetroFin compara las dos rutas con números antes de la junta.", pct: null, opt: true,
         lines: [["Ruta A · autoconsumo colectivo (FV aprox. 28 kWp) · mayoría 1/3, solo pagan quienes votan a favor", "", C.teal], ["Ruta B · comunidad energética (entidad propia)", "90 %", C.teal]], foot: "Ruta B: el Plan Rehabilita subvenciona el 90 %" }
     ],
-    extras: ["Subvenciones: 54.990 € · aprox. 55 % de la obra", "+ CAE tras la obra: aprox. 16.000 € (M16)", "+ Honorarios técnicos: 75 % subvencionable en ZETU (no incluido)"]
+    extras: ["Subvenciones: 54.150 € · aprox. 55 % de la obra", "+ CAE tras la obra: aprox. 16.000 € (M16)", "+ Honorarios técnicos: 75 % subvencionable en ZETU (no incluido)"]
   };
   const card = (c, i) => React.createElement("div", {
     key: i,
@@ -4679,7 +4679,7 @@ function App() {
     r: "**Plan Estatal 2026–2030** (RD 326/2026) lo gestionan las comunidades autónomas. La **Comunidad de Madrid aún no lo ha convocado** y lo ha recurrido ante el Tribunal Supremo (junio de 2026), así que **el caso no cuenta con él**: todo lo subvencionable va al Plan Rehabilita (54.990 €, ≈55%).\n\nSi la CAM convoca, sería un **complemento**: el Plan Rehabilita es compatible con ayudas de otras administraciones mientras la suma no supere el coste de la obra."
   }, {
     k: ["bloque", "desglose", "no subvencionad", "portal", "videoportero"],
-    r: "El proyecto integral se organiza en **3 bloques según la subvención aplicable**:\n\n**Bloque 1 · Eficiencia energética** — 76.300 € · Plan Rehabilita, Línea Verde ZETU (60%) −45.780 €\nSATE, ventanas triple acristalamiento, cubierta.\n\n**Bloque 2 · Conservación y accesibilidad (IEE)** — 15.700 € · Plan Rehabilita ZETU (Conserva 50% · Accesible 75% · Seguridad 60%) −9.210 €\nForjado, rampa, contra incendios.\n\n**Bloque 3 · Mejoras no subvencionadas** — 7.400 € · 0 €\nPortal, buzones, videoportero, pintura.\n\n**Total 99.400 € · subvenciones 54.990 € (≈55%)**. Este desglose es el borrador que ya aparece en el paso 1; el arquitecto lo valida y ajusta en el paso 2."
+    r: "El proyecto integral se organiza en **3 bloques según la subvención aplicable**:\n\n**Bloque 1 · Eficiencia energética** — 76.300 € · Plan Rehabilita, Línea Verde ZETU (60%) −45.780 €\nSATE, ventanas triple acristalamiento, cubierta.\n\n**Bloque 2 · Conservación y accesibilidad (IEE)** — 15.700 € · Plan Rehabilita ZETU (Conserva 50% · Accesible 75% · Seguridad 60%) −9.210 €\nForjado, rampa, contra incendios.\n\n**Bloque 3 · Mejoras no subvencionadas** — 7.400 € · 0 €\nPortal, buzones, videoportero, pintura.\n\n**Total 99.400 € · subvenciones 54.990 € (≈55%)**. Son las cifras validadas en el paso 2. El borrador del paso 1 estimaba 98.000 € (74.900 € en el bloque 1); la visita del arquitecto añadió 72 m² de fachada."
   }, {
     k: ["ico verde", "ico", "banco", "préstamo", "financiaci", "caixa", "uci", "pre-solicitud", "cribado"],
     r: "**Préstamo verde para la comunidad** (en esta demo, CaixaBank como ejemplo ilustrativo, sin acuerdo).\n\nPara Usera 51:\n• En el paso 3 RetroFin envía una **pre-solicitud** — un **cribado inicial, no una negociación**\n• Tipo indicativo ilustrativo: **5% TIN** · 15 años (supuesto de la demo, no condiciones de CaixaBank)\n• Préstamo: **35.210 €** → cuota estimada **11,60 €/viv/mes**\n• Ahorro energético: 40 €/viv/mes\n• **Beneficio neto tras la obra: +29 €/viv/mes**\n\nNota: la línea de avales ICO–MIVAU para rehabilitación cerró el 31/12/2025 y no tiene línea sucesora; el tipo real dependerá del banco."
@@ -5135,17 +5135,17 @@ function FundingSplit({ final }) {
     titleF: "Who pays for the works · validated project (€99,400)",
     sub: "Public subsidies", subS: "Plan Rehabilita Madrid (ZETU) · not repaid", subD: "Plan Rehabilita Madrid (ZETU) · not repaid · about €2,290/home",
     loan: "Green loan to the community", loanD: "repaid by the owners through the community fee · €11.60/home/mo, 15 years",
-    own: "Owners' direct contribution", ownD: "one-off payment · about €383/home",
+    own: "Owners' direct contribution", ownD: "one-off payment · about €383/home", ownDD: "one-off payment · about €360/home",
     pub: "Public subsidies · 55%",
     ownersD: "Owner financing · 45%", ownersF: "Owner financing · 45% · €44,410",
-    caeD: "After the works, the sale of the energy-savings certificates (CAE) repays part of the loan: the owners' share falls to about 29%.",
+    caeD: "After the works, the sale of the energy-savings certificates (CAE) repays part of the loan: the owners' share falls to about 28%.",
     caeF: "After the works (M16), the sale of the energy-savings certificates (CAE, about €16,000) repays part of the loan: the instalment falls to about €6.70/home/mo and what the owners pay comes to about €28,400 (29%).",
     noteD: "Shares based on the draft · the architect validates the figures in step 2."
   };
   const segs = [
     { pct: 55, amt: "54.990 €", color: C.bright, label: L.sub, sub: final ? L.subD : L.subS },
     { pct: 36, amt: "35.210 €", color: C.gold, label: L.loan, sub: L.loanD },
-    { pct: 9, amt: "9.200 €", color: C.purple, label: L.own, sub: L.ownD }
+    { pct: 9, amt: "9.200 €", color: C.purple, label: L.own, sub: final ? L.ownD : L.ownDD }
   ];
   const fmt = s => L.en ? s.replace(/^([\d.]+) €$/, (m, n) => "€" + n.replace(/\./g, ",")) : s;
   return React.createElement("div", {
@@ -5190,7 +5190,7 @@ function BuildingOptions() {
     intro: "Three blocks of works, each with the subsidy that applies to it, plus an optional renewables module voted separately. The architect validates and adjusts the figures in step 2.",
     subs: "Subsidised", nosub: "No subsidy", pc: "%",
     cards: [
-      { icon: "🏠", tag: "Block 1", color: C.mid, title: "Energy efficiency", cost: "€76,300", works: "External wall insulation (SATE), triple-glazed windows and roof insulation. EPC E → B · consumption −48%.", pct: 60, subAmt: "−€45,780",
+      { icon: "🏠", tag: "Block 1", color: C.mid, title: "Energy efficiency", cost: "€74,900", works: "External wall insulation (SATE), triple-glazed windows and roof insulation. EPC E → B · consumption −48%.", pct: 60, subAmt: "−€44,940",
         lines: [["Plan Rehabilita · ZETU Green line", "60%"]], foot: "Most of the energy savings" },
       { icon: "🛠", tag: "Block 2 · mandatory (IEE)", color: C.red, title: "Conservation, accessibility and safety", cost: "€15,700", works: "What the technical inspection (IEE 2021) requires: needed in any case.", pct: 59, subAmt: "−€9,210",
         lines: [["Floor slab · €8,400 · Conserva", "50%"], ["Ramp · €4,200 · Accesible", "75%"], ["Fire protection · €3,100 · Seguridad", "60%"]], foot: "Plan Rehabilita ZETU, three lines combined" },
@@ -5199,7 +5199,7 @@ function BuildingOptions() {
       { icon: "☀️", tag: "Optional · voted separately", color: C.teal, title: "Renewables", cost: null, works: "Outside the main budget. RetroFin compares both routes with figures before the assembly.", pct: null, opt: true,
         lines: [["Route A · collective self-consumption (PV about 28 kWp) · 1/3 majority, only those voting in favour pay", "", C.teal], ["Route B · energy community (separate legal entity)", "90%", C.teal]], foot: "Route B: Plan Rehabilita subsidises 90%" }
     ],
-    extras: ["Subsidies: €54,990 · about 55% of the works", "+ CAE after the works: about €16,000 (M16)", "+ Professional fees: 75% eligible in ZETU (not included)"]
+    extras: ["Subsidies: €54,150 · about 55% of the works", "+ CAE after the works: about €16,000 (M16)", "+ Professional fees: 75% eligible in ZETU (not included)"]
   };
   const card = (c, i) => React.createElement("div", {
     key: i,
